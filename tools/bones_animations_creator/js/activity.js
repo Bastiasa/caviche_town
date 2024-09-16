@@ -72,6 +72,7 @@ const contextMenus = [
     document.querySelector("#cm_1").cloneNode(true),
     document.querySelector("#cm_2").cloneNode(true),
     document.querySelector("#cm_3").cloneNode(true),
+    document.querySelector("#cm_4").cloneNode(true),
 ];
 
 /**
@@ -83,7 +84,9 @@ function getOnTargetContextMenu(targetElement) {
 
     let result = -1;
 
-    if (targetElement == world || targetElement == worldContainer) {
+    if (selectedBones.length > 0) {
+        result = 4;
+    } else if (targetElement == world || targetElement == worldContainer) {
         result = 0;
     } else if (targetElement.classList.contains("bone_vertex") && targetElement.classList.contains("end")) {
         result = 1;

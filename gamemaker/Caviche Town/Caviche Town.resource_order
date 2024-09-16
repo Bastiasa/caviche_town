@@ -1,0 +1,8 @@
+{
+  "FolderOrderSettings":[],
+  "ResourceOrderSettings":[
+    {"name":"obj_floor","order":1,"path":"objects/obj_floor/obj_floor.yy",},
+    {"name":"spr_floor","order":1,"path":"sprites/spr_floor/spr_floor.yy",},
+    {"name":"Sprite2","order":1,"path":"sprites/Sprite2/Sprite2.yy",},
+  ],
+}
