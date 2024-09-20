@@ -40,15 +40,53 @@ document.addEventListener("mousemove", e => {
         lastMousePositionLocked = lastMousePosition;
     }
 });
+
 document.addEventListener("click", e => {
     if (e.target == world || e.target == worldContainer) {
         if (isCreatingBone) {
             finishBoneCreation();
         }
     }
+
+    if (e.target.classList.contains("bone")) {
+
+        
+        if(!e.shiftKey) {
+            selectedBones.forEach(selectedBone => selectedBone.classList.remove("selected"));
+            selectedBones = [];
+        }
+
+        selectOrDeselectBoneElement(e.target);
+    } else if (!e.shiftKey) {
+        selectedBones.forEach(selectedBone => selectedBone.classList.remove("selected"))
+        selectedBones = [];
+    }
 });
 
-function red() {
+function selectOrDeselectBoneElement(boneElement) {
+    if(boneElement.classList.contains("selected")) {
+        boneElement.classList.remove("selected");
+        selectedBones = selectedBones.filter(sb => sb !== boneElement);
+    } else {
+        boneElement.classList.add("selected");
+        selectedBones.push(boneElement);
+    }
+}
+
+function deleteSelectedBones() {
+    selectedBones.forEach(deleteBoneByElement);
+}
+
+function selectAllBones() {
+    selectedBones.forEach(selectOrDeselectBoneElement);
+    selectedBones = Array.from(world.querySelectorAll(".bone"));
+    selectedBones.forEach(boneElement=>boneElement.classList.add("selected"));
+    console.log("All bones selected.");
+    
+}
+
+
+function redo() {
     toRedoActions.pop().redo();
 }
 
@@ -358,6 +396,7 @@ function isInsideOf(position, element) {
 
     return isInX && isInY;
 }
+
 
 function setBoneElementPosition(boneElement, newPosition) {
     /**@type {Vector} */

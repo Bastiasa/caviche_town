@@ -39,7 +39,7 @@
 
 
 
-.bone:not(.bone.placeholder):hover {
+.bone:not(.bone.placeholder):hover, .bone:not(.bone.placeholder).selected{
     background-color: var(--bone-onhover-color);
 }
 
@@ -63,7 +63,7 @@
     border: var(--bone-placeholder-color) solid var(--bone-thickness);
 }
 
-.bone_vertex:hover:not(.bone.placeholder .bone_vertex) {
+.bone_vertex:hover:not(.bone.placeholder .bone_vertex), .bone.selected .bone_vertex:not(.bone.placeholder .bone_vertex) {
     border: var(--bone-thickness) solid var(--bone-onhover-color);
 }
 
