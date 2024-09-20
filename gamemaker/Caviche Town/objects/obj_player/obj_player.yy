@@ -36,8 +36,8 @@
   "resourceVersion":"2.0",
   "solid":false,
   "spriteId":{
-    "name":"spr_player_l",
-    "path":"sprites/spr_player_l/spr_player_l.yy",
+    "name":"spr_character_left_arm",
+    "path":"sprites/spr_character_left_arm/spr_character_left_arm.yy",
   },
   "spriteMaskId":null,
   "visible":true,
