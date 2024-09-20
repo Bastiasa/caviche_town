@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animation Maker</title>
+    <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+
+    <main id="content">
+        <div id="top_panel"></div>
+
+        <div id="viewport_container">
+            <div id="viewport"></div>
+        </div>
+
+        <div id="bottom_panel" class="h_layout">
+            <div id="nodes_panel" class="container v_layout">
+
+            </div>
+
+            <div id="selection_properties_panel" class="container disabled v_layout">
+
+            </div>
+
+            <div id="timeline_panel" class="container">
+
+            </div>
+        </div>
+    </main>
+    
+    <!-- Context menus when is for viewport only -->
+
+    <div class="context_menus">
+        <div class="context_menu hidden" id="cm_0"> 
+            <span class="button" onclick="contextMenu.createImageFromUpload()">Crear imagen <img src="icons/add_image.svg" alt="" class="icon"></span>
+            <span class="button" onclick="contextMenu.createLine()">Crear línea <img src="icons/line.svg" alt="" class="icon"></span>
+            <span class="button go_to_center" onclick="contextMenu.goToCenter()">Ir al centro <img src="icons/centered_position.svg" alt="" class="icon"></span>
+
+            <span class="button select_all" onclick="contextMenu.viewportSelectAll()">Seleccionar todos...</span>
+        </div>
+
+        <div class="context_menu hidden" id="cm_1"> 
+            <span class="button go_to_center" onclick="contextMenu.goToCenter()">Ir al centro <img src="icons/centered_position.svg" alt="" class="icon"></span>
+            <span class="button" onclick="contextMenu.startPositionSetAction()">Mover <img src="icons/move.svg" alt="" class="icon"></span>
+            <span class="button" onclick="contextMenu.startScaleSetAction()">Escalar <img src="icons/scale.svg" alt="" class="icon"></span>
+            <span class="button" onclick="contextMenu.startRotationSetAction()">Rotar <img src="icons/rotate.svg" alt="" class="icon"></span>
+            <span class="button send_to_screen_center" onclick="contextMenu.sendToScreenCenter()">Enviar al centro de la pantalla <img src="icons/centered_position.svg" alt="" class="icon"></span>
+            <span class="button send_to_viewport_center" onclick="contextMenu.sendToViewportCenter()">Enviar al centro <img src="icons/plus.svg" alt="" class="icon"></span>
+            <span class="button reset_rotation" onclick="contextMenu.resetRotation()">Reiniciar rotación <img src="icons/reset.svg" alt="" class="icon"></span>
+            <span class="button reset_scale" onclick="contextMenu.resetScale()">Reiniciar escala <img src="icons/reset.svg" alt="" class="icon"></span>
+            <span class="button" onclick="contextMenu.deleteFromContextMenu()">Eliminar <img src="icons/trash.svg" alt="" class="icon"></span>
+        </div>
+
+        <div class="context_menu hidden" id="cm_2"> 
+            <span class="button" onclick="contextMenu.startPositionSetAction()">Mover <img src="icons/move.svg" alt="" class="icon"></span>
+            <span class="button" onclick="contextMenu.deleteFromContextMenu()">Eliminar <img src="icons/trash.svg" alt="" class="icon"></span>
+        </div>
+    </div>
+
+
+
+    <script src="js/classes.js"></script>
+    <script src="js/global.js"></script>
+    <script src="js/resizable_bottom_panel.js"></script>
+    <script src="js/context_menu_actions.js"></script>
+    <script src="js/nodes_and_property_panel.js"></script>
+    <script src="js/main_process.js"></script>
+
+</body>
+</html>
