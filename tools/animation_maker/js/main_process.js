@@ -164,11 +164,11 @@ document.addEventListener("contextmenu", e => {
 
         const contextMenuRect = contextMenu.getBoundingClientRect();
 
-        if (contextMenuRect.right > innerWidth) {
+        if (contextMenuRect.right > innerWidth || contextMenuRect.left > innerWidth) {
             setElementPosition(contextMenu, lastMousePosition.add(Vector.onlyX(innerWidth - contextMenuRect.right)));
         }
 
-        if (contextMenuRect.bottom > innerHeight) {
+        if (contextMenuRect.bottom > innerHeight || contextMenuRect.top > innerWidth) {
             setElementPosition(contextMenu, lastMousePosition.add(Vector.onlyY(innerHeight - contextMenuRect.bottom)));
         }
 

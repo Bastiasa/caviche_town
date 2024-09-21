@@ -43,8 +43,8 @@ class Vector {
         }
     }
 
-    get leftVector() {
-        return Vector.fromMagnitudeAndAngle(this.magnitude, this.direction - (90 * Math.PI/180)).normalized;
+    get rightVector() {
+        return new Vector(this.y, -this.x).normalized;
     }
 
     constructor(x = 0, y = 0) {
@@ -97,6 +97,10 @@ class Vector {
         } else if (other instanceof Vector) {
             return new Vector(this.x * other.x, this.y * other.y);
         }
+    }
+
+    rotated(angle, mode = "DEG") {
+        return Vector.fromMagnitudeAndAngle(this.magnitude, angle, mode);
     }
 
     /**
@@ -306,6 +310,7 @@ class Vector {
 
         const x = Math.cos(angle) * magnitude;
         const y = Math.sin(angle) * magnitude;
+
         return new Vector(x, y);
     }
 
@@ -577,7 +582,16 @@ class Viewport {
                             },
 
                             onFinished: action => {
+                                // foundInstance.anchorPoint = foundInstance.anchorPoint.rotated(foundInstance.anchorPoint.direction - foundInstance.rotation, "rad");
+                                const anchorDotRotation = foundInstance.anchorPoint.direction * (180/Math.PI);
+
+                                console.log(foundInstance.degreeRotation, anchorDotRotation, foundInstance.anchorPoint);//foundInstance.degreeRotation - anchorDotRotation);
+
+                                foundInstance.anchorPoint = foundInstance.anchorPoint;
                                 foundInstance.positionAnchored = true;
+
+                                console.log(foundInstance.anchorPoint.direction * (180/Math.PI));
+                                
                             }
                         
                         });
@@ -861,6 +875,9 @@ class Viewport {
 
                 // target.position = this.action.position.substract(size);
                 target.anchorPoint = anchorPoint;
+
+                this.showDotAt(target.position);
+                this.showDotAt(target.position.add(size));
             }
 
 
@@ -979,6 +996,13 @@ class Viewport {
         ["mousemove", "mouseenter", "mouseleave", "click", "mousedown", "mouseup", "wheel"].forEach(eventName => { document.addEventListener(eventName, mousePositionInViewportEvent.bind(this)) });
     }
 
+    showDotAt(position) {
+        const newDot = document.createElement("div");
+        newDot.classList.add("anchor-dot");
+        this.element.appendChild(newDot);
+        position.setElementPosition(newDot);
+        return newDot;
+    }
 
     isCurrentAction(actionType) {
         return this.action && this.action.type == actionType;
@@ -1486,16 +1510,48 @@ class Instance {
 
     set positionAnchored(givenValue) {
         this._positionAnchored = givenValue == true;
+        const movement = Vector.getOffsetSize(this.element).multiply(this.anchorPoint).multiply(this.scale);
 
         if (!this._positionAnchored) {
-            this.position = this.position.substract(Vector.getOffsetSize(this.element).multiply(this.anchorPoint).multiply(this.scale));
+            // this.position = this.position.substract(Vector.getOffsetSize(this.element).multiply(this.anchorPoint).multiply(this.scale));
+            
+            this.moveRight(-movement.x);
+            this.moveDown(-movement.y);
+
         } else {
-            this.position = this.position.add(Vector.getOffsetSize(this.element).multiply(this.anchorPoint).multiply(this.scale));
+            // this.position = this.position.add(Vector.getOffsetSize(this.element).multiply(this.anchorPoint).multiply(this.scale));
+
+            this.moveRight(movement.x);
+            this.moveDown(movement.y);
         }
 
         this.updateTransform();
     }
 
+    get rightVector() {
+        return Vector.fromMagnitudeAndAngle(1, this.rotation, "rad");
+    }
+
+    get upVector() {
+        return Vector.fromMagnitudeAndAngle(1, this.degreeRotation - 90, "DEG");
+    }
+
+
+    moveRight(amount = 1) {
+        this.position = this.position.add(this.rightVector.multiply(amount));
+    }
+
+    moveLeft(amout = 1) {
+        this.position = this.position.substract(this.rightVector.multiply(amout));
+    }
+
+    moveUp(amout = 1) {
+        this.position = this.position.add(this.upVector.multiply(amout));
+    }
+
+    moveDown(amout = 1) {
+        this.position = this.position.substract(this.upVector.multiply(amout));
+    }
 
     updateTransform() {
 
@@ -1523,14 +1579,11 @@ class Instance {
         
         this.setAnchorDotVisible(this.element.classList.contains("selected"));
 
-        // if (!this.positionAnchored) {
-        //     this.position.add(Vector.getOffsetSize(this.element).multiply(this.scale).multiply(this.anchorPoint)).setElementPosition(this.anchorDot);
-        // } else {
-        //     this.position.setElementPosition(this.anchorDot);
-        // }
-
-        this.position.add(this.position.leftVector.multiply(this.size.y * .5)).setElementPosition(this.anchorDot)
-        console.log(this.position.leftVector);
+        if (!this.positionAnchored) {
+            this.position.add(Vector.getOffsetSize(this.element).multiply(this.scale).multiply(this.anchorPoint)).setElementPosition(this.anchorDot);
+        } else {
+            this.position.setElementPosition(this.anchorDot);
+        }
         
     }
 
