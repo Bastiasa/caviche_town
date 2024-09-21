@@ -10,45 +10,17 @@ enum CURRENT_STATE {
 	FALLING
 }
 
-function Vector(_x,_y) {
-	return {"x":_x, "y":_y}
-}
+created_vectors = []
 
-function negative_vector(_vector) {
-	return Vector(-_vector.x, -_vector.y)
-}
+velocity = Vector(1,1)
 
-function add_vector(_vec1, _vec2) {
-	return Vector(_vec1.x + _vec2.x, _vec1.y + _vec2.y)
-} 
+var a = Vector(1,1)
+var b = Vector(2,2)
 
-function substract_vector(_vec1,_vec2) {
-	return add_vector(_vec1, negative_vector(_vec2))
-}
 
-function multiply_vector(_vector, _other) {
-	if is_numeric(_other) {
-		return multiply_vector(_vector, Vector(_other,_other))
-	} else {
-		return Vector(_vector.x*_other.x, _vector.y*_other.y)
-	}
-}
+show_debug_message(a)
 
-function divide_vector(_vector, _other) {
-	if is_numeric(_other) {
-		return multiply_vector(_vector, Vector(1.0/_other, 1.0/_other))
-	} else {
-		return multiply_vector(_vector, Vector(1.0/_other.x, 1.0/_other.y))
-	}
-}
 
-function vector_magnitude(_vector) {
-	return sqrt(power(_vector.x,2) +power(_vector.y, 2))
-}
-
-function vector_direction(_vector) {
-	return arctan(_vector.y/_vector.x)
-}
 
 animations = {
 	standing:[0],
