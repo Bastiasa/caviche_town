@@ -1,7 +1,6 @@
 /// @description Insert description here
 // You can write your code in this editor
 
-
 enum CURRENT_STATE {
 	MOVING_LEFT,
 	MOVING_RIGHT,
@@ -10,47 +9,79 @@ enum CURRENT_STATE {
 	FALLING
 }
 
-created_vectors = []
+camera = new CameraView(view_camera[0])
 
-velocity = Vector(1,1)
-
-var a = Vector(1,1)
-var b = Vector(2,2)
-
-
-show_debug_message(a)
-
-
-
-animations = {
-	standing:[0],
-	running:[1,5]
-}
+position = new Vector(x,y)
+velocity = new Vector(0,0)
 
 timer = 0
 
 _gravity = 9.81
 
-current_camera_id = view_camera[0]
-camera_position = Vector(0,0)
-camera_size = Vector(camera_get_view_width(current_camera_id), camera_get_view_height(current_camera_id));
-velocity = Vector(0,0)
+deceleration = 5
 
-acceleration = 30
-max_velocity = 10
+walk_velocity = 3
+run_velocity = 10
+
+walk_acceleration = 10
+run_acceleration = 14
+
+acceleration = walk_acceleration
+max_velocity = walk_velocity
 
 was_on_floor = false
 is_on_floor = false
 is_running = false
 
-jump_power = 1000
+jump_power = 3.5
+jump_coldown_timer = 0
+jump_coldown_end = 0.3
+
+coyote_time = 0
+coyote_time_end = 0.07
 
 current_state = CURRENT_STATE.STANDING
 current_animation_frame = 0
 
+air_deceleration = .3
+
 image_index = 0
 image_speed = 0 
 
+function jump() {
+	coyote_time = coyote_time_end
+	velocity.y = -jump_power
+}
+
 function on_fall_ended(_impact_velocity) {
 	show_debug_message(_impact_velocity)
+}
+
+
+function is_moving_left() {
+	return velocity.x < 0
+}
+
+function is_moving_right() {
+	return velocity.x > 0
+}
+
+function is_moving_up() {
+	return velocity.y < 0
+}
+
+function meeting_left(_added = 0, _obj_index = obj_floor) {
+	return place_meeting(x - _added, y, _obj_index)
+}
+
+function meeting_right(_added = 0, _obj_index = obj_floor) {
+	return place_meeting(x + _added, y, _obj_index)
+}
+	
+function meeting_bottom(_added = 0, _obj_index = obj_floor) {
+	return place_meeting(x, y+_added, _obj_index)
+}
+	
+function meeting_top(_added = 0, _obj_index = obj_floor) {
+	return place_meeting(x, y - _added, _obj_index)
 }

@@ -168,20 +168,20 @@ contextMenu = new ContextMenuActions();
 document.addEventListener("keyup", e => {
     const key = e.key.toLowerCase();
 
-    if (key == "a" && e.ctrlKey) {
-        contextMenu.viewportSelectAll();
+    if (viewport.isMouseInViewport()) {
+            if (key == "a" && e.ctrlKey) {
+            contextMenu.viewportSelectAll();
+        }
+
+
+        if (key == "1") {
+            contextMenu.createLine();
+        }
+
+        if (key == "2") {
+            contextMenu.createImageFromUpload();
+        }
     }
-
-
-    if (key == "1") {
-        contextMenu.createLine();
-    }
-
-    if (key == "2") {
-        contextMenu.createImageFromUpload();
-    }
-
-    
 });
 
 

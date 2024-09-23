@@ -125,6 +125,13 @@ class Vector {
         return this.add(other.substract(this).multiply(factor));
     }
 
+    toObject() {
+        return {
+            x:this._x,
+            y:this._y
+        }
+    }
+
     /**
      * 
      * @param {Vector} minimun 
@@ -256,7 +263,7 @@ class Vector {
     }
 
     set direction(newAngle) {
-        this.localAngle = (newAngle / 180)*Math.PI;
+        this.localAngle = newAngle;
         this.x = Math.cos(this.localAngle) * this.magnitude;
         this.y = Math.sin(this.localAngle) * this.magnitude;
     }
@@ -423,6 +430,18 @@ class Signal {
  */
 
 /**
+ * @interface
+ * @typedef InstanceTransformProperty
+ * 
+ * @property {Instance} instance
+ * @property {Vector} position
+ * @property {Vector} anchorPoint
+ * @property {number} scale
+ * @property {number} rotation
+ */
+
+
+/**
  * @class
  * @property {?HTMLElement} element
  * @property {?Vector} onActionStartedMousePosition
@@ -567,8 +586,17 @@ class Viewport {
 
                     if (foundInstance instanceof Instance) {
                         document.body.style.cursor = "grabbing";
-
                         foundInstance.positionAnchored = false;
+                        foundInstance.element.style.opacity = "0.1"
+
+                        const phantomGuide = foundInstance.element.cloneNode(true);
+                        this.element.appendChild(phantomGuide);
+                        
+                        phantomGuide.style.tranformOrigin = "0 0";
+                        phantomGuide.style.rotate = "0deg";
+                        phantomGuide.style.opacity = "0.5";
+                        phantomGuide.style.zIndex = "100";
+
 
                         this.startAction({
                             type: Viewport.ACTION_ANCHOR_POINT_SET,
@@ -582,27 +610,18 @@ class Viewport {
                             },
 
                             onFinished: action => {
-                                // foundInstance.anchorPoint = foundInstance.anchorPoint.rotated(foundInstance.anchorPoint.direction - foundInstance.rotation, "rad");
-                                const anchorDotRotation = foundInstance.anchorPoint.direction * (180/Math.PI);
-
-                                console.log(foundInstance.degreeRotation, anchorDotRotation, foundInstance.anchorPoint);//foundInstance.degreeRotation - anchorDotRotation);
-
                                 foundInstance.anchorPoint = foundInstance.anchorPoint;
                                 foundInstance.positionAnchored = true;
 
-                                console.log(foundInstance.anchorPoint.direction * (180/Math.PI));
+                                phantomGuide.remove();
+                                foundInstance.element.style.opacity = "unset";
+                                // console.log(foundInstance.anchorPoint.direction * (180/Math.PI));
                                 
-                            }
-                        
+                            },
                         });
                     }
-                    
-
-
                 }
             }
-
-
         },
 
         /**@param {MouseEvent} event @this {Viewport} */
@@ -633,7 +652,7 @@ class Viewport {
                 this.lastMousePosition = new Vector(event.clientX, event.clientY);
             }
 
-            if (!this.action && this.isHoldingLMB) {
+            if (!this.action && this.isHoldingLMB && this.isMouseInViewport()) {
                 const selectionSquare = document.createElement("div");
                 selectionSquare.classList.add("selection_square");
                 
@@ -876,8 +895,9 @@ class Viewport {
                 // target.position = this.action.position.substract(size);
                 target.anchorPoint = anchorPoint;
 
-                this.showDotAt(target.position);
-                this.showDotAt(target.position.add(size));
+                // this.showDotAt(target.position);
+                // this.showDotAt(target.position.add(size));
+                
             }
 
 
@@ -941,7 +961,7 @@ class Viewport {
                 this.cancelCurrentAction();
             }
 
-            if ((key == "backspace" || key == "delete" || key == "x") && this.selectedInstances.size > 0) {
+            if ((key == "backspace" || key == "delete" || key == "x") && this.selectedInstances.size > 0 && this.isMouseInViewport()) {
                 Array.from(this.selectedInstances).forEach(instance => this.removeInstance(instance));
             }
         },
@@ -1414,6 +1434,8 @@ class Instance {
     _size;
     _positionAnchored = true;
 
+    onPropertyChanged = new Signal();
+
     get name() { return this._name; };
     get element() { return this._element; }
     get position() {return this._position;}
@@ -1426,7 +1448,8 @@ class Instance {
 
     set name(newName) {
         this._name = newName;
-        
+        this.onPropertyChanged.fire();
+
         if (this.element instanceof HTMLElement) {
             this.element.title = this.name;
         }
@@ -1454,6 +1477,7 @@ class Instance {
         this._position = givenValue;
         this._position.onValueChanged = this.updateTransform.bind(this);
 
+        this.onPropertyChanged.fire();
         this.updateTransform();
     }
 
@@ -1466,6 +1490,8 @@ class Instance {
         }
 
         this._rotation = givenValue;
+        this.onPropertyChanged.fire();
+
         this.updateTransform();
     }
 
@@ -1480,6 +1506,7 @@ class Instance {
         this._anchorPoint = givenValue;
         this._anchorPoint.onValueChanged = this.updateTransform.bind(this);
 
+        this.onPropertyChanged.fire();
         this.updateTransform();
     }
 
@@ -1493,6 +1520,7 @@ class Instance {
 
         this._scale = givenValue;
         this._scale = Math.max(this._scale, 0.01);
+        this.onPropertyChanged.fire();
         this.updateTransform();
     }
 
@@ -1505,6 +1533,7 @@ class Instance {
         this._size = givenValue;
         this._size.onValueChanged = this.updateTransform.bind(this);
 
+        this.onPropertyChanged.fire();
         this.updateTransform();
     }
 
@@ -1681,7 +1710,6 @@ class Instance {
 }
 
 class ImageInstance extends Instance {
-
     /**@param {Image?} element */
 
     onImageLoadedListeners = [];
@@ -1770,29 +1798,30 @@ class LineInstance extends Instance {
 
     set color(givenValue) {
 
-        if (!(givenValue instanceof Array)) {
-            console.error("LineInstanceColorError: invalid color given:", givenValue);
-            return;
+        if (givenValue instanceof Array) {
+            const beforeFilter = givenValue.copyWithin();
+            givenValue = givenValue.filter(value => typeof value == "number");
+            
+            if (givenValue.length < 3) {
+                console.error("LineInstanceColorError: the given color doesnt has RGB:", givenValue, "\nunfilter given color:", beforeFilter);
+                return
+            }
+
+            function clamp(value, min, max) {
+                return Math.max(Math.min(max, value), min);
+            }
+
+            const R = clamp(givenValue[0], 0, 255);
+            const G = clamp(givenValue[1], 0, 255);
+            const B = clamp(givenValue[2], 0, 255);
+            const ALPHA = clamp(givenValue[3], 0, 1);
+
+            this._color = rgbaToHex(R, G, B);//`rgba(${R}, ${G}, ${B}, ${ALPHA || 1})`;
+        } else if (typeof givenValue == "string") {
+            this._color = givenValue;
         }
 
-        const beforeFilter = givenValue.copyWithin();
-        givenValue = givenValue.filter(value => typeof value == "number");
-        
-        if (givenValue.length < 3) {
-            console.error("LineInstanceColorError: the given color doesnt has RGB:", givenValue, "\nunfilter given color:", beforeFilter);
-            return
-        }
-
-        function clamp(value, min, max) {
-            return Math.max(Math.min(max, value), min);
-        }
-
-        const R = clamp(givenValue[0], 0, 255);
-        const G = clamp(givenValue[1], 0, 255);
-        const B = clamp(givenValue[2], 0, 255);
-        const ALPHA = clamp(givenValue[3], 0, 1);
-
-        this.element.style.backgroundColor = `rgba(${R}, ${G}, ${B}, ${ALPHA || 1})`;
+        this.element.style.backgroundColor = this._color;
     }
 
     constructor(length = 300, thickness = 10, color = Instance.COLOR_PURPLE_HUD, position = new Vector(), rotation = 0, anchorPoint = new Vector(0, .5), scale = 1, size = new Vector()) {
@@ -1806,4 +1835,469 @@ class LineInstance extends Instance {
         this.color = color;
     }
 }
+
+
+
+class Keyframe {
+    
+    /**
+     * @property {Array<InstanceTransformProperty>} properties
+     * @property {number} frame
+     * @property {?HTMLElement} element
+     * @property {?ViewportAnimation} animation
+     */
+
+    /**@type {Array<InstanceTransformProperty>} */
+    properties = [];
+    frame = 0;
+
+    element = null;
+
+    /**@type {ViewportAnimation} */
+    animation = null;
+
+    constructor(frame, properties = [], animation = null) {
+        this.frame = frame || 0;
+        this.properties = properties
+        this.animation = animation;
+
+        this.element = document.createElement("div");
+        this.element.classList.add("keyframe");
+    }
+
+    hasInstanceProperty(instance) {
+        let result = false;
+
+        this.properties.forEach(property => {
+            if (property.instance === instance) {
+                result = true;
+            }
+        });
+
+        return result;
+    }
+
+    /**
+     * 
+     * @param {Instance} instance 
+     * @returns {?InstanceTransformProperty}
+     */
+    getInstanceProperty(instance) {
+        let result = null;
+
+        this.properties.forEach(property => {
+            if (property.instance === instance) {
+                result = property;
+            }
+        });
+
+        return result;
+    }
+
+    /**
+     * 
+     * @param {Instance} instance 
+     */
+    appendInstanceTransform(instance) {
+
+        const instanceTransformProperty = Keyframe.getInstanceTransformProperty(instance);
+        let foundInstanceProperty = null;
+
+
+        this.properties.forEach(property => {
+            if (property.instance == instance) {
+                foundInstanceProperty = property;
+            }
+        });
+
+        if (foundInstanceProperty) {
+            foundInstanceProperty.position = instanceTransformProperty.position;
+            foundInstanceProperty.anchorPoint = instanceTransformProperty.anchorPoint;
+            foundInstanceProperty.rotation = instanceTransformProperty.rotation;
+            foundInstanceProperty.scale = instanceTransformProperty.scale;
+        } else {
+            this.properties.push(instanceTransformProperty);
+        }
+    }
+
+    linearInterpolate(nextFrame) {
+
+    }
+
+    /**
+     * 
+     * @param {Instance} instance 
+     * @returns {InstanceTransformProperty}
+     */
+    static getInstanceTransformProperty(instance) {
+        return {
+            instance,
+            position: instance.position.copy(),
+            anchorPoint: instance.anchorPoint.copy(),
+            scale: instance.scale,
+            rotation: instance.rotation
+        }
+    }
+
+
+    /**
+     * 
+     * @param {InstanceTransformProperty} transformProperty 
+     */
+    static applyTransformProperty(transformProperty) {
+        transformProperty.instance.position = transformProperty.position.copy(); 
+        transformProperty.instance.anchorPoint = transformProperty.anchorPoint.copy();
+        transformProperty.instance.rotation = transformProperty.rotation;
+        transformProperty.instance.scale = transformProperty.scale;
+    }
+
+    /**
+     * 
+     * @param {InstanceTransformProperty} transform1 
+     * @param {InstanceTransformProperty} transform2 
+     * @param {number} startFrame 
+     * @param {number} endFrame 
+     * @param {number} currentFrame 
+     */
+    static linearInterpolateTransforms(transform1, transform2, currentFrame, endFrame) {
+
+        const time = currentFrame / endFrame;
+
+        const instance = transform1.instance;
+
+        const startPosition = transform1.position.copy();
+        const startAP = transform1.anchorPoint.copy();
+        const startRotation = transform1.rotation;
+        const startScale = transform1.scale;
+
+        const endPosition = transform2.position.copy();
+        const endAP = transform2.anchorPoint.copy();
+        const endRotation = transform2.rotation;
+        const endScale = transform2.scale;
+
+        instance.position = startPosition.add(endPosition.substract(startPosition).multiply(time));
+        instance.anchorPoint = startAP.add(endAP.substract(startAP).multiply(time));
+        instance.rotation = startRotation + (endRotation - startRotation)*time;
+        instance.scale = startScale + (endScale - startScale) * time;
+    }
+
+    remove() {
+
+        if (this.animation) {
+            this.animation.removeKeyframeAt(this.frame);
+        }
+
+        if (this.element) {
+            this.element.remove();
+        }
+
+    }
+}
+
+
+class ViewportAnimation { 
+
+    name = "Not named";
+    /**@type {Set<Keyframe>} */
+    keyframes = new Set();
+    totalFrames = 250;
+    fps = 60;
+
+    loop = false;
+
+    onAnimationEnded = new Signal();
+    onAnimationStarted = new Signal();
+    onAnimationStopped = new Signal();
+    onFrameReached = new Signal();
+    currentPlayingLoop = null;
+
+    currentFrame = 0;
+
+    get currentTime() { return this.currentFrame / this.fps };
+    get duration() { return this.totalFrames / this.fps };
+
+    set currentTime(newTime) {
+        if (typeof newTime !== "number") {
+            console.error("AnimationCurrentTime: given currentTime is not a number.", newTime);
+            return;
+        }
+
+        this.currentFrame = Math.floor(newTime * this.fps);
+    }
+
+    set duration(newTime) {
+        if (typeof newTime !== "number") {
+            console.error("AnimationDuration: given duration is not a number.", newTime);
+            return;
+        }
+
+        this.totalFrames = Math.floor(newTime * this.fps);
+    }
+
+    constructor(name = "Not named", keyframes = new Set(), totalFrames = 100, fps = 60) {
+        this.name = name;
+        this.keyframes = keyframes;
+        this.totalFrames = totalFrames;
+        this.fps = fps;
+    }
+
+    /**
+     * 
+     * @param {number} frame 
+     * @returns {?Keyframe}
+     */
+    getKeyframeAtFrame(frame) { 
+        if (typeof frame !== "number") {
+            return;
+        }
+
+        let result = null;
+
+        this.keyframes.forEach(keyframe => {
+            if (!result && keyframe.frame === frame) {
+                result = keyframe;
+            }
+        });
+
+        return result;
+    }
+
+    /**
+     * 
+     * @param {HTMLElement} element 
+     * @returns {?Keyframe}
+     */
+    getKeyframeByElement(element) { 
+
+        let result = null;
+
+        this.keyframes.forEach(keyframe => {
+            if (!result && keyframe.element === element) {
+                result = keyframe;
+            }
+        });
+
+        return result;
+    }
+
+    getKeyframeAtSecond(second) {
+        const frame = Math.floor(second * fps);
+        return this.getKeyframeAtFrame(frameNumber);
+    }
+
+    /**
+     * @param {Instance} instance
+     * @returns {Array<?Keyframe>}
+     */
+    getInstanceKeyFrames(instance) {
+        
+        const result = [];
+
+        this.keyframes.forEach(keyframe => {
+            keyframe.properties.forEach(property => {
+                if (property.instance == instance) {
+                    result.push(keyframe);
+                }
+            });
+        });
+
+        return result;
+    }
+
+    /**
+     * 
+     * @param {Keyframe} keyframe 
+     * @returns {?Keyframe}
+     */
+    getPreviousKeyframeOf(keyframe) {
+        let result = null;
+
+        this.keyframes.forEach(iKeyframe => {
+            if (iKeyframe.frame < keyframe.frame) {
+                if (!result) {
+                    result = iKeyframe;
+                } else if (iKeyframe.frame > result.frame) {
+                    result = iKeyframe;
+                }
+            }
+        });
+
+        return result;
+    }
+
+    /**
+     * 
+     * @param {Keyframe} keyframe 
+     * @returns {?Keyframe}
+     */
+    getNextKeyframeOf(keyframe) {
+        let result = null;
+
+        this.keyframes.forEach(iKeyframe => {
+            if (iKeyframe.frame > keyframe.frame) {
+                if (!result) {
+                    result = iKeyframe;
+                } else if (iKeyframe.frame < result.frame) {
+                    result = iKeyframe;
+                }
+            }
+        });
+
+        return result;
+    }
+
+    getSortedKeyframes() {
+        return Array.from(this.keyframes).sort((a, b) =>a.frame - b.frame);
+    }
+
+    /**
+     * 
+     * @param {Instance} instance 
+     * @returns {?Keyframe}
+     */
+    createKeyframeFromInstance(instance, at = 0) { 
+        
+        if (!(instance instanceof Instance)) {
+            console.error("ViewportAnimation: could not create frame from", instance);
+            return null;
+        }
+
+        const createdAlready = this.getKeyframeAtFrame(at);
+
+        if (createdAlready instanceof Keyframe) {
+            createdAlready.appendInstanceTransform(instance);
+            return createdAlready;
+        }
+
+        const result = new Keyframe(Math.floor(at), [Keyframe.getInstanceTransformProperty(instance)], this);
+        this.keyframes.add(result);
+        return result;
+    }
+
+    removeKeyframeAt(at) { 
+        const foundKeyframe = this.getKeyframeAtFrame(at);
+
+        if (!(foundKeyframe instanceof Keyframe)) {
+            return;
+        }
+
+        this.keyframes.delete(foundKeyframe);
+    }
+
+    step() {
+
+        const sortedKeyframes = Array.from(this.keyframes).sort((a, b) => a.frame - b.frame);
+
+        sortedKeyframes.forEach(keyframe => {
+
+            if (keyframe.frame < this.currentFrame) {
+
+                const nextKeyframe = this.getNextKeyframeOf(keyframe)
+                    
+                keyframe.properties.forEach(keyframeProperty => {
+
+                    if (!nextKeyframe) {
+                        Keyframe.applyTransformProperty(keyframeProperty);
+                    } else if (nextKeyframe) {
+                        let hasThisInstance = false;
+
+                        nextKeyframe.properties.forEach(nextProperty => {
+
+                            if (keyframeProperty.instance == nextProperty.instance) {
+                                hasThisInstance = true;
+
+                                const totalFrames = nextKeyframe.frame - keyframe.frame;
+                                const currentFrame = this.currentFrame - keyframe.frame;
+
+                                Keyframe.linearInterpolateTransforms(keyframeProperty, nextProperty, currentFrame, totalFrames);
+                            }
+
+                        });
+                        
+                        if (!hasThisInstance) {
+                            let nextSubKeyframe = nextKeyframe;
+
+                            while (nextSubKeyframe !== null) {
+                                nextSubKeyframe = this.getNextKeyframeOf(nextSubKeyframe);
+                                
+                                if (nextSubKeyframe instanceof Keyframe && nextSubKeyframe.hasInstanceProperty(keyframeProperty.instance)) {
+                                    break;
+                                }
+                            }
+
+                            if (nextSubKeyframe instanceof Keyframe) {
+                                const nextProperty = nextSubKeyframe.getInstanceProperty(keyframeProperty.instance);
+
+                                const totalFrames = nextSubKeyframe.frame - keyframe.frame;
+                                const currentFrame = this.currentFrame - keyframe.frame;
+
+                                Keyframe.linearInterpolateTransforms(keyframeProperty, nextProperty, currentFrame, totalFrames);
+                            } else {
+                                Keyframe.applyTransformProperty(keyframeProperty);
+                            }
+                        }
+                    }
+
+                });
+            } else if (keyframe.frame === this.currentFrame) {
+                keyframe.properties.forEach(Keyframe.applyTransformProperty);
+            }
+
+        });
+        
+    }
+
+    lastPlayingLoopTime = 0;
+    currentPlayingLoop = null;
+
+    get playing() { return this.currentPlayingLoop !== null; };
+    
+    _play() {
+
+        if (this.totalFrames <= this.currentFrame) {
+            if (!this.loop) {
+                this.currentFrame = this.totalFrames;
+                this.currentPlayingLoop = null;
+                this.onAnimationEnded.fire();
+                return;            
+            } else {
+                this.currentFrame = 0;
+            }
+        }
+
+
+        if (performance.now() - this.lastPlayingLoopTime >= 1000/this.fps) {
+            this.currentFrame++;
+            this.onFrameReached.fire(this.currentFrame);
+            this.step();
+            this.lastPlayingLoopTime = performance.now()
+        }
+
+
+        this.currentPlayingLoop = requestAnimationFrame(this._play.bind(this));
+    }
+
+    play() {
+
+        this.lastPlayingLoopTime = performance.now();
+        this.step();
+
+        if (this.currentFrame >= this.totalFrames) {
+            this.currentFrame = 0;
+            this.onFrameReached.fire(0);
+        }
+
+        this._play();
+        this.onAnimationStarted.fire();     
+    }
+
+    stop() {
+        if (this.currentPlayingLoop) {
+            cancelAnimationFrame(this.currentPlayingLoop);
+            this.currentPlayingLoop = null;
+            this.onAnimationStopped.fire();
+        }
+    }
+}
+
 

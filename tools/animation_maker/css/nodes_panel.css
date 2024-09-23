@@ -1,5 +1,6 @@
 #nodes_panel {
     padding: 0;
+    gap: 0;
 }
 
 .node_in_panel {

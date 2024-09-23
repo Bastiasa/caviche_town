@@ -1,7 +1,7 @@
 {
   "$GMSprite":"",
   "%Name":"spr_character_head",
-  "bboxMode":0,
+  "bboxMode":1,
   "bbox_bottom":4,
   "bbox_left":0,
   "bbox_right":4,
@@ -25,8 +25,8 @@
   "nineSlice":null,
   "origin":2,
   "parent":{
-    "name":"Sprites",
-    "path":"folders/Sprites.yy",
+    "name":"character",
+    "path":"folders/Sprites/character.yy",
   },
   "preMultiplyAlpha":false,
   "resourceType":"GMSprite",

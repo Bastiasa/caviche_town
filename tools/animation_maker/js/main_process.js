@@ -52,11 +52,21 @@ const contextMenuTemplatesSetUp = [
                 return;
             }
 
+            checkContextMenuParameter(template, "add_keyframe", timeline.hasAnimation);
             checkContextMenuParameter(template, "go_to_center", viewport.position.x !== 0 && viewport.position.y !== 0);
             checkContextMenuParameter(template, "send_to_viewport_center", target.position.x !== 0 || target.position.y !== 0);
             checkContextMenuParameter(template, "send_to_screen_center", target.position.x !== -viewport.position.x || target.position.y !== viewport.position.y);
             checkContextMenuParameter(template, "reset_rotation", target.rotation !== 0);
             checkContextMenuParameter(template, "reset_scale", target.scale !== 1);
+            template.querySelector(".add_keyframe").onclick = () => timeline.createKeyframe(contextMenu.targetInstance);
+        }
+    },
+
+    {
+        templateId: 2,
+        setUp: template => {
+            checkContextMenuParameter(template, "add_keyframe", timeline.hasAnimation);
+            template.querySelector(".add_keyframe").onclick = () => timeline.createKeyframe();
         }
     }
 ]
@@ -192,6 +202,3 @@ document.addEventListener("click", e => {
     }
 });
 
-
-
-viewport.appendInstance(new LineInstance(30));

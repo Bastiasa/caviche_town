@@ -1,16 +1,18 @@
 {
-  "FolderOrderSettings":[],
+  "FolderOrderSettings":[
+    {"name":"character","order":10,"path":"folders/Sprites/character.yy",},
+    {"name":"debug","order":11,"path":"folders/Sprites/debug.yy",},
+  ],
   "ResourceOrderSettings":[
     {"name":"obj_floor","order":1,"path":"objects/obj_floor/obj_floor.yy",},
-    {"name":"spr_character_head","order":9,"path":"sprites/spr_character_head/spr_character_head.yy",},
-    {"name":"spr_character_left_leg","order":7,"path":"sprites/spr_character_left_leg/spr_character_left_leg.yy",},
-    {"name":"spr_character_right_arm","order":5,"path":"sprites/spr_character_right_arm/spr_character_right_arm.yy",},
-    {"name":"spr_character_right_leg","order":8,"path":"sprites/spr_character_right_leg/spr_character_right_leg.yy",},
-    {"name":"spr_character_torso","order":6,"path":"sprites/spr_character_torso/spr_character_torso.yy",},
+    {"name":"spr_character_collision_mask","order":6,"path":"sprites/spr_character_collision_mask/spr_character_collision_mask.yy",},
+    {"name":"spr_character_left_arm","order":1,"path":"sprites/spr_character_left_arm/spr_character_left_arm.yy",},
+    {"name":"spr_character_left_leg","order":2,"path":"sprites/spr_character_left_leg/spr_character_left_leg.yy",},
+    {"name":"spr_character_right_arm","order":3,"path":"sprites/spr_character_right_arm/spr_character_right_arm.yy",},
+    {"name":"spr_character_right_leg","order":4,"path":"sprites/spr_character_right_leg/spr_character_right_leg.yy",},
+    {"name":"spr_character_torso","order":5,"path":"sprites/spr_character_torso/spr_character_torso.yy",},
     {"name":"spr_floor","order":1,"path":"sprites/spr_floor/spr_floor.yy",},
-    {"name":"spr_player_walk_right","order":4,"path":"sprites/spr_player_walk_right/spr_player_walk_right.yy",},
-    {"name":"spr_player","order":3,"path":"sprites/spr_player/spr_player.yy",},
-    {"name":"Sprite2","order":1,"path":"sprites/Sprite2/Sprite2.yy",},
-    {"name":"Sprite4","order":2,"path":"sprites/Sprite4/Sprite4.yy",},
+    {"name":"Sprite10","order":1,"path":"sprites/Sprite10/Sprite10.yy",},
+    {"name":"Sprite11","order":2,"path":"sprites/Sprite11/Sprite11.yy",},
   ],
 }

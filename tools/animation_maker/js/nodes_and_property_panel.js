@@ -1,7 +1,13 @@
 const nodesPanel = document.querySelector("#nodes_panel");
 const selectionPropertiesPanel = document.querySelector("#selection_properties_panel");
+const propertiesPanelTemplates = document.querySelector(".instance_properties_templates");
+const propertiesPanel = document.querySelector("#selection_properties_panel");
+propertiesPanelTemplates.remove();
 
 var lastSelectedInstanceFromNode = null;
+
+/**@type {?Instance} */
+var currentSelectedInstance = null;
 
 function createNodeInPanel(instance) {
     const nodeInPanel = document.createElement("span");
@@ -41,6 +47,118 @@ function createNodeInPanel(instance) {
     return nodeInPanel;
 }
 
+function getPropertiesPanelTemplate(index) {
+    return propertiesPanelTemplates.children[index].cloneNode(true);
+}
+
+function setInputDataFromInstance(inputContainer, instance) {
+    if (instance instanceof Instance && inputContainer) {
+        inputContainer.querySelector("input[name=name]").value = instance.name;
+        inputContainer.querySelector("input[name=position_x]").value = instance.position.x.toString();
+        inputContainer.querySelector("input[name=position_y]").value = instance.position.y.toString();
+        
+        inputContainer.querySelector("input[name=anchor_point_x]").value = instance.anchorPoint.x.toString();
+        inputContainer.querySelector("input[name=anchor_point_y]").value = instance.anchorPoint.y.toString();
+
+        inputContainer.querySelector("input[name=scale]").value = instance.scale.toString();
+        inputContainer.querySelector("input[name=rotation]").value = instance.degreeRotation.toString();
+
+        if (instance instanceof LineInstance) {
+            inputContainer.querySelector("input[name=color]").value = instance.color;
+            inputContainer.querySelector("input[name=length]").value = instance.length.toString();
+            inputContainer.querySelector("input[name=thickness]").value = instance.thickness.toString();
+        }
+    }
+}
+
+/**
+ * 
+ * @param {?Instance} instance 
+ */
+function startPropertiesPanel(instance) {
+
+    removeAllChildren(propertiesPanel);
+    let template;
+
+    if (instance instanceof ImageInstance) {
+        template = getPropertiesPanelTemplate(0);
+    } else if (instance instanceof LineInstance) {
+        template = getPropertiesPanelTemplate(1);
+    }
+
+    if (template) {
+
+        setInputDataFromInstance(template, instance);
+
+        /**
+         * 
+         * @param {?HTMLInputElement} inputElement 
+         * @param {(newValue)=>void} action 
+         * @param {'number'|'string'|'color'} valType 
+         * @param {string} evName 
+         */
+        function checkAndSet(inputElement, action , valType = "number", evName = "input") {
+            if (inputElement instanceof HTMLInputElement) {
+                inputElement.addEventListener(evName, e => {
+                    
+                    let newValue;
+
+                    switch (valType) {
+                        case 'number':
+                            newValue = parseFloat(inputElement.value);
+                            if (isFinite(newValue)) {
+                                action(newValue);
+                            }
+                            break;
+                        
+                        case 'string':
+                            action(inputElement.value);
+                            break;
+                        
+                        case "color":
+                            break;
+                    
+                        default:
+                            break;
+                    }
+                });
+            }
+        }
+
+        function getInput(name) {
+            return template.querySelector(`input[name=${name}]`);
+            
+        }
+
+        if (instance instanceof Instance) {
+            checkAndSet(getInput("name"), val => instance.name = val, "string");
+
+            checkAndSet(getInput("position_x"), val => instance.position.x = val);
+            checkAndSet(getInput("position_y"), val => instance.position.y = val);
+
+            checkAndSet(getInput("anchor_point_x"), val => instance.anchorPoint.x = val);
+            checkAndSet(getInput("anchor_point_y"), val => instance.anchorPoint.y = val);
+
+            checkAndSet(getInput("rotation"), val => instance.degreeRotation = val);
+            checkAndSet(getInput("scale"), val => instance.scale = val);
+        }
+
+        if (instance instanceof LineInstance) {
+            checkAndSet(getInput("color"), val => instance.color = val, "string");
+            checkAndSet(getInput("length"), val => instance.length = val);
+            checkAndSet(getInput("thickness"), val => instance.thickness = val);
+        }
+
+        Array.from(template.children).forEach(child => {
+            propertiesPanel.appendChild(child);
+        });
+
+        propertiesPanel.classList.remove("disabled");
+    } else {
+        propertiesPanel.classList.add("disabled");
+    }
+}
+
 viewport.onInstanceAdded.addListener(
     
     /**
@@ -50,6 +168,14 @@ viewport.onInstanceAdded.addListener(
     (addedInstance, instanceIndex) => {
         addedInstance.nodeInPanel = createNodeInPanel(addedInstance);
         nodesPanel.appendChild(addedInstance.nodeInPanel);
+        addedInstance.onPropertyChanged.addListener(() => {
+            
+            if (currentSelectedInstance === addedInstance) {
+                setInputDataFromInstance(propertiesPanel, addedInstance);
+            }
+
+            addedInstance.nodeInPanel.innerText = addedInstance.name;
+        });
     }
 
 );
@@ -78,6 +204,9 @@ viewport.onInstaceSelected.addListener(
      */
     (selectedInstance, selectionIndex) => {
 
+        currentSelectedInstance = selectedInstance;
+        startPropertiesPanel(currentSelectedInstance);
+
         if (selectedInstance.nodeInPanel instanceof HTMLElement) {
             selectedInstance.nodeInPanel.classList.add("selected");
         }
@@ -91,10 +220,15 @@ viewport.onInstaceDeselected.addListener(
      * 
      * @param {Instance} selectedInstance 
      */
-    selectedInstance => {
+    deselectedInstance => {
 
-        if (selectedInstance.nodeInPanel instanceof HTMLElement) {
-            selectedInstance.nodeInPanel.classList.remove("selected");
+        if (deselectedInstance == currentSelectedInstance) {
+            currentSelectedInstance = null;
+            startPropertiesPanel(null);
+        }
+
+        if (deselectedInstance.nodeInPanel instanceof HTMLElement) {
+            deselectedInstance.nodeInPanel.classList.remove("selected");
         }
         
     }

@@ -4,6 +4,8 @@
   "eventList":[
     {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":0,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
     {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":3,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
+    {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":2,"eventType":3,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
+    {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":1,"eventType":3,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
   ],
   "managed":true,
   "name":"obj_player",
@@ -36,9 +38,12 @@
   "resourceVersion":"2.0",
   "solid":false,
   "spriteId":{
-    "name":"spr_character_left_arm",
-    "path":"sprites/spr_character_left_arm/spr_character_left_arm.yy",
+    "name":"spr_character_head",
+    "path":"sprites/spr_character_head/spr_character_head.yy",
   },
-  "spriteMaskId":null,
+  "spriteMaskId":{
+    "name":"spr_character_collision_mask",
+    "path":"sprites/spr_character_collision_mask/spr_character_collision_mask.yy",
+  },
   "visible":true,
 }

@@ -30,6 +30,8 @@ img.instance {
     -webkit-user-drag: none;
     user-select: none;
     -webkit-user-select: none;
+
+    image-rendering: pixelated;
 }
 
 .anchor-dot {

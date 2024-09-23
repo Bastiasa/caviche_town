@@ -21,7 +21,6 @@ document.addEventListener("mousemove", e => {
         localStorage.setItem("bottomPanelHeight", bottomPanel.style.height);
 
         document.body.style.cursor = "row-resize";
-        requestAnimationFrame(bottomPanelResizeLoop);
         return;
     } else {
         if (document.body.style.cursor == "row-resize") {
