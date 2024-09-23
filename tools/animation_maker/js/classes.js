@@ -1432,6 +1432,7 @@ class Instance {
     _anchorPoint;
     _scale;
     _size;
+    _zIndex = 0;
     _positionAnchored = true;
 
     onPropertyChanged = new Signal();
@@ -1444,6 +1445,7 @@ class Instance {
     get anchorPoint() { return this._anchorPoint };
     get scale() { return this._scale };
     get size() { return this._size };
+    get zIndex() { return this._zIndex };
     get positionAnchored(){return this._positionAnchored};
 
     set name(newName) {
@@ -1535,6 +1537,11 @@ class Instance {
 
         this.onPropertyChanged.fire();
         this.updateTransform();
+    }
+
+    set zIndex(givenValue) {
+        this._zIndex = givenValue || 0;
+        this.element.style.zIndex = this._zIndex.toString();
     }
 
     set positionAnchored(givenValue) {

@@ -152,7 +152,8 @@ function generateAnimationsPackage(options) {
 
         const instanceData = {
             "name": instance.name,
-            "type": instance.constructor.instanceName
+            "type": instance.constructor.instanceName,
+            "z_index":instance.zIndex
         };
 
         if (instance instanceof ImageInstance) {

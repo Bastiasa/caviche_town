@@ -62,6 +62,7 @@ function setInputDataFromInstance(inputContainer, instance) {
 
         inputContainer.querySelector("input[name=scale]").value = instance.scale.toString();
         inputContainer.querySelector("input[name=rotation]").value = instance.degreeRotation.toString();
+        inputContainer.querySelector("input[name=z_index]").value = instance.zIndex.toString();
 
         if (instance instanceof LineInstance) {
             inputContainer.querySelector("input[name=color]").value = instance.color;
@@ -141,6 +142,7 @@ function startPropertiesPanel(instance) {
 
             checkAndSet(getInput("rotation"), val => instance.degreeRotation = val);
             checkAndSet(getInput("scale"), val => instance.scale = val);
+            checkAndSet(getInput("z_index"), val => instance.zIndex = val);
         }
 
         if (instance instanceof LineInstance) {
