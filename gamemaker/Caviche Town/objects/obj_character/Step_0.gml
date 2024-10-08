@@ -1,4 +1,3 @@
-var _horizontal_direction = keyboard_check(input_codes.right) - keyboard_check(input_codes.left)
 var _delta = get_delta()
 
 //show_debug_message(fps)
@@ -8,14 +7,10 @@ if is_on_floor {
 	
 	coyote_time = 0
 	velocity.y = 0
-
-	if keyboard_check_pressed(input_codes.jump) && jump_coldown_timer <= 0 {
-		jump()
-	}
 	
 	
-	if jump_coldown_timer > 0 || !was_on_floor || _horizontal_direction == 0 {
-		velocity.x = lerp(velocity.x, 0, deceleration * _delta)
+	if died || current_state == CHARACTER_STATE.LANDING || horizontal_movement == 0 {
+		brake()
 	}
 	
 	if !was_on_floor || jump_coldown_timer > 0 {	
@@ -26,8 +21,9 @@ if is_on_floor {
 		}
 	}
 	
-	if !was_on_floor {
-		current_state = CURRENT_STATE.LANDING
+	
+	if !was_on_floor && last_y_velocity > jump_power*1.5  {
+		current_state = CHARACTER_STATE.LANDING
 	}
 	
 	acceleration = walk_acceleration
@@ -39,10 +35,14 @@ if is_on_floor {
 	if coyote_time >= coyote_time_end {
 		velocity.y += _gravity * _delta
 		velocity.x -= _delta * (velocity.x * air_deceleration)
+		
+		acceleration = on_air_acceleration
+		max_velocity = on_air_velocity
+		
 	} else {
 		
-		if keyboard_check_pressed(vk_space) {
-			jump()
+		if current_state == CHARACTER_STATE.LANDING || horizontal_movement == 0 {
+			brake()
 		}
 		
 		coyote_time += _delta
@@ -53,17 +53,13 @@ if is_on_floor {
 		velocity.y *= -.3
 	}
 
-	
-	acceleration = on_air_acceleration
-	max_velocity = on_air_velocity
-	
 	jump_coldown_timer = 0
 
 }
 
 
-if jump_coldown_timer >= jump_coldown_end || jump_coldown_timer == 0 {
-	velocity.x = clamp(velocity.x + _horizontal_direction * acceleration * _delta, -max_velocity, max_velocity)
+if current_state != CHARACTER_STATE.LANDING && !died {
+	velocity.x = clamp(velocity.x + horizontal_movement * acceleration * _delta, -max_velocity, max_velocity)
 }
 
 
@@ -71,29 +67,34 @@ if jump_coldown_timer >= jump_coldown_end || jump_coldown_timer == 0 {
 	velocity.x = 0
 }*/
 
-if !is_on_floor {
-	if meeting_left() && !is_moving_right() && keyboard_check_pressed(input_codes.jump) {
-		velocity.y = -walljump_power*_delta
-		velocity.x = acceleration
-	}
-
-	if meeting_right() && !is_moving_left() && keyboard_check_pressed(input_codes.jump) {
-		velocity.y = -jump_power*_delta
-		velocity.x = -acceleration*.5
-	}
-}
-
-
-
-if keyboard_check(input_codes.dash) {
-	dash()
-}
 
 if is_dashing {
 	
 	if dash_cooldown_timer < dashing_end && dash_direction != noone{
-		current_state = CURRENT_STATE.DASHING
-		velocity = dash_direction.copy()
+		current_state = CHARACTER_STATE.DASHING
+		
+		velocity.x = dash_direction.x
+		velocity.y = dash_direction.y
+		
+		var _particle_position = new Vector(x,y)
+		_particle_position = _particle_position.subtract(dash_direction)
+		
+		
+		if timer - timers.on_dash_dust_timer >= 0.04 {
+			
+			spawn_dust_particle(
+				_particle_position.x,
+				_particle_position.y,
+				.2,
+				1.2,
+				.4,
+				.7
+			)
+			
+			timers.on_land_dust_timer = timer
+		}
+
+		
 	} else if dash_direction != noone {
 		dash_direction = noone
 		velocity.y *= 0.1

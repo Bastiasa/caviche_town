@@ -26,3 +26,6 @@ if current_sprite_timer*fps >= _sprite_info.frame_speed {
 	image_index = clamp(image_index + 1, 0, _sprite_info.num_subimages - 1)
 	current_sprite_timer = 0
 }
+
+
+equipped_gun_manager.on_draw_event()

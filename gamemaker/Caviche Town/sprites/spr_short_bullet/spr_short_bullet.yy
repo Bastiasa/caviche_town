@@ -24,7 +24,7 @@
   ],
   "name":"spr_short_bullet",
   "nineSlice":null,
-  "origin":0,
+  "origin":3,
   "parent":{
     "name":"bullet",
     "path":"folders/Sprites/props/bullet.yy",
@@ -80,7 +80,7 @@
     "visibleRange":null,
     "volume":1.0,
     "xorigin":0,
-    "yorigin":0,
+    "yorigin":1,
   },
   "swatchColours":null,
   "swfPrecision":0.5,

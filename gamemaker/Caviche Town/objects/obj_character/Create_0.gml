@@ -1,55 +1,50 @@
 /// @description Insert description here
 // You can write your code in this editor
 
-enum CURRENT_STATE {
-	MOVING_LEFT,
-	MOVING_RIGHT,
-	BRAKING,
-	STANDING,
-	FALLING,
-	LANDING,
-	JUMPING,
-	DASHING,
-	WALLSLIDE,
-	WALLSLIDE_LEFT,
-	WALLSLIDE_RIGHT
-}
+sprites = global.characters_sprite_set.default_man()
 
+particle_manager = global.particle_manager
 sprite_info = sprite_get_info(sprite_index)
 
-input_codes = {
-	left:ord("A"),
-	right:ord("D"),
-	up: ord("W"),
-	down: ord("S"),
-	jump: vk_space,
-	dash: vk_shift
+events = {
+	on_damage:new Event(),
+	on_died:new Event()
 }
+
+timer = 0
+timers = {
+	on_wallslide_dust_timer:0,
+	on_land_dust_timer:0,
+	on_dash_dust_timer:0
+}
+
+player = noone
 
 _scale = 4
 scale = new Vector(_scale, _scale)
 
-current_state = CURRENT_STATE.STANDING
+current_state = CHARACTER_STATE.STANDING
 
-camera = new CameraView(view_camera[0])
+backpack = new CharacterBackpackManager(self)
+equipped_gun_manager = new EquippedGunManager(self)
 
 position = new Vector(x,y)
 velocity = new Vector(0,0)
 
-timer = 0
+horizontal_movement = 0
+
 
 _normal_gravity = 9.81
-_walljump_gravity = 3.8
+_wallslide_gravity = 3.8
 _gravity = _normal_gravity
-
 
 deceleration = 5
 
-walk_velocity = 5
+walk_velocity = 4
 walk_acceleration = 30
 
-on_air_velocity = 4.5
-on_air_acceleration = 14.9
+on_air_velocity = 3
+on_air_acceleration = 10
 air_deceleration = .3
 
 acceleration = walk_acceleration
@@ -58,17 +53,17 @@ max_velocity = walk_velocity
 was_on_floor = false
 is_on_floor = false
 
-jump_power = 360
+jump_power = 5 //300
 jump_coldown_timer = 0
-jump_coldown_end = 4*(1/14)
+jump_coldown_end = 0.15
 
 coyote_time = 0
-coyote_time_end = 0.08
+coyote_time_end = 0.14
 
 // Dash variables
 
 is_dashing = false
-dash_speed = 10
+dash_speed = 7
 on_dash_velocity = noone
 dash_direction = noone
 dash_cooldown_timer = 0
@@ -79,25 +74,172 @@ walljump_power = jump_power * .6
 
 current_sprite_timer = 0
 
+last_y_velocity = velocity.y
+
+died = false
+hp = 100
+max_hp = 100
+
 image_yscale = _scale
 image_xscale = _scale
 
+function create_dropped_gun(_gun_information) {
+	
+	if _gun_information == noone {
+		return
+	}
+	
+	var _sprite_size = get_sprite_size()
+
+	var _dropped_gun = instance_create_layer(x,y-_sprite_size.y*.5, layer, obj_dropped_gun)
+			
+	_dropped_gun.sprite_index = _gun_information.sprite
+	_dropped_gun.gun_information = _gun_information
+	_dropped_gun.vertical_speed = -3
+	_dropped_gun.horizontal_speed = sign(random_range(-1, 1)) * 3
+	_dropped_gun.image_xscale = _gun_information.scale
+	_dropped_gun.image_yscale = _gun_information.scale
+			
+	_dropped_gun.y -= sprite_get_width(_dropped_gun.sprite_index) * _gun_information.scale
+	
+	return _dropped_gun
+}
+
+function create_dropped_ammo(_type, _amount) {
+	
+	if _amount == 0 {
+		return
+	}
+	
+	var _sprite_size = get_sprite_size()
+	var _dropped_ammo = instance_create_layer(x,y-_sprite_size.y*.5,layer,obj_dropped_ammo)
+	
+	_dropped_ammo.type = _type
+	_dropped_ammo.amount = _amount
+	
+	_dropped_ammo.vertical_speed = -3
+	_dropped_ammo.horizontal_speed = sign(random_range(-1, 1)) * 3
+	
+	switch _type {
+		case BULLET_TYPE.LIL_GUY:
+		_dropped_ammo.sprite_index = spr_lil_guys_box
+		break
+		
+		case BULLET_TYPE.MEDIUM:
+		_dropped_ammo.sprite_index = spr_medium_bullets_box
+		break
+	}
+	
+	return _dropped_ammo
+}
+
+function apply_damage(_damage, _from = noone) {
+	
+	events.on_damage.fire([_damage, _from])
+
+	if died {
+		return
+	}
+	
+	hp -= _damage
+	
+	if hp <= 0 {
+		hp = 0
+		died = true
+		
+		events.on_died.fire()
+		
+		array_foreach(backpack.guns, create_dropped_gun)
+		
+		var _lil_guys_ammo = backpack.lil_guys
+		var _medium_bullets_ammo = backpack.medium_bullets
+		
+		create_dropped_ammo(BULLET_TYPE.LIL_GUY,_lil_guys_ammo)
+		create_dropped_ammo(BULLET_TYPE.MEDIUM,_medium_bullets_ammo)
+		
+		equipped_gun_manager.set_gun(noone)
+		
+		backpack.clear_guns()
+		backpack.clear_ammo()
+	}
+}
+
+function spawn_dust_particle(_x,_y, _min_scale,_max_scale,_min_lifetime,_max_lifetime,_animation_params = {fade_out:0.4, fade_in:0.1}) {
+	
+	if global.particle_manager != noone {
+		var _sprite = spr_dust_1
+
+		global.particle_manager.create_particle(
+			_sprite,
+			{
+				position: new Vector(_x,_y),
+				min_scale:_min_scale,
+				max_scale:_max_scale,
+				max_lifetime:_max_lifetime,
+				min_lifetime:_min_lifetime,
+				animation_params:_animation_params
+			},
+			
+			PARTICLE_ANIMATION.SCALE_DOWN
+		)
+	}
+}
+
+function _position_free(_x,_y) {
+	var _result = position_empty(_x,_y)
+	return _result || position_meeting(_x,_y, obj_character)
+}
+
+function _collision_line_list(_x1,_y1,_x2,_y2,_obj,_prec,_notme,_list,_ordered) {
+	return collision_line_list(_x1,_y1,_x2,_y2,_obj,_prec,_notme,_list,_ordered)
+}
+
 function check_collisions() {
 	
-	if meeting_right(velocity.x) {
-		while !meeting_right(sign(velocity.x)) {
-			x += sign(velocity.x)
+	var _velocity = velocity.multiply(get_delta() * 100)
+	
+	if meeting_right(_velocity.x) {
+		while !meeting_right(sign(_velocity.x)) {
+			x += sign(_velocity.x)
 		}
 	
 		velocity.x = 0
 	}
 
-	if meeting_bottom(velocity.y) {
-		while !meeting_bottom(sign(velocity.y)) {
-			y += sign(velocity.y)
+	if meeting_bottom(_velocity.y) {
+		while !meeting_bottom(sign(_velocity.y)) {
+			y += sign(_velocity.y)
+		}
+		
+		last_y_velocity = velocity.y
+		velocity.y = 0
+	}
+}
+
+function walljump() {
+	if !is_on_floor && !died {
+		function spawn_on_walljump_particle(_xoffset = 0) {
+			particle_manager.create_particle(spr_dust_1, {
+				position: new Vector(x+_xoffset,y),
+				min_lifetime:0.9,
+				max_lifetime:1.2,
+				min_scale: 0.8,
+				max_scale: 0.9
+			})
 		}
 	
-		velocity.y = 0
+		if meeting_left() && !is_moving_right() {
+			velocity.y = -walljump_power
+			velocity.x = acceleration*.5
+			spawn_on_walljump_particle(get_sprite_size().x * .5)
+		}
+
+		if meeting_right() && !is_moving_left() {
+			velocity.y = -walljump_power
+			velocity.x = -acceleration*.5
+		
+			spawn_on_walljump_particle(get_sprite_size().x * .5)
+		}
 	}
 }
 
@@ -119,40 +261,64 @@ function set_sprite_index_if_isnt(_index) {
 	}
 }
 
-function jump() {
-	coyote_time = coyote_time_end
-	velocity.y = -jump_power * get_delta()
+function brake() {
+	velocity.x = lerp(velocity.x, 0, deceleration * get_delta())
 }
 
-function dash() {
-	if !is_dashing && current_state != CURRENT_STATE.WALLSLIDE_LEFT && current_state != CURRENT_STATE.WALLSLIDE_RIGHT {
+function jump() {
+	
+	if died {
+		return
+	}
+	
+	if !is_on_floor && coyote_time >= coyote_time_end {
+		walljump()
+		return
+	}
+	
+	if is_dashing && dash_cooldown_timer < dashing_end {
+		return
+	}	
+	
+	if jump_coldown_timer > 0 && jump_coldown_timer < jump_coldown_end {
+		return
+	}
+	
+	coyote_time = coyote_time_end
+	velocity.y = -jump_power
+}
+
+function dash(_direction = new Vector()) {
+	if !died && !is_dashing && current_state != CHARACTER_STATE.WALLSLIDE_LEFT && current_state != CHARACTER_STATE.WALLSLIDE_RIGHT {
 		is_dashing = true
 		dash_cooldown_timer = 0
 		
-		dash_direction = get_input_direction(input_codes.left, input_codes.right, input_codes.up, input_codes.down)
+		dash_direction = _direction
 		dash_direction = get_vector_from_magnitude_and_angle(abs(sign(dash_direction.magnitude()))*dash_speed, -dash_direction.angle())
 		
 		if dash_direction.magnitude() == 0 {
 			is_dashing = false
+		} else {		
+			coyote_time = coyote_time_end + 1
 		}
 	}
 }
 
 function update_direction() {
-	if velocity.x > 0 && velocity.x > 1 {
-		current_state = CURRENT_STATE.MOVING_RIGHT
+	if velocity.x > 0 && velocity.x > 0.1 {
+		current_state = CHARACTER_STATE.MOVING_RIGHT
 		scale.x = _scale
-	} else if velocity.x < 0 && velocity.x < -1{
-		current_state = CURRENT_STATE.MOVING_LEFT
+	} else if velocity.x < 0 && velocity.x < -0.1{
+		current_state = CHARACTER_STATE.MOVING_LEFT
 		scale.x = -_scale
 	} else {
-		current_state = CURRENT_STATE.STANDING
+		current_state = CHARACTER_STATE.STANDING
 	}
 	
 	if velocity.y > 0 {
-		current_state = CURRENT_STATE.FALLING
+		current_state = CHARACTER_STATE.FALLING
 	} else if velocity.y < 0 {
-		current_state = CURRENT_STATE.JUMPING
+		current_state = CHARACTER_STATE.JUMPING
 	}
 }
 
@@ -174,11 +340,11 @@ function is_moving_up() {
 }
 
 function want_go_left() {
-	return keyboard_check(input_codes.left)
+	return horizontal_movement < 0
 }
 
 function want_go_right() {
-	return keyboard_check(input_codes.right)
+	return horizontal_movement > 0
 }
 
 
