@@ -1,12 +1,12 @@
 {
   "$GMScript":"v1",
-  "%Name":"characters",
+  "%Name":"_characters_presets",
   "isCompatibility":false,
   "isDnD":false,
-  "name":"characters",
+  "name":"_characters_presets",
   "parent":{
-    "name":"Scripts",
-    "path":"folders/Scripts.yy",
+    "name":"presets",
+    "path":"folders/Scripts/presets.yy",
   },
   "resourceType":"GMScript",
   "resourceVersion":"2.0",

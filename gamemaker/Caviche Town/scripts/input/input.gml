@@ -71,10 +71,9 @@ gamepad_input_keys = {
 	player_do_jump: gp_face1,
 	player_do_dash: gp_face2,
 	player_do_reload: gp_face3,
-	player_do_gun_change: gp_face4,
-	player_do_shoot: gp_shoulderrb,
+	player_do_throw_gun: gp_face4,
 	
-	player_do_gun_throw: gp_shoulderlb,
+	player_do_shoot: gp_shoulderrb,
 	
 	player_do_equip_slot_1: noone,
 	player_do_equip_slot_2: noone,

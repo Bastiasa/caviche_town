@@ -8,8 +8,9 @@ if !to_destroy {
 		
 		to_destroy = true
 	
-		if _raycast.object_index == obj_character && !_raycast.is_character_teammate(shooter)  && _raycast.current_state != CHARACTER_STATE.DASHING {
+		if _raycast.object_index == obj_character && !_raycast.is_character_teammate(shooter) && !_raycast.died && _raycast.current_state != CHARACTER_STATE.DASHING {
 			_raycast.apply_damage(damage, shooter)
+			events.on_character_hitted.fire([_raycast, self])
 		} else if _raycast.object_index == obj_character && _raycast.current_state != CHARACTER_STATE.DASHING {
 			to_destroy = false
 		}

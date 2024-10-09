@@ -49,8 +49,38 @@ if check_if_pressed("player_do_reload") {
 	character.equipped_gun_manager.reload()
 }
 
-if check_if_pressed("player_do_next_gun") {
+var _slot_change = check_if_pressed("player_do_next_slot") - check_if_pressed("player_do_previous_slot")
 
+if _slot_change != 0 {
+	var _current_slot = character.backpack.get_gun_slot(character.equipped_gun_manager.gun_information)
+
+	show_debug_message(string_concat(_current_slot, " + ", _slot_change))
+
+	if _current_slot == -1 {
+		_current_slot = character.backpack.first_busy_slot()
+		
+		
+		
+		if _current_slot != -1 {
+			character.equipped_gun_manager.set_gun(character.backpack.get_gun(_current_slot))
+		}
+	} else {
+		var _next_slot = _current_slot + _slot_change
+		
+		if _next_slot >= character.backpack.max_guns {
+			_next_slot = 0
+		} else if _next_slot < 0 {
+			_next_slot = character.backpack.max_guns - 1
+		}
+		
+		var _gun = character.backpack.get_gun(_next_slot)
+		
+		if _gun != noone {
+			character.equipped_gun_manager.set_gun(_gun)
+		}
+	}
+	
+	
 }
 
 for (var _slot = 1; _slot < 4; _slot++) {

@@ -423,6 +423,28 @@ function CharacterBackpackManager(_character = noone) constructor {
 	max_guns = 3
 	guns = array_create(max_guns, noone)
 
+	function first_busy_slot(_offset = 0) {
+		
+		var _result = -1
+		
+		for(var _slot = _offset; _slot < max_guns; _slot++) {
+			if guns[_slot] != noone {
+				_result = _slot
+				break
+			}
+		}
+		
+		return _result
+	}
+	
+	function get_gun_slot(_gun_information) {
+		if _gun_information == noone {
+			return -1
+		}
+		
+		return array_get_index(guns, _gun_information)
+	}
+
 	function clear_guns() {
 		guns = array_create(max_guns, noone)
 	}
@@ -518,62 +540,6 @@ function CharacterBackpackManager(_character = noone) constructor {
 	}
 }
 
-function get_pistol_information() {
-	return {
-		name:"pistol",
-		sprite: spr_pistol,
-		sprite_unloaded: spr_pistol_unloaded,
-		scale:2,
-		bullet_type: BULLET_TYPE.LIL_GUY,
-		cooldown: 0.2,
-		movement_weight: 0.3,
-		distance: 16,
-		muzzle_offset: new Vector(1, 1/6*2),
-		dispersion:4,
-		
-		damage:6.75,
-		
-		
-		drops_particle: true,
-		dropped_particle_offset: new Vector(5/9, 2/6),
-		dropped_particle_scale: 0.35,
-		
-		//loaded_ammo:12,
-		loaded_ammo:12,
-		max_ammo:12,
-		
-		reload_time:3
-	}
-}
-function get_m16_information() {
-	return {
-		name:"m16",
-		sprite: spr_m16,
-		sprite_unloaded: spr_m16_unloaded,
-
-		scale:1,
-		damage:13,
-		bullet_type: BULLET_TYPE.MEDIUM,
-		cooldown: 0.1,
-		movement_weight: 0.13,
-		distance: 24,
-		muzzle_offset: new Vector(1, 5/14),
-		dispersion:4,
-		
-		drops_particle: true,
-		dropped_particle_offset: new Vector(17/47, 4/14),
-		dropped_particle_scale: 0.3,
-		dropped_particle_sprite: spr_empty_cannon_particle,
-
-		is_auto: true,
-		
-		//loaded_ammo:30,
-		loaded_ammo:20,
-		max_ammo:20,
-		
-		reload_time: 4
-	}	
-}
 
 function EquippedGunManager(_character = noone) constructor {
 	
@@ -599,13 +565,10 @@ function EquippedGunManager(_character = noone) constructor {
 
 	subimage = 0
 	
-	function get_gun_slot(_gun_information) {
-		if _gun_information == noone {
-			return -1
-		}
-		
-		return array_get_index(guns, _gun_information)
+	events = {
+		on_bullet_shooted: new Event()
 	}
+
 	
 	function set_gun(_information) {
 		
@@ -737,6 +700,8 @@ function EquippedGunManager(_character = noone) constructor {
 		_bullet.rotation = _rotation - _added_rotation + random_range(-gun_information.dispersion, gun_information.dispersion)
 		_bullet.type = gun_information.bullet_type
 		_bullet.damage = gun_information.damage
+		
+		events.on_bullet_shooted.fire([_bullet])
 		
 		if variable_struct_exists(global, "particle_manager") {
 			_bullet.particle_manager = global.particle_manager

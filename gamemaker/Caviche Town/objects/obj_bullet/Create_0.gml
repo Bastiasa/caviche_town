@@ -1,6 +1,9 @@
 /// @description Inserte aquí la descripción
 // Puede escribir su código en este editor
 
+events = {
+	on_character_hitted: new Event()
+}
 
 shooter = noone
 type = noone

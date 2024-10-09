@@ -34,7 +34,7 @@ camera.update_position = function() {
 
 last_delta = delta_time
 
-
+hit_particles = []
 blood_spots = []
 
 function create_blood_spot() {
@@ -61,6 +61,37 @@ function create_blood_spot() {
 	array_push(blood_spots, _blood_spot)
 }
 
+function create_hit_particle(_hitted_character,_damage,_lifetime = 2) {
+	var _data = {
+		character:_hitted_character,
+		damage:_damage,
+		lifetime:2,
+		rotation: random_range(-30, 30)
+	}
+		
+	var _last_index = -1
+		
+	for(var _index = 0; _index < array_length(hit_particles); _index++) {
+		if hit_particles[_index].character == _hitted_character {
+			_last_index = _index
+			break
+		}
+	}
+		
+	if _last_index != -1 {
+			
+		var _last_particle = hit_particles[_last_index]
+			
+		_last_particle.damage += _damage
+		_last_particle.lifetime = 2
+		_last_particle.rotation = random_range(-30,30)
+			
+		delete _data
+	} else {
+		array_push(hit_particles,_data)
+	}
+}
+
 character.events.on_damage.add_listener(function(_args) {
 	var _damage_amount = _args[0]
 	camera_shakeness = min(camera_shakeness+7, 25)
@@ -71,6 +102,23 @@ character.events.on_damage.add_listener(function(_args) {
 	for (var _count = 0; _count < _spots_count; _count ++) {
 		create_blood_spot()
 	}
+	
+	create_hit_particle(character, _damage_amount)
+})
+
+character.equipped_gun_manager.events.on_bullet_shooted.add_listener(function(_args) {
+	var _bullet = _args[0]
+	
+	if _bullet == noone || _bullet == undefined {
+		return
+	}
+	
+	_bullet.events.on_character_hitted.add_listener(function(_args2) {
+		var _hitted_character = _args2[0]
+		var _bullet = _args2[1]
+		
+		create_hit_particle(_hitted_character, _bullet.damage)
+	})
 })
 
 function check_if_pressed(_input_key_name) {

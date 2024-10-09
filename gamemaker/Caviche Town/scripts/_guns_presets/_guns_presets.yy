@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"_guns_presets",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"_guns_presets",
+  "parent":{
+    "name":"presets",
+    "path":"folders/Scripts/presets.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}
