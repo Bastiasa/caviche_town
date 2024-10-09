@@ -1,4 +1,6 @@
 /// @description Inserte aquí la descripción
 // Puede escribir su código en este editor
 
-timer += delta_time / MILLION
+var _delta = delta_time / MILLION
+
+timer += _delta

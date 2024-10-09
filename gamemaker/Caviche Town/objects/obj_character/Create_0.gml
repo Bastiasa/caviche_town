@@ -3,6 +3,7 @@
 
 sprites = global.characters_sprite_set.default_man()
 
+team = ""
 particle_manager = global.particle_manager
 sprite_info = sprite_get_info(sprite_index)
 
@@ -18,7 +19,7 @@ timers = {
 	on_dash_dust_timer:0
 }
 
-player = noone
+controller = noone
 
 _scale = 4
 scale = new Vector(_scale, _scale)
@@ -82,6 +83,10 @@ max_hp = 100
 
 image_yscale = _scale
 image_xscale = _scale
+
+function is_character_teammate(_other) {
+	return is_teammate(_other, team)
+}
 
 function create_dropped_gun(_gun_information) {
 	
@@ -147,8 +152,6 @@ function apply_damage(_damage, _from = noone) {
 		hp = 0
 		died = true
 		
-		events.on_died.fire()
-		
 		array_foreach(backpack.guns, create_dropped_gun)
 		
 		var _lil_guys_ammo = backpack.lil_guys
@@ -161,6 +164,8 @@ function apply_damage(_damage, _from = noone) {
 		
 		backpack.clear_guns()
 		backpack.clear_ammo()
+		
+		events.on_died.fire()
 	}
 }
 

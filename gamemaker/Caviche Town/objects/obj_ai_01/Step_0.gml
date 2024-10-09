@@ -68,8 +68,8 @@ if target != noone || last_target_position != noone {
 	
 	var _gun_target_position = character.equipped_gun_manager.target_position
 	
-	_gun_target_position.x = lerp(_target_position.x, _gun_target_position.x, aiming_weight)
-	_gun_target_position.y = lerp(_target_position.y, _gun_target_position.y, aiming_weight)
+	_gun_target_position.x = lerp(_gun_target_position.x, _target_position.x, aiming_weight)
+	_gun_target_position.y = lerp(_gun_target_position.y, _target_position.y, aiming_weight)
 	
 	if point_distance(character.x, character.y, _target_position.x, _target_position.y) > 200 && will_be_floor(character.scale.x) && !character.meeting_right(100 * sign(character.scale.x)){
 		current_direction = character.scale.x
@@ -79,7 +79,7 @@ if target != noone || last_target_position != noone {
 		character.horizontal_movement = 0
 	}
 	
-	if target != noone && _gun_target_position.distance_to(target.position) <= 32 {
+	if target != noone && point_distance(_gun_target_position.x, _gun_target_position.y, target.x,target.y) <= min_target_distance_to_shoot {
 		character.equipped_gun_manager.shoot()
 		
 		if character.equipped_gun_manager.gun_information != noone && character.equipped_gun_manager.gun_information.loaded_ammo <= 0 {

@@ -7,4 +7,7 @@ amount = 0
 vertical_speed = 0
 horizontal_speed = 0
 
+scale = 0
+rotation = 0
+
 image_speed = 0

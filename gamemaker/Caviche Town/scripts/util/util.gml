@@ -599,6 +599,14 @@ function EquippedGunManager(_character = noone) constructor {
 
 	subimage = 0
 	
+	function get_gun_slot(_gun_information) {
+		if _gun_information == noone {
+			return -1
+		}
+		
+		return array_get_index(guns, _gun_information)
+	}
+	
 	function set_gun(_information) {
 		
 		if _information == noone {
@@ -890,12 +898,20 @@ function EquippedGunManager(_character = noone) constructor {
 }
 
 
+function is_player(_posible_player) {
+	return _posible_player != noone && _posible_player.object_index == obj_character && _posible_player.player != noone
+}
 
+function is_teammate(_character, _team) {
+	return _character != noone && string_lower(_team) == string_lower(_character.team)
+}
 
 global.debugging = true
 
 global.debugging_options = {
-	show_enemies_raycast: false,
-	show_enemies_floor_dot: true
+	show_enemies_raycast: true,
+	show_enemies_floor_dot: true,
+	show_characters_aim_dot: true,
+	show_enemies_distance_to_target: true,
 }
 

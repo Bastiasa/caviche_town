@@ -49,6 +49,10 @@ if check_if_pressed("player_do_reload") {
 	character.equipped_gun_manager.reload()
 }
 
+if check_if_pressed("player_do_next_gun") {
+
+}
+
 for (var _slot = 1; _slot < 4; _slot++) {
 	if check_if_pressed("player_do_equip_slot_"+string(_slot)) {
 		character.equipped_gun_manager.set_gun(character.backpack.get_gun(_slot-1))
@@ -66,20 +70,26 @@ if check_if_pressed("player_do_throw_gun") {
 		}
 		
 		var _dropped_gun = character.create_dropped_gun(_gun_information)
+		var _camera_size = camera.get_size()
 		
 		_dropped_gun.x = _dropped_position.x + character.x
 		_dropped_gun.y = _dropped_position.y + character.y
 		
+		_dropped_gun.x += _dropped_position.normalize().x * sprite_get_width(_gun_information.sprite) * _gun_information.scale
+		_dropped_gun.y += _dropped_position.normalize().y * sprite_get_height(_gun_information.sprite) * _gun_information.scale
+		
 		show_debug_message(character.equipped_gun_manager._rotation)
 		
-		_dropped_gun.image_yscale = character.equipped_gun_manager.get_direction() * _gun_information.scale
-		_dropped_gun.image_angle = character.equipped_gun_manager._rotation * character.equipped_gun_manager.get_direction()
+		_dropped_gun.x_scale = _gun_information.scale
+		_dropped_gun.y_scale = character.equipped_gun_manager.get_direction() * _gun_information.scale
+		_dropped_gun.image_angle = abs(character.equipped_gun_manager._rotation) 
 		
-		//_dropped_gun.vertical_speed = (character.equipped_gun_manager.target_position.y - character.y)/10
-		//_dropped_gun.horizontal_speed = 4 * character.equipped_gun_manager.get_direction()
+		_dropped_gun.vertical_speed = (character.equipped_gun_manager.target_position.y - character.y)/_camera_size.y * 10
+		_dropped_gun.horizontal_speed = (character.equipped_gun_manager.target_position.x - character.x)/_camera_size.x * 10
+		_dropped_gun.angular_speed = 10 * character.equipped_gun_manager.get_direction()
 		
-		//_dropped_gun.vertical_speed = clamp(_dropped_gun.vertical_speed, -3, 3)
-		//_dropped_gun.horizontal_speed = clamp(_dropped_gun.horizontal_speed, -3, 3)
+		_dropped_gun.vertical_speed = clamp(_dropped_gun.vertical_speed, -5, 5)
+		_dropped_gun.horizontal_speed = clamp(_dropped_gun.horizontal_speed, -5, 5)
 		
 		character.equipped_gun_manager.set_gun(noone)
 	}

@@ -7,9 +7,12 @@ character.sprites = global.characters_sprite_set.default_enemy()
 character.walk_velocity = 1 
 character.max_velocity = 1
 
-character.backpack.put_gun(get_m16_information(), 0)
+character.backpack.put_gun(global.get_m16_information(), 0)
 character.backpack.set_ammo(BULLET_TYPE.MEDIUM, 200)
 character.equipped_gun_manager.set_gun(character.backpack.guns[0])
+
+character.controller = self
+character.team = team
 
 last_target_position = noone
 target = noone
@@ -43,7 +46,6 @@ character.events.on_damage.add_listener(function(_args){
 		last_target_position = new Vector(_from.x,_from.y)
 	}
 })
-
 
 function show_question_mark() {
 	
@@ -118,18 +120,22 @@ function show_discover_check() {
 }
 
 function tell_to_others() {
-	with obj_enemy01 {
+	with obj_character {
 		
-		if other == self {
+		if controller == noone || object_get_parent(controller.object_index) != obj_ai_01 {
 			continue
 		}
 		
-		var _ally_distance = point_distance(character.x,character.y, other.character.x, other.character.y)
+		if other.character == self || !is_character_teammate(other.character) {
+			continue
+		}
 		
-		if _ally_distance < 400 && target == noone {
-			show_debug_message("Yelled to ally!")
-			target = other.target
-			show_discover_check()
+		
+		var _ally_distance = point_distance(x,y, other.character.x, other.character.y)
+		
+		if _ally_distance <= 600 && controller.target == noone {
+			controller.target = other.target
+			controller.show_discover_check()
 		}
 		
 	}
@@ -150,7 +156,7 @@ function will_be_floor(_direction = current_direction) {
 	return !position_empty(_future_x_position,_future_y_position)
 }
 
-function look_at(_direction, _view_range = 3, _spacing = 5, debugging = true) {
+function look_at(_direction, _view_range = 3, _spacing = 5) {
 	
 	var _result = []
 	var _angle = _direction - _view_range
@@ -187,7 +193,8 @@ function look_at(_direction, _view_range = 3, _spacing = 5, debugging = true) {
 
 function check_target_in(_collision_line_list_array) {
 	
-	var _player_is_in_view = false
+	var _found_enemy = noone
+	
 	
 	for(var _index = 0; _index < array_length(_collision_line_list_array); _index++) {
 		var _instances_list = _collision_line_list_array[_index]
@@ -195,14 +202,14 @@ function check_target_in(_collision_line_list_array) {
 		var _current_instance_index = 0
 		var _first_instance = _instances_list[|_current_instance_index]
 	
-		if _player_is_in_view {
+		if _found_enemy != noone {
 			delete _instances_list
 			continue
 		}
 	
-		if _first_instance != undefined {
+		if _first_instance != undefined && _first_instance.object_index == obj_character && character.is_character_teammate(_found_enemy) {
 			
-			while _first_instance != undefined && _first_instance.object_index == obj_character && _first_instance.player == noone {
+			while _first_instance != undefined && _first_instance.object_index == obj_character && character.is_character_teammate(_found_enemy) {
 				_current_instance_index++
 				_first_instance = _instances_list[|_current_instance_index]
 			}
@@ -210,22 +217,29 @@ function check_target_in(_collision_line_list_array) {
 			if _first_instance == undefined {
 				delete _instances_list
 				continue
+			} else if _first_instance.object_index == obj_character && !character.is_character_teammate(_found_enemy) {
+				_found_enemy = _first_instance
+				delete _instances_list
+				continue
 			}
 			
-			if _first_instance.object_index == obj_character && _first_instance.player != noone {
-				show_discover_check()
-				target = _first_instance
-				last_target_position = noone
-				_player_is_in_view = true
-				tell_to_others()
-			}
-		} else {
-			delete _instances_list
-			continue
+		}
+		
+		if _first_instance != undefined && _first_instance.object_index == obj_character && !character.is_character_teammate(_found_enemy) {
+			_found_enemy = _first_instance
+			tell_to_others()
 		}
 	
 		delete _instances_list
 	}
 	
-	return _player_is_in_view
+	if _found_enemy != noone &&  _found_enemy.object_index == obj_character && !character.is_character_teammate(_found_enemy) {
+		show_discover_check()
+		target = _found_enemy
+		last_target_position = noone
+		_player_is_in_view = true
+		tell_to_others()
+	}
+	
+	return _found_enemy
 }
