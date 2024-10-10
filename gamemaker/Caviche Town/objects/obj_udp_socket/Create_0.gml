@@ -3,8 +3,11 @@
 
 socket = noone
 
+received_reliables = {}
+
 reliable = {
 	timeout:4,
+	max_retries: 4,
 	next_id: -1,
 	messages:[]
 }
@@ -24,6 +27,8 @@ function init(_port = undefined) {
 	} else {
 		socket = network_create_socket(network_socket_udp)
 	}
+	
+	return socket > 0
 }
 
 function remove_reliable_message(_reliable_message_id) {
@@ -43,10 +48,14 @@ function remove_reliable_message(_reliable_message_id) {
 
 function send_buffer(_buffer, _address, _delete = false) {
 	
+	if socket == noone {
+		return false
+	}
+	
 	var _url = _address[0]
 	var _port = _address[1]
 	
-	var _result = network_send_udp_raw(server, _url, _port, _buffer, buffer_tell(_buffer))
+	var _result = network_send_udp_raw(socket, _url, _port, _buffer, buffer_tell(_buffer))
 	
 	if _delete {
 		buffer_delete(_buffer)
@@ -57,22 +66,55 @@ function send_buffer(_buffer, _address, _delete = false) {
 
 function send_message(_message, _address) {
 	
+	if socket == noone {
+		return false
+	}
+	
 	var _url = _address[0]
 	var _port = _address[1]
+	
+	show_debug_message(string_concat("Sending messsage to: ", _url,":",_port))
 	
 	var _length = string_length(_message)
 	var _buffer = buffer_create(_length, buffer_grow, 1)
 	
 	buffer_write(_buffer, buffer_string, _message)
+	
+	var _result = send_buffer(_buffer, _address, true)
+	/*buffer_write(_buffer, buffer_string, _message)
 	var _result = network_send_udp_raw(socket, _url, _port, _buffer, _length)
-	buffer_delete(_buffer)
+	buffer_delete(_buffer)*/
+	
+	if _result <= 0 {
+		show_debug_message(string_concat("Message to: ", _url,":",_port, " has failed."))
+	} else if _result < _length {
+		show_debug_message(show_debug_message(string_concat("Message to: ", _url,":",_port, " was sent uncomplete.")))
+	}
 	
 	return _result
 }
 
+function generate_message_id(_message, _address) {
+	reliable.next_id++
+	
+	var _id = reliable.next_id
+	var _content = string_concat("reliable#",_id,":",_message)
+
+	var _info = {retries:reliable.max_retries, address:_address, content:_content, id:_id, start_time: current_time}
+	
+	array_push(reliable.messages, _info)
+	return _info
+}
+
 function send_reliable_message(_message, _address) {
+	
+	if socket == noone {
+		return false
+	}
+		
 	var _reliable_information = generate_message_id(_message, _address)
-	send_message(_reliable_information.content, _address)
+	var _result = send_message(_reliable_information.content, _address)
+	return _result
 } 
 
 function process_message(_message, _emisor) {}
@@ -96,6 +138,21 @@ events.on_message_received.add_listener(function(_args) {
 		
 		answer_reliable_message(_id, _emisor)
 		_message = _message_content
+		
+		if variable_struct_exists(received_reliables, address_to_string(_emisor)) {
+			var _received_reliables_from_emisor = variable_struct_get(received_reliables, address_to_string(_emisor))
+			var _found_received_reliable_id = array_get_index(_received_reliables_from_emisor, _id)
+			
+			if _found_received_reliable_id != -1 {
+				answer_reliable_message(_id, _emisor)
+				return
+			} else {
+				array_push(_received_reliables_from_emisor, _id)
+			}
+			
+		} else {
+			variable_struct_set(received_reliables, address_to_string(_emisor), [_id])
+		}
 	} 
 	
 	process_message(_message, _emisor)

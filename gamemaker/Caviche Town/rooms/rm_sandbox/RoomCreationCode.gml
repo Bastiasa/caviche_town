@@ -5,7 +5,12 @@ if string_length(_target_join) > 0 {
 	if !_client_instance.connect_to_server(_target_join, 6060) {
 		room_goto(rm_main_menu)
 	}
+	
+	_client_instance.client_events.on_disconnected.add_listener(function(_args) {
+		room_goto(rm_main_menu)
+	})
+	
 } else {
 	var _server = instance_create_layer(0,0,"Instances",obj_udp_server)
-	_server.init(6060, 4)
+	_server.init(4508, 4)
 }

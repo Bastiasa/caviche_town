@@ -9,20 +9,37 @@ password = ""
 ping_timeout = 60
 connected_clients = []
 
+last_clients_ping = -1
+clients_ping_timeout = 24
+
 server_options = {
 	max_clients:32
 }
 
 
+function destroy() {
+	
+	for(var _client_index = 0; _client_index < array_length(connected_clients); _client_index++) {
+		var _client = connected_clients[_client_index]
+		send_reliable_message("connection_destroyed", _client)
+	}
+	
+	connected_clients = []
+	last_clients_ping = -1
+	network_destroy(socket)
+	socket = noone
+}
 
 function init(_port = 6060, _max_clients = 32) {
 	socket = network_create_socket_ext(network_socket_udp, _port)
-
+	
 	if socket < 0 {
 		show_debug_message("Error while creating server.")
+		last_clients_ping = -1
 	} else {
 		server_options.max_clients = _max_clients
-		show_debug_message("Server created successfully.")
+		last_clients_ping = current_time
+		show_debug_message(string_concat("UDP server created successfully. Running on port ",_port, " and maximum clients of ", _max_clients))
 	}
 }
 
@@ -46,7 +63,7 @@ function connect_client(_address) {
 	array_push(connected_clients, _client)
 	events.on_client_connected.fire([_client])
 	
-	send_reliable_message("connection_successfully", _address)
+	send_reliable_message("connection_stablished", _address)
 	send_to_all_clients("client_connected:"+string_concat(_address[0],":",_address[1]), "server")
 }
 
@@ -109,51 +126,47 @@ function send_to_all_clients(_message, _address) {
 	return _failures
 }
 
-function generate_message_id(_message, _address) {
-	reliable.next_id++
-	
-	var _id = reliable.next_id
-	var _content = string_concat("reliable#",_id,":",_message)
-
-	var _info = {address:_address, content:_content, id:_id, start_time: current_time}
-	
-	array_push(reliable.messages, _info)
-	return _info
-}
-
-
-
 
 function process_message(_message, _emisor) {
 	
-	show_message("Someone sent a message :0")
+	show_message("Someone sent a message")
 	
-	if string_starts_with(_message, "connection_request:")  {
-		var _password = string_split(_message, "connection_request:", true, 1)[?0]
+	var _connected_clients_count = array_length(connected_clients)
+	var _checking_commmand = ""
+	
+	
+	function remove_message_preffix(_message, _preffix) {
+		return string_delete(_message, 0, string_length(_preffix))
+	}
+	
+	
+	_checking_commmand = "connection_request:"
+	if string_starts_with(_message, _checking_commmand) && _connected_clients_count < server_options.max_clients  {
+		var _password = remove_message_preffix(_message, _checking_commmand)
 		
 		if _password == password {	
 			connect_client(_emisor)
+			show_debug_message(string_concat("Client connected: ",address_to_string(_emisor)))
 			return true
+		} else {
+			send_reliable_message("connection_denied", _emisor)
 		}
+	} else if _connected_clients_count >= server_options.max_clients {
+		send_reliable_message("connection_denied", _emisor)
 	}
 	
-	if string_starts_with(_message, "reliable_received#") {
-		var _reliable = string_split(_message, "reliable_received#", true, 1)[?0]
-		
-		if _reliable != undefined {
-			var _reliable_message_id = string_digits(_reliable)
-			_reliable_message_id = int64(_reliable_message_id)
-			
-			remove_reliable_message(_reliable_message_id)
-		}
-	}
-
-	if string_starts_with(_message, "connection_destroy")  {
+	_checking_commmand = "connection_destroy"
+	if _message == _checking_commmand  {
 		var _client_index = get_client_index_by_address(_emisor)
 		disconnect_client(_client_index)
+		
+		show_debug_message(string_concat("Client disconnected: ",address_to_string(_emisor)))
 	}
 	
-	if string_starts_with(_message, "connection_ping") {
+	
+	
+	_checking_commmand = "connection_ping"
+	if _message = _checking_commmand {
 		var _client_index = get_client_index_by_address(_emisor)
 		var _client = connected_clients[?_client_index]
 		
@@ -163,8 +176,10 @@ function process_message(_message, _emisor) {
 		}
 	}
 	
-	if string_starts_with(_message, "send_all:") {
-		var _to_send = string_split(_message, "send_all:", true, 1)[?0]
+	
+	_checking_commmand = "everyone:"
+	if string_starts_with(_message, _checking_commmand) {
+		var _to_send = remove_message_preffix(_message,_checking_commmand)
 		
 		if string_length(_to_send) > 0 {
 			send_to_all_clients(_to_send, _emisor)
