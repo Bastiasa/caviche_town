@@ -4,8 +4,12 @@
 server = -1
 password = ""
 
-connection_ping_time = 60
+ping_timeout = 60
 connected_clients = []
+
+server_options = {
+	max_clients:32
+}
 
 reliable = {
 	timeout:4,
@@ -34,6 +38,7 @@ function init(_port = 303, _max_clients = 32) {
 	if server < 0 {
 		show_debug_message("Error while creating server.")
 	} else {
+		server_options.max_clients = _max_clients
 		show_debug_message("Server created successfully.")
 	}
 }

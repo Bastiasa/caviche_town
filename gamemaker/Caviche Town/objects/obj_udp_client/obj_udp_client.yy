@@ -1,11 +1,11 @@
 {
   "$GMObject":"",
-  "%Name":"obj_client",
+  "%Name":"obj_udp_client",
   "eventList":[
     {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":0,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
   ],
   "managed":true,
-  "name":"obj_client",
+  "name":"obj_udp_client",
   "overriddenProperties":[],
   "parent":{
     "name":"networking",
