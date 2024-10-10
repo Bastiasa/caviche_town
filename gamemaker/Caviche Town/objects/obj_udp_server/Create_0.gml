@@ -63,6 +63,7 @@ function connect_client(_address) {
 	array_push(connected_clients, _client)
 	events.on_client_connected.fire([_client])
 	
+	send_reliable_message("connection_successfully", _address)
 	send_to_all_clients("client_connected:"+string_concat(_address[0],":",_address[1]), "server")
 }
 
@@ -77,6 +78,7 @@ function disconnect_client(_index) {
 	if _client != undefined {
 		array_delete(connected_clients, _index, 1)
 		events.on_client_connected.fire([_client])
+		send_reliable_message("connection_destroyed", _client)
 		send_to_all_clients("client_disconnected:"+string_concat(_address[0],":",_address[1]), "server")
 	}
 }
@@ -129,7 +131,7 @@ function generate_message_id(_message, _address) {
 	reliable.next_id++
 	
 	var _id = reliable.next_id
-	var _content = string_concat("reliable_message#",_id,":",_message)
+	var _content = string_concat("reliable#",_id,":",_message)
 
 	var _info = {address:_address, content:_content, id:_id, start_time: current_time}
 	
@@ -162,7 +164,7 @@ function process_message(_message, _emisor) {
 		var _password = string_split(_message, "connection_request:", true, 1)[?0]
 		
 		if _password == password {	
-			connect_new_client(_emisor)
+			connect_client(_emisor)
 			return true
 		}
 	}
