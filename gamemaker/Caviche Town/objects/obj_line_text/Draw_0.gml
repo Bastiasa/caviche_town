@@ -1,38 +1,43 @@
 /// @description Inserte aquí la descripción
 // Puede escribir su código en este editor
 
+var _rectangle_color = focused ? focused_outline_color : outline_color
 
-draw_rectangle(
+draw_rectangle_color(
 	x,
 	y,
 	
 	x+width,
 	y+height,
 	
+	_rectangle_color,
+	_rectangle_color,
+	_rectangle_color,
+	_rectangle_color,
+	
 	true
 )
 
-if string_length(text) < 1 {
+var _has_text = string_length(text) > 0
+var _text_to_draw = _has_text ? text : placeholder
+var _text_color = _has_text ? text_color : placeholder_color
+
+draw_set_font(font)
 	
-	draw_set_font(fnt_current_gun_ammo)
+draw_set_halign(fa_left)
+draw_set_valign(fa_top)
 	
-	draw_set_halign(fa_left)
-	draw_set_valign(fa_top)
-	
-	draw_text_ext_color(
+draw_text_color(
 		
-		x + padding_x,
-		y + padding_y,
+	x + padding_x,
+	y + padding_y,
 		
-		placeholder,
-		height,
-		width,
+	_text_to_draw,
 		
-		placeholder_color,
-		placeholder_color,
-		placeholder_color,
-		placeholder_color,
+	_text_color,
+	_text_color,
+	_text_color,
+	_text_color,
 		
-		1
-	)
-}
+	1
+)
