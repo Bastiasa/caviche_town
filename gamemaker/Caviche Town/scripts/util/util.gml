@@ -744,10 +744,12 @@ function EquippedGunManager(_character = noone) constructor {
 			return
 		}
 		
+		var _sprite_info = sprite_get_info(gun_information.sprite)
+		
 		timer += delta_time/MILLION
 		
 		if shooting || !can_shoot {
-			var _sprite_info = sprite_get_info(gun_information.sprite)
+			
 			subimage = timer/(_sprite_info.num_subimages/sprite_get_speed(gun_information.sprite)) * _sprite_info.num_subimages
 			
 			randomize()
@@ -803,6 +805,15 @@ function EquippedGunManager(_character = noone) constructor {
 			}
 		}
 		
+		if !shooting && !equipping && !reloading {
+		
+			if gun_information.loaded_ammo <= 0 {
+				subimage = _sprite_info.num_subimages - 1
+			} else {
+				subimage = 0
+			}
+		}
+		
 		try {
 			_draw()
 		} catch(err) {
@@ -813,12 +824,5 @@ function EquippedGunManager(_character = noone) constructor {
 
 
 
-global.debugging = true
 
-global.debugging_options = {
-	show_enemies_raycast: true,
-	show_enemies_floor_dot: true,
-	show_characters_aim_dot: true,
-	show_enemies_distance_to_target: true,
-}
 

@@ -45,6 +45,7 @@
     {"name":"Room1","order":16,"path":"rooms/Room1/Room1.yy",},
     {"name":"_draw_circular_bar","order":1,"path":"scripts/_draw_circular_bar/_draw_circular_bar.yy",},
     {"name":"_guns_presets","order":1,"path":"scripts/_guns_presets/_guns_presets.yy",},
+    {"name":"debugging","order":8,"path":"scripts/debugging/debugging.yy",},
     {"name":"enums","order":3,"path":"scripts/enums/enums.yy",},
     {"name":"input","order":2,"path":"scripts/input/input.yy",},
     {"name":"props","order":1,"path":"scripts/props/props.yy",},

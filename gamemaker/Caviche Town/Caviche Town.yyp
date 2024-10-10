@@ -72,6 +72,7 @@
     {"id":{"name":"_characters_presets","path":"scripts/_characters_presets/_characters_presets.yy",},},
     {"id":{"name":"_draw_circular_bar","path":"scripts/_draw_circular_bar/_draw_circular_bar.yy",},},
     {"id":{"name":"_guns_presets","path":"scripts/_guns_presets/_guns_presets.yy",},},
+    {"id":{"name":"debugging","path":"scripts/debugging/debugging.yy",},},
     {"id":{"name":"enums","path":"scripts/enums/enums.yy",},},
     {"id":{"name":"input","path":"scripts/input/input.yy",},},
     {"id":{"name":"methods","path":"scripts/methods/methods.yy",},},
