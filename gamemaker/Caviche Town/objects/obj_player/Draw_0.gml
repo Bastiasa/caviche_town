@@ -32,8 +32,8 @@ for(var _hit_particle_index = 0; _hit_particle_index < array_length(hit_particle
 	_scale = max(1.3, _scale)
 	
 	draw_text_transformed(
-		_hit_particle_data.character.x + abs(_character_size.x) + 30,
-		_hit_particle_data.character.y - _character_size.y - 30,
+		_hit_particle_data.character.x + abs(_character_size.x) + 20,
+		_hit_particle_data.character.y - _character_size.y - 20,
 		string(round(_hit_particle_data.damage)),
 		_scale,
 		_scale,

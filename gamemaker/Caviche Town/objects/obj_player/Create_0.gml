@@ -10,7 +10,7 @@ camera = new CameraView(view_camera[0])
 character = instance_create_layer(x,y, layer, obj_character)
 
 character.controller = self
-character.sprites = global.characters_sprite_set.default_enemy()
+//character.sprites = global.characters_sprite_set.default_enemy()
 
 last_mouse_position = new Vector(mouse_x, mouse_y)
 last_aim_gamepad_movement = new Vector()
@@ -36,6 +36,8 @@ last_delta = delta_time
 
 hit_particles = []
 blood_spots = []
+
+on_low_health_blood_spot_timer = 0
 
 function create_blood_spot() {
 	var _hp_critical_index = 1-(character.hp / character.max_hp)

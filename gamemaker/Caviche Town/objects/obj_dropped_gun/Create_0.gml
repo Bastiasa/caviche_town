@@ -8,7 +8,9 @@ horizontal_speed = 0
 
 angular_speed = 0
 rotation = 0
-scale = 1
+
+x_scale = 1
+y_scale = 1
 
 image_speed = 0
 

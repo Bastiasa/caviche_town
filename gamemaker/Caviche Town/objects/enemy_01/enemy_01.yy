@@ -1,15 +1,17 @@
 {
   "$GMObject":"",
-  "%Name":"Object10",
-  "eventList":[],
+  "%Name":"enemy_01",
+  "eventList":[
+    {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":0,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
+  ],
   "managed":true,
-  "name":"Object10",
+  "name":"enemy_01",
   "overriddenProperties":[
     {"$GMOverriddenProperty":"v1","%Name":"","name":"","objectId":{"name":"obj_ai_01","path":"objects/obj_ai_01/obj_ai_01.yy",},"propertyId":{"name":"team","path":"objects/obj_ai_01/obj_ai_01.yy",},"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"red",},
   ],
   "parent":{
-    "name":"grupo1",
-    "path":"folders/Objetos/character/grupo1.yy",
+    "name":"enemies",
+    "path":"folders/Objetos/character/enemies.yy",
   },
   "parentObjectId":{
     "name":"obj_ai_01",

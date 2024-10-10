@@ -17,6 +17,9 @@ to_destroy = false
 lifetime = 2
 timer = 0
 
+start_position_x = x
+start_position_y = y
+
 damage = 0
 
 _speed = 0

@@ -109,19 +109,47 @@ draw_healthbar(
 	false
 )
 
-if character.equipped_gun_manager.gun_information != noone {
+
+on_low_health_blood_spot_timer += get_delta()
+
+if character.hp < character.max_hp * .5 {
 	
-	draw_set_color(c_purple)
 	
-	draw_circle(
-		character.x + character.equipped_gun_manager.get_offset_position().x - camera.position.x,
-		character.y + character.equipped_gun_manager.get_offset_position().y - camera.position.y,
-		2,
-		0
+	var _top_left_blood_scale = (_camera_size.x/4)/64
+	var _bottom_right_blood_scale = (_camera_size.x/4)/64
+	
+	var _alpha = abs(sin(timer*2.5))*.3+.3
+	
+	show_debug_message(_alpha)
+	
+	if on_low_health_blood_spot_timer >= 3 * character.hp / (character.max_hp * .5) + .7 {
+		create_blood_spot()
+		on_low_health_blood_spot_timer = 0
+	}
+	
+	draw_sprite_ext(
+		spr_top_left_blood,
+		0,
+		0,
+		0,
+		_top_left_blood_scale,
+		_top_left_blood_scale,
+		0,
+		c_white,
+		_alpha
 	)
 	
-	draw_set_color(c_white)
-
+	draw_sprite_ext(
+		spr_bottom_right_blood,
+		0,
+		_camera_size.x,
+		_camera_size.y,
+		_bottom_right_blood_scale,
+		_bottom_right_blood_scale,
+		0,
+		c_white,
+		_alpha
+	)
 }
 
 

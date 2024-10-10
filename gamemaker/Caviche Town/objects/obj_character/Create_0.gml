@@ -102,8 +102,8 @@ function create_dropped_gun(_gun_information) {
 	_dropped_gun.gun_information = _gun_information
 	_dropped_gun.vertical_speed = -3
 	_dropped_gun.horizontal_speed = sign(random_range(-1, 1)) * 3
-	_dropped_gun.image_xscale = _gun_information.scale
-	_dropped_gun.image_yscale = _gun_information.scale
+	_dropped_gun.x_scale = _gun_information.scale
+	_dropped_gun.y_scale = _gun_information.scale
 			
 	_dropped_gun.y -= sprite_get_width(_dropped_gun.sprite_index) * _gun_information.scale
 	

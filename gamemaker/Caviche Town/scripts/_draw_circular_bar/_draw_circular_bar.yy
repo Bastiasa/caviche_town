@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"_draw_circular_bar",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"_draw_circular_bar",
+  "parent":{
+    "name":"util",
+    "path":"folders/Scripts/util.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

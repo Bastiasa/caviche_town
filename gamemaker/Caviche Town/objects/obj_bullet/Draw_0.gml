@@ -17,9 +17,7 @@ draw_sprite_ext(
 	1
 )
 
-if to_destroy {
-	instance_destroy(self.id)
-}
+
 
 timer += delta_time / MILLION
 

@@ -9,13 +9,13 @@ function get_pistol_information() {
 		sprite_unloaded: spr_pistol_unloaded,
 		scale:2,
 		bullet_type: BULLET_TYPE.LIL_GUY,
-		cooldown: 0.2,
+		cooldown: 1/ 6.75,
 		movement_weight: 0.3,
 		distance: 16,
 		muzzle_offset: new Vector(1, 1/6*2),
 		dispersion:4,
 		
-		damage:6.75,
+		damage:24,
 		
 		
 		drops_particle: true,
@@ -26,7 +26,7 @@ function get_pistol_information() {
 		loaded_ammo:12,
 		max_ammo:12,
 		
-		reload_time:3
+		reload_time:1.5,
 	}
 }
 
@@ -40,7 +40,7 @@ function get_m16_information() {
 		scale:1,
 		damage:30,
 		bullet_type: BULLET_TYPE.MEDIUM,
-		cooldown: 0.1,
+		cooldown: 1/5.5,
 		movement_weight: 0.13,
 		distance: 24,
 		muzzle_offset: new Vector(1, 5/14),
@@ -57,6 +57,6 @@ function get_m16_information() {
 		loaded_ammo:20,
 		max_ammo:20,
 		
-		reload_time: 4
+		reload_time: 2.5
 	}	
 }
