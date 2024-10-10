@@ -5,7 +5,7 @@ from threading import Thread
 
 udp_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
-ip = "0.0.0.0" 
+ip = "localhost" 
 port = 6060  
 
 udp_socket.bind((ip, port))
@@ -64,9 +64,10 @@ def background_process():
         
         for client_index, client in enumerate(clients):
 
-            if time.time() - client[1] > ping_timeout:
+            if time.time() - client[1] >= ping_timeout:
                 print(f"Client connection destroyed for ping timeout: {address_to_string(client[0])}.")
-                send_message(client[0], "connection_destroyed")
+                send_message("connection_destroyed", client[0])
+                clients.remove(client)
                 break
 
 
@@ -77,6 +78,8 @@ background_process_thread.start()
 while True:
     message, address = udp_socket.recvfrom(1024)
     message = message.decode('utf-8')
+    message = message.removesuffix('')
+    message = message.replace('\x00', "")
 
     if message.startswith("reliable#"):
         message = handle_reliable(message, address)
@@ -87,18 +90,29 @@ while True:
 
     def check_command(command):
         global no_command_message
-        no_command_message = message.removesuffix(command)
+        no_command_message = message.removeprefix(command)
         return message.startswith(command)
 
 
     if check_command("connection_request:") and no_command_message == password and clients.__len__() < max_clients:
         clients.append([address, time.time()])
         send_message("connection_stablished", address)
+    elif check_command("connection_request:") and no_command_message != password or clients.__len__() >= max_clients:
+        send_message("connection_denied", address)
 
-    if check_command("connection_ping"):
+        if no_command_message != password: print(f"Connection denied, incorrect password {no_command_message}.")
+        if clients.__len__() >= max_clients: print("Connection denied, server is full.")
+
+        
+
+    if message == "connection_ping":
+        print("Pinged")
         found_client_index = get_client_index_by_address(address)
 
         if found_client_index != -1 :
             clients[found_client_index][1] = time.time()
+    
+
+    print("\n")
 
 

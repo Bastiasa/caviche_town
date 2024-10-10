@@ -44,7 +44,7 @@ function connect_to_server(_url, _port, _password = "") {
 	
 
 	
-	var _address = [_url, _port]
+	var _address = [string_lower(_url), _port]
 	var _connect_message = send_reliable_message("connection_request:"+_password, _address)
 	
 	if _connect_message < 1 {
@@ -64,14 +64,25 @@ function connect_to_server(_url, _port, _password = "") {
 }
 
 function is_server(_address) {
-	return socket != noone && connected_server_address != noone && _address[0] == connected_server_address[0] && _address[1] == connected_server_address[1]
+	
+	if _address[0] == "localhost" {
+		_address[0] = "127.0.0.1"
+	}
+	
+	if connected_server_address[0] == "localhost" {
+		connected_server_address[0] = "127.0.0.1"
+	}
+	
+	return  connected_server_address != noone && _address[0] == connected_server_address[0] && _address[1] == connected_server_address[1]
 }
 
 function process_message(_message, _emisor) {
 	
-	show_debug_message("Message received from "+address_to_string(_emisor))
-	
 	var _is_server = is_server(_emisor)
+	
+	if _is_server {
+		show_debug_message("This message is from the server.")
+	}
 	
 	if _message == "connection_destroyed" && _is_server {
 		disconnect_from_server()

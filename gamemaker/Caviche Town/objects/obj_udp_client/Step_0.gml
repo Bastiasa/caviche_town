@@ -14,6 +14,8 @@ if state == UDP_CLIENT_STATE.CONNECTING && current_time - connecting_start >= co
 }
 
 
+show_debug_message(current_time - last_ping_time)
+
 if state == UDP_CLIENT_STATE.CONNECTED && current_time - last_ping_time  >= ping_time * 1000 {
 	send_message("connection_ping", connected_server_address)
 	last_ping_time = current_time

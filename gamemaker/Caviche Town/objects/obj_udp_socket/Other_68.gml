@@ -11,8 +11,8 @@ if _event_type == network_type_data  {
 	
 	events.on_message_received.fire([_message, [_ip_address, _port]])
 	
-    show_debug_message("New message from" + _ip_address + ":" + string(_port));
-    show_debug_message(" " + _message+"\n");
+    show_debug_message("New message from " + _ip_address + ":" + string(_port));
+    show_debug_message(_message+"\n");
 	
     buffer_delete(_buffer);
 }

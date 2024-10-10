@@ -127,8 +127,6 @@ events.on_message_received.add_listener(function(_args) {
 	var _message = _args[0]
 	var _emisor = _args[1]
 	
-	show_debug_message("Message from "+address_to_string(_emisor))
-	
 	if string_starts_with(_message, "reliable#") {
 		var _reliable_parts = string_split(_message, ":", false, 1)
 		
@@ -156,6 +154,11 @@ events.on_message_received.add_listener(function(_args) {
 			variable_struct_set(received_reliables, address_to_string(_emisor), [_id])
 		}
 	} 
+	
+	if string_starts_with(_message, "reliable_received#") {
+		var _reliable_id = string_delete(_message, 0, array_length("reliable_received#"))
+		remove_reliable_message(int64(string_digits(_reliable_id)))
+	}
 	
 	process_message(_message, _emisor)
 })
