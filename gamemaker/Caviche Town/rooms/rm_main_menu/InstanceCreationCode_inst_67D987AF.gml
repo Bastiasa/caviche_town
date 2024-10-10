@@ -5,6 +5,10 @@ text = "Unirse a servidor"
 
 x = room_width*.5
 
-global.join_url = room.join_to_url_button.text
-room_goto(rm_sanbox)
+on_pressed.add_listener(function(_args) {
+	global.rooms.main_menu.url = global.rooms.main_menu.url_input.text
+	if string_length(global.rooms.main_menu.url_input.text) > 0 {
+		room_goto(rm_sandbox)
+	}	
+})
 

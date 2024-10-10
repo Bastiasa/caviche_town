@@ -55,6 +55,7 @@
     {"name":"enums","order":3,"path":"scripts/enums/enums.yy",},
     {"name":"input","order":2,"path":"scripts/input/input.yy",},
     {"name":"props","order":1,"path":"scripts/props/props.yy",},
+    {"name":"vars","order":2,"path":"scripts/vars/vars.yy",},
     {"name":"spr_blood_spots","order":4,"path":"sprites/spr_blood_spots/spr_blood_spots.yy",},
     {"name":"spr_bottom_right_blood","order":1,"path":"sprites/spr_bottom_right_blood/spr_bottom_right_blood.yy",},
     {"name":"spr_bullet_particle","order":1,"path":"sprites/spr_bullet_particle/spr_bullet_particle.yy",},

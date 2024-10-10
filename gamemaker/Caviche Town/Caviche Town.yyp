@@ -86,6 +86,7 @@
     {"id":{"name":"methods","path":"scripts/methods/methods.yy",},},
     {"id":{"name":"props","path":"scripts/props/props.yy",},},
     {"id":{"name":"util","path":"scripts/util/util.yy",},},
+    {"id":{"name":"vars","path":"scripts/vars/vars.yy",},},
     {"id":{"name":"spr_aim_01","path":"sprites/spr_aim_01/spr_aim_01.yy",},},
     {"id":{"name":"spr_blood_spots","path":"sprites/spr_blood_spots/spr_blood_spots.yy",},},
     {"id":{"name":"spr_bottom_right_blood","path":"sprites/spr_bottom_right_blood/spr_bottom_right_blood.yy",},},

@@ -41,7 +41,7 @@
     {"$GMObjectProperty":"v1","%Name":"outline_color","filters":[],"listItems":[],"multiselect":false,"name":"outline_color","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"$FF999999","varType":7,},
     {"$GMObjectProperty":"v1","%Name":"focused_outline_color","filters":[],"listItems":[],"multiselect":false,"name":"focused_outline_color","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"$FFFFFFFF","varType":7,},
     {"$GMObjectProperty":"v1","%Name":"font","filters":[],"listItems":[],"multiselect":false,"name":"font","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resource":{"name":"fnt_current_gun_ammo","path":"fonts/fnt_current_gun_ammo/fnt_current_gun_ammo.yy",},"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"fnt_current_gun_ammo","varType":5,},
-    {"$GMObjectProperty":"v1","%Name":"variable_name","filters":[],"listItems":[],"multiselect":false,"name":"variable_name","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"$FF7F7F7F","varType":7,},
+    {"$GMObjectProperty":"v1","%Name":"text_color","filters":[],"listItems":[],"multiselect":false,"name":"text_color","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"$FF7F7F7F","varType":7,},
   ],
   "resourceType":"GMObject",
   "resourceVersion":"2.0",
