@@ -13,3 +13,8 @@ if state == UDP_CLIENT_STATE.CONNECTING && current_time - connecting_start >= co
 	disconnect_from_server()
 }
 
+
+if state == UDP_CLIENT_STATE.CONNECTED && current_time - last_ping_time  >= ping_time * 1000 {
+	send_message("connection_ping", connected_server_address)
+	last_ping_time = current_time
+}

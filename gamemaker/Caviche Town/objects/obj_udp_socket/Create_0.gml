@@ -127,6 +127,8 @@ events.on_message_received.add_listener(function(_args) {
 	var _message = _args[0]
 	var _emisor = _args[1]
 	
+	show_debug_message("Message from "+address_to_string(_emisor))
+	
 	if string_starts_with(_message, "reliable#") {
 		var _reliable_parts = string_split(_message, ":", false, 1)
 		

@@ -11,6 +11,9 @@ connecting_timeout = 10
 
 server_timeout = 24*2
 
+last_ping_time = -1
+ping_time = 5
+
 state = UDP_CLIENT_STATE.DISCONNECTED
 
 client_events = {
@@ -61,10 +64,12 @@ function connect_to_server(_url, _port, _password = "") {
 }
 
 function is_server(_address) {
-	return client != noone && connected_server_address != noone && _emisor[0] == connected_server_address[0] && _emisor[1] == connected_server_address[1]
+	return socket != noone && connected_server_address != noone && _address[0] == connected_server_address[0] && _address[1] == connected_server_address[1]
 }
 
 function process_message(_message, _emisor) {
+	
+	show_debug_message("Message received from "+address_to_string(_emisor))
 	
 	var _is_server = is_server(_emisor)
 	
