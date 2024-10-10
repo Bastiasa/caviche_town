@@ -14,6 +14,9 @@ password = ""
 max_clients = 4
 ping_timeout = 30
 
+last_ping_sent = -1
+ping_sending_duration = 5
+
 clients:list[list[tuple|int]|float] = []
 
 answered_reliable_messages = {}
@@ -58,17 +61,22 @@ def handle_reliable(message:str, address:tuple):
 
 def background_process():
 
-    global clients, max_clients, ping_timeout
+    global clients, max_clients, ping_timeout, last_ping_sent, ping_sending_duration
 
     while True:
         
-        for client_index, client in enumerate(clients):
+        for client in clients:
 
             if time.time() - client[1] >= ping_timeout:
                 print(f"Client connection destroyed for ping timeout: {address_to_string(client[0])}.")
                 send_message("connection_destroyed", client[0])
                 clients.remove(client)
                 break
+            elif time.time() - last_ping_sent >= ping_sending_duration:
+                send_message("connection_ping", client[0])
+                last_ping_sent = time.time()
+
+                print("Ping sent to "+address_to_string(client[0]))
 
 
 

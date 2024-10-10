@@ -106,13 +106,15 @@ function generate_message_id(_message, _address) {
 	return _info
 }
 
-function send_reliable_message(_message, _address) {
+function send_reliable_message(_message, _address, _max_retries = 5) {
 	
 	if socket == noone {
 		return false
 	}
 		
 	var _reliable_information = generate_message_id(_message, _address)
+	_reliable_information.retries = _max_retries
+	
 	var _result = send_message(_reliable_information.content, _address)
 	return _result
 } 

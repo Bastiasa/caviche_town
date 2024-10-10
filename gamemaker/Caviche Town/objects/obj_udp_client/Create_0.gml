@@ -3,16 +3,13 @@
 
 event_inherited()
 
-connected_server_address = noone
-connected_server_last_ping = -1
+server_address = noone
 
 connecting_start = -1
 connecting_timeout = 10
 
-server_timeout = 24*2
-
-last_ping_time = -1
-ping_time = 5
+ping = -1
+pong_received_on = -1
 
 state = UDP_CLIENT_STATE.DISCONNECTED
 
@@ -54,7 +51,7 @@ function connect_to_server(_url, _port, _password = "") {
 	} else {
 		show_debug_message("Connection request sended. Waiting for response.")
 		connecting_start = current_time
-		connected_server_address = _address
+		server_address = _address
 		state = UDP_CLIENT_STATE.CONNECTING
 		return true
 	}
@@ -76,6 +73,10 @@ function is_server(_address) {
 	return  connected_server_address != noone && _address[0] == connected_server_address[0] && _address[1] == connected_server_address[1]
 }
 
+function send_ping() {
+	send_message("ping:"+string(current_time/1000), server_address)
+}
+
 function process_message(_message, _emisor) {
 	
 	var _is_server = is_server(_emisor)
@@ -84,14 +85,19 @@ function process_message(_message, _emisor) {
 		show_debug_message("This message is from the server.")
 	}
 	
+	if _is_server && _message == "connection_ping" {
+		connected_server_last_ping = current_time
+	}
+	
 	if _message == "connection_destroyed" && _is_server {
 		disconnect_from_server()
+		show_debug_message("Connection destroyed by the server.")
 	}
 	
 	if _message == "connection_stablished" && _is_server && state == UDP_CLIENT_STATE.CONNECTING {
-		connected_server_last_ping = current_time
 		state = UDP_CLIENT_STATE.CONNECTED
 		client_events.on_connected.fire()
+		
 	}
 	
 	if _message == "connection_denied" && _is_server && state == UDP_CLIENT_STATE.CONNECTING {
@@ -99,8 +105,8 @@ function process_message(_message, _emisor) {
 		client_events.on_connection_denied.fire()
 	}
 	
-	if _message == "connection_ping" && _is_server && _is_server == UDP_CLIENT_STATE.CONNECTED {
-		connected_server_last_ping = current_time
-	}
+	if string_starts_with(_message, "pong:") && _is_server && _is_server == UDP_CLIENT_STATE.CONNECTED {
+		pong_received_on = current_time
+		ping = current_time - (_pong_timestamp*1000)
 }
 
