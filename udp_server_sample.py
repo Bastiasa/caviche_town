@@ -72,11 +72,6 @@ def background_process():
                 send_message("connection_destroyed", client[0])
                 clients.remove(client)
                 break
-            elif time.time() - last_ping_sent >= ping_sending_duration:
-                send_message("connection_ping", client[0])
-                last_ping_sent = time.time()
-
-                print("Ping sent to "+address_to_string(client[0]))
 
 
 
@@ -113,9 +108,11 @@ while True:
 
         
 
-    if message == "connection_ping":
-        print("Pinged")
+    if check_command("ping:"):
+        print("Ponged!")
         found_client_index = get_client_index_by_address(address)
+
+        send_message("pong:"+no_command_message, address)
 
         if found_client_index != -1 :
             clients[found_client_index][1] = time.time()

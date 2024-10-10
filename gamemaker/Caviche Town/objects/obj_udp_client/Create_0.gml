@@ -4,11 +4,14 @@
 event_inherited()
 
 server_address = noone
+server_timeout = 10
 
 connecting_start = -1
 connecting_timeout = 10
 
-ping = -1
+ping = 0
+send_ping_time = 3
+last_sent_ping = -1
 pong_received_on = -1
 
 state = UDP_CLIENT_STATE.DISCONNECTED
@@ -22,8 +25,7 @@ client_events = {
 
 function disconnect_from_server() {
 	state = UDP_CLIENT_STATE.DISCONNECTED
-	connected_server_address = noone
-	connected_server_last_ping = -1
+	server_address = noone
 	
 	network_destroy(socket)
 	socket = noone
@@ -66,15 +68,16 @@ function is_server(_address) {
 		_address[0] = "127.0.0.1"
 	}
 	
-	if connected_server_address[0] == "localhost" {
-		connected_server_address[0] = "127.0.0.1"
+	if server_address[0] == "localhost" {
+		server_address[0] = "127.0.0.1"
 	}
 	
-	return  connected_server_address != noone && _address[0] == connected_server_address[0] && _address[1] == connected_server_address[1]
+	return  server_address != noone && _address[0] == server_address[0] && _address[1] == server_address[1]
 }
 
 function send_ping() {
-	send_message("ping:"+string(current_time/1000), server_address)
+	last_sent_ping = current_time
+	send_message("ping:"+string(current_time), server_address)
 }
 
 function process_message(_message, _emisor) {
@@ -84,11 +87,7 @@ function process_message(_message, _emisor) {
 	if _is_server {
 		show_debug_message("This message is from the server.")
 	}
-	
-	if _is_server && _message == "connection_ping" {
-		connected_server_last_ping = current_time
-	}
-	
+
 	if _message == "connection_destroyed" && _is_server {
 		disconnect_from_server()
 		show_debug_message("Connection destroyed by the server.")
@@ -97,7 +96,7 @@ function process_message(_message, _emisor) {
 	if _message == "connection_stablished" && _is_server && state == UDP_CLIENT_STATE.CONNECTING {
 		state = UDP_CLIENT_STATE.CONNECTED
 		client_events.on_connected.fire()
-		
+		send_ping()
 	}
 	
 	if _message == "connection_denied" && _is_server && state == UDP_CLIENT_STATE.CONNECTING {
@@ -106,7 +105,12 @@ function process_message(_message, _emisor) {
 	}
 	
 	if string_starts_with(_message, "pong:") && _is_server && _is_server == UDP_CLIENT_STATE.CONNECTED {
+		
+		var _pong_timestamp = string_delete(_message, 0, string_length("pong:"))
+		_pong_timestamp = int64(_pong_timestamp)
+		
 		pong_received_on = current_time
-		ping = current_time - (_pong_timestamp*1000)
+		ping = current_time - (_pong_timestamp)
+	}
 }
 
