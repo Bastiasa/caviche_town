@@ -39,6 +39,7 @@
   ],
   "ResourceOrderSettings":[
     {"name":"obj_bullet","order":2,"path":"objects/obj_bullet/obj_bullet.yy",},
+    {"name":"obj_button","order":2,"path":"objects/obj_button/obj_button.yy",},
     {"name":"obj_character","order":1,"path":"objects/obj_character/obj_character.yy",},
     {"name":"obj_dropped_ammo","order":4,"path":"objects/obj_dropped_ammo/obj_dropped_ammo.yy",},
     {"name":"obj_dropped_gun","order":3,"path":"objects/obj_dropped_gun/obj_dropped_gun.yy",},
@@ -47,6 +48,7 @@
     {"name":"obj_udp_client","order":1,"path":"objects/obj_udp_client/obj_udp_client.yy",},
     {"name":"singletons","order":3,"path":"objects/singletons/singletons.yy",},
     {"name":"rm_main_menu","order":1,"path":"rooms/rm_main_menu/rm_main_menu.yy",},
+    {"name":"rm_sandbox","order":2,"path":"rooms/rm_sandbox/rm_sandbox.yy",},
     {"name":"_draw_circular_bar","order":1,"path":"scripts/_draw_circular_bar/_draw_circular_bar.yy",},
     {"name":"_guns_presets","order":1,"path":"scripts/_guns_presets/_guns_presets.yy",},
     {"name":"debugging","order":8,"path":"scripts/debugging/debugging.yy",},

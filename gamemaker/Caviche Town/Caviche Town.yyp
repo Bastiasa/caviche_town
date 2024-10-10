@@ -75,6 +75,7 @@
     {"id":{"name":"obj_udp_server","path":"objects/obj_udp_server/obj_udp_server.yy",},},
     {"id":{"name":"singletons","path":"objects/singletons/singletons.yy",},},
     {"id":{"name":"rm_main_menu","path":"rooms/rm_main_menu/rm_main_menu.yy",},},
+    {"id":{"name":"rm_sandbox","path":"rooms/rm_sandbox/rm_sandbox.yy",},},
     {"id":{"name":"Room1","path":"rooms/Room1/Room1.yy",},},
     {"id":{"name":"_characters_presets","path":"scripts/_characters_presets/_characters_presets.yy",},},
     {"id":{"name":"_draw_circular_bar","path":"scripts/_draw_circular_bar/_draw_circular_bar.yy",},},
@@ -127,6 +128,7 @@
   "RoomOrderNodes":[
     {"roomId":{"name":"rm_main_menu","path":"rooms/rm_main_menu/rm_main_menu.yy",},},
     {"roomId":{"name":"Room1","path":"rooms/Room1/Room1.yy",},},
+    {"roomId":{"name":"rm_sandbox","path":"rooms/rm_sandbox/rm_sandbox.yy",},},
   ],
   "templateType":"game",
   "TextureGroups":[

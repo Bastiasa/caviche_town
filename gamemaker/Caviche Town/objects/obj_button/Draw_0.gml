@@ -21,10 +21,6 @@ draw_rectangle_color(
 	true
 )
 
-var _has_text = string_length(text) > 0
-var _text_to_draw = _has_text ? text : placeholder
-var _text_color = _has_text ? text_color : placeholder_color
-
 draw_set_font(font)
 	
 draw_set_halign(fa_left)
@@ -35,12 +31,12 @@ draw_text_color(
 	_x + padding_x,
 	_y + padding_y,
 		
-	_text_to_draw,
+	text,
 		
-	_text_color,
-	_text_color,
-	_text_color,
-	_text_color,
+	text_color,
+	text_color,
+	text_color,
+	text_color,
 		
 	1
 )

@@ -6,7 +6,7 @@ client = noone
 
 function connect_to_server(_url, _port) {
 	client = network_create_socket(network_socket_udp)
-	connected_server = network_connect(client, _url, _port)
+	connected_server = network_connect_raw(client, _url, _port)
 }
 
 

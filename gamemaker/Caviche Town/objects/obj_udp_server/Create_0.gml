@@ -33,7 +33,7 @@ function remove_reliable_message(_reliable_message_id) {
 }
 
 function init(_port = 303, _max_clients = 32) {
-	server = network_create_server(network_socket_tcp, _port, _max_clients)
+	server = network_create_server_raw(network_socket_tcp, _port, _max_clients)
 
 	if server < 0 {
 		show_debug_message("Error while creating server.")
@@ -114,7 +114,7 @@ function send_to_all_clients(_message, _address) {
 	for(var _client_index = 0; _client_index < array_length(connected_clients); _client_index++) {
 		var _client = connected_clients[_client_index]
 		
-		var _send_result = network_send_udp(server, _client[0][0], _client[0][1], _buffer, _message_length)
+		var _send_result = network_send_udp_raw(server, _client[0][0], _client[0][1], _buffer, _message_length)
 		
 		if !_send_result {
 			array_push(_failures, _client)
@@ -146,7 +146,7 @@ function send_message(_message, _address) {
 	var _buffer = buffer_create(_length, buffer_grow, 1)
 	
 	buffer_write(_buffer, buffer_string, _message)
-	var _result = network_send_udp(server, _url, _port, _buffer, _length)
+	var _result = network_send_udp_raw(server, _url, _port, _buffer, _length)
 	buffer_delete(_buffer)
 	
 	return _result
