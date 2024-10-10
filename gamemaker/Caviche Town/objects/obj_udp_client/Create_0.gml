@@ -13,9 +13,7 @@ events = {
 	on_connected: new Event()
 }
 
-function address_to_string(_address) {
-	return string_concat(_address[0],":",_address[1])
-} 
+
 	
 function send_message(_message, _address) {
 	var _length = string_length(_message)
@@ -38,6 +36,7 @@ function connect_to_server(_url, _port, _password = "") {
 	
 	show_debug_message(string_concat("Trying to connect to ",_url,":",_port,"."))
 	client = network_create_socket(network_socket_udp)
+	
 	var _address = [_url, _port]
 	var _connect_message = send_message("connection_request:"+_password, _address)
 

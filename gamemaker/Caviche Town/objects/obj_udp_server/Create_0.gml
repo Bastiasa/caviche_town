@@ -1,7 +1,9 @@
 /// @description Inserte aquí la descripción
 // Puede escribir su código en este editor
 
-server = -1
+
+event_inherited()
+
 password = ""
 
 ping_timeout = 60
@@ -11,31 +13,12 @@ server_options = {
 	max_clients:32
 }
 
-reliable = {
-	timeout:4,
-	next_id: -1,
-	messages:[]
-}
 
-function remove_reliable_message(_reliable_message_id) {
-	if !is_numeric(_reliable_message_id) {
-		return false
-	}
-	
-	for(var _index = 0; _index < array_length(reliable.messages); _index++) {
-		var _reliable_message_information = reliable.messages[_index]
-		
-		if _reliable_message_information.id == _reliable_message_id {
-			array_delete(reliable.messages, _index, 1)
-			return true
-		}
-	}
-}
 
-function init(_port = 303, _max_clients = 32) {
-	server = network_create_server_raw(network_socket_tcp, _port, _max_clients)
+function init(_port = 6060, _max_clients = 32) {
+	socket = network_create_socket_ext(network_socket_udp, _port)
 
-	if server < 0 {
+	if socket < 0 {
 		show_debug_message("Error while creating server.")
 	} else {
 		server_options.max_clients = _max_clients
@@ -84,7 +67,6 @@ function disconnect_client(_index) {
 }
 
 
-
 function send_to_all_clients(_message, _address) {
 	
 	var _client_index = -1
@@ -103,7 +85,7 @@ function send_to_all_clients(_message, _address) {
 		return false
 	}
 	
-	if server < 0 {
+	if socket < 0 {
 		return false
 	}
 	
@@ -116,7 +98,7 @@ function send_to_all_clients(_message, _address) {
 	for(var _client_index = 0; _client_index < array_length(connected_clients); _client_index++) {
 		var _client = connected_clients[_client_index]
 		
-		var _send_result = network_send_udp_raw(server, _client[0][0], _client[0][1], _buffer, _message_length)
+		var _send_result = send_buffer(_buffer, _client, false) //network_send_udp_raw(server, _client[0][0], _client[0][1], _buffer, _message_length)
 		
 		if !_send_result {
 			array_push(_failures, _client)
@@ -139,27 +121,13 @@ function generate_message_id(_message, _address) {
 	return _info
 }
 
-function send_message(_message, _address) {
-	
-	var _url = _address[0]
-	var _port = _address[1]
-	
-	var _length = string_length(_message)
-	var _buffer = buffer_create(_length, buffer_grow, 1)
-	
-	buffer_write(_buffer, buffer_string, _message)
-	var _result = network_send_udp_raw(server, _url, _port, _buffer, _length)
-	buffer_delete(_buffer)
-	
-	return _result
-}
 
-function send_reliable_message(_message, _address) {
-	var _reliable_information = generate_message_id(_message, _address)
-	send_message(_reliable_information.content, _address)
-} 
+
 
 function process_message(_message, _emisor) {
+	
+	show_message("Someone sent a message :0")
+	
 	if string_starts_with(_message, "connection_request:")  {
 		var _password = string_split(_message, "connection_request:", true, 1)[?0]
 		
