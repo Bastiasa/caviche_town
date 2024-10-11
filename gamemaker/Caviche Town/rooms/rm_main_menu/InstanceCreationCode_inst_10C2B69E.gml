@@ -9,13 +9,13 @@ offset_y = .75
 
 clip_content = true
 
-rotation = 60
+rotation = 0
 fill = false
 
-scale_x = 2
-scale_y = 2
+scale_x = 1
+scale_y = 1
 
-outline_thickness = 3
-color = c_green
+outline_thickness = 1
+color = c_black
 
 text = "Hello world!"

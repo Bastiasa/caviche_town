@@ -6,8 +6,8 @@ event_inherited();
 
 text = ""
 
-text_vertical_align = fa_middle
 text_horizontal_align = fa_center
+text_vertical_align = fa_middle
 
 text_scale_x = 1
 text_scale_y = 1
