@@ -4,9 +4,14 @@
 // Inherit the parent event
 event_inherited();
 
+
+
 if !surface_exists(children_surface) {
 	children_surface = create_surface()
 }
+
+
+
 
 
 draw_surface_ext(
@@ -20,3 +25,4 @@ draw_surface_ext(
 	alpha
 )
 
+reset_surface()

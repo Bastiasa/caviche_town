@@ -50,6 +50,12 @@ function create_surface() {
 	)
 }
 
+function reset_surface() {
+	if surface != noone && surface_exists(surface) {
+		surface_reset_target()
+	}
+}
+
 function get_render_width() {
 	var _parent_width = parent == noone ? room_width : parent.get_render_width()
 	return relative_width == noone ? width*scale_x : _parent_width * relative_width * scale_x

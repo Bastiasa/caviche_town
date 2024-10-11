@@ -35,6 +35,8 @@ draw_sprite_ext(
 	alpha
 )
 
+reset_surface()
+
 
 /*if outline_thickness > 0 {
 	
