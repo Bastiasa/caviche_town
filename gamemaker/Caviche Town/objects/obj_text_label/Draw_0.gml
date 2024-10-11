@@ -44,10 +44,7 @@ if string_length(text) > 0 {
 		break
 	}
 
-	var _text_position = [150, 100]//get_offset_position(_relative_x,_relative_y)
-
-
-	show_debug_message(string_concat("Text position: ", _text_position))
+	var _text_position = get_offset_position(_relative_x,_relative_y)
 	
 	draw_text_ext_transformed(
 		_text_position[0],
@@ -57,7 +54,7 @@ if string_length(text) > 0 {
 	
 		font_get_size(font),
 	
-		width*scale_x,
+		get_render_width(),
 		text_scale_x,
 		text_scale_y,
 	

@@ -40,6 +40,8 @@ rotation = 0
 
 surface = noone
 
+is_mouse_inside = false
+
 visible = true
 
 tmp = {
@@ -61,7 +63,6 @@ function create_surface() {
 
 function reset_surface() {
 	if surface != noone && surface_exists(surface) {
-		show_debug_message("Reseting surface.")
 		surface_reset_target()
 	}
 }
@@ -124,14 +125,14 @@ function _save_sprite_offset_and_set(_sprite_index, _new_offset_x = 0, _new_offs
 
 function get_offset_position(_offset_x = 0, _offset_y = 0) {
 	
-	var _right_magnitude = width*scale_x*_offset_x
-	var _top_magnitude = height*scale_y*_offset_y
+	var _width_offset = get_render_width() * _offset_x
+	var _height_offset = get_render_height() * _offset_y
 	
-	var _x_right_position = lengthdir_x(_right_magnitude, rotation)
-	var _y_right_position = lengthdir_y(_right_magnitude, rotation)
+	var _x_right_position = lengthdir_x(_width_offset, rotation)
+	var _y_right_position = lengthdir_y(_width_offset, rotation)
 	
-	var _x_top_position = lengthdir_x(_top_magnitude, rotation-90)
-	var _y_top_position = lengthdir_y(_top_magnitude, rotation-90)
+	var _x_top_position = lengthdir_x(_height_offset, rotation-90)
+	var _y_top_position = lengthdir_y(_height_offset, rotation-90)
 	
 	var _result_x = x + _x_right_position + _x_top_position
 	var _result_y = y + _y_right_position + _y_top_position
