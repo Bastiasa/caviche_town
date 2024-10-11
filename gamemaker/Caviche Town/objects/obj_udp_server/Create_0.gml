@@ -6,7 +6,7 @@ event_inherited()
 
 password = ""
 
-ping_timeout = 60
+client_timeout = 3
 connected_clients = []
 
 last_clients_ping = -1
@@ -14,6 +14,11 @@ clients_ping_timeout = 24
 
 server_options = {
 	max_clients:32
+}
+
+server_events = {
+	on_message_received: new Event(),
+	on_client_connected: new Event()
 }
 
 
@@ -59,9 +64,9 @@ function get_client_index_by_address(_address) {
 }
 
 function connect_client(_address) {
-	var _client = [_emisor, current_time]
+	var _client = [_address, current_time]
 	array_push(connected_clients, _client)
-	events.on_client_connected.fire([_client])
+	server_events.on_client_connected.fire([_client])
 	
 	send_reliable_message("connection_stablished", _address)
 	send_to_all_clients("client_connected:"+string_concat(_address[0],":",_address[1]), "server")
@@ -77,7 +82,7 @@ function disconnect_client(_index) {
 	
 	if _client != undefined {
 		array_delete(connected_clients, _index, 1)
-		events.on_client_connected.fire([_client])
+		server_events.on_client_connected.fire([_client])
 		send_reliable_message("connection_destroyed", _client)
 		send_to_all_clients("client_disconnected:"+string_concat(_address[0],":",_address[1]), "server")
 	}
@@ -106,7 +111,9 @@ function send_to_all_clients(_message, _address) {
 		return false
 	}
 	
-	var _message_result = "resent,"+address_to_string(_address)+":"+_message 
+	var _string_address = is_string(_address) ? _address : address_to_string(_address)
+	
+	var _message_result = "resent,"+_string_address+":"+_message 
 	var _message_length = string_length(_message_result)
 	var _buffer = buffer_create(_message_length, buffer_grow, 1)
 	buffer_write(_buffer, buffer_string, _message_result)
@@ -130,8 +137,6 @@ function send_to_all_clients(_message, _address) {
 
 function process_message(_message, _emisor) {
 	
-	show_message("Someone sent a message")
-	
 	var _connected_clients_count = array_length(connected_clients)
 	var _checking_commmand = ""
 	
@@ -140,7 +145,7 @@ function process_message(_message, _emisor) {
 		return string_delete(_message, 0, string_length(_preffix))
 	}
 	
-	
+
 	_checking_commmand = "connection_request:"
 	if string_starts_with(_message, _checking_commmand) && _connected_clients_count < server_options.max_clients  {
 		var _password = remove_message_preffix(_message, _checking_commmand)
@@ -151,6 +156,7 @@ function process_message(_message, _emisor) {
 			return true
 		} else {
 			send_reliable_message("connection_denied", _emisor)
+			show_debug_message("Incorrect password from "+address_to_string(_emisor))
 		}
 	} else if _connected_clients_count >= server_options.max_clients {
 		send_reliable_message("connection_denied", _emisor)
@@ -191,7 +197,3 @@ function process_message(_message, _emisor) {
 	}
 }
 
-events = {
-	on_message_received: new Event(),
-	on_client_connected: new Event()
-}
