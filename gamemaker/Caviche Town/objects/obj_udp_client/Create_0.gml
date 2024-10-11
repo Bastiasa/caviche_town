@@ -60,6 +60,10 @@ function connect_to_server(_url, _port, _password = "") {
 
 function is_server(_address) {
 	
+	if server_address == noone {
+		return false
+	}
+	
 	if _address[0] == "localhost" {
 		_address[0] = "127.0.0.1"
 	}

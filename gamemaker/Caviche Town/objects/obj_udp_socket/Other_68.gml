@@ -7,6 +7,30 @@ if _event_type == network_type_data  {
     var _port = async_load[? "port"]
     var _buffer = async_load[? "buffer"]
 	
+	if !buffer_exists(_buffer) {
+		return
+	}
+	
+	
+	if is_array(_ip_address) {
+		for(var _index = 0; _index < array_length(_ip_address); _index++) {
+			var _ip = _ip_address[_index]
+			
+			if !is_string(_ip) {
+				continue
+			}
+			
+			if string_starts_with(_ip, "192.168.") {
+				_ip_address = _ip
+				break
+			}
+		}
+	}
+	
+	if  !is_string(_ip_address) {
+		return
+	}
+	
     var _message = buffer_read(_buffer, buffer_string);
 	
 	events.on_message_received.fire([_message, [_ip_address, _port]])

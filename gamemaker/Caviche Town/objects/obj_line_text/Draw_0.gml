@@ -1,6 +1,11 @@
 /// @description Inserte aquí la descripción
 // Puede escribir su código en este editor
 
+if focused {
+	text = keyboard_string
+}
+
+
 var _x = x - width * offset_x
 var _y = y - height * offset_y
 

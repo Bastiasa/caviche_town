@@ -6,7 +6,7 @@ event_inherited()
 
 password = ""
 
-client_timeout = 3
+client_timeout = 20
 connected_clients = []
 
 last_clients_ping = -1
@@ -18,7 +18,8 @@ server_options = {
 
 server_events = {
 	on_message_received: new Event(),
-	on_client_connected: new Event()
+	on_client_connected: new Event(),
+	on_client_disconnected: new Event()
 }
 
 
@@ -54,7 +55,7 @@ function get_client_index_by_address(_address) {
 	for(var _client_index = 0; _client_index < array_length(connected_clients); _client_index++) {
 		var _client = connected_clients[_client_index]
 		
-		if _client[?0] == _address[?0] && _client[?1] == _address[?1] {
+		if _client[0] == _address[0] && _client[1] == _address[1] {
 			_result = _client_index
 			break
 		}
@@ -78,13 +79,13 @@ function disconnect_client(_index) {
 		return
 	}
 	
-	var _client = connected_clients[?_index]
+	var _client = connected_clients[_index]
 	
 	if _client != undefined {
 		array_delete(connected_clients, _index, 1)
-		server_events.on_client_connected.fire([_client])
+		server_events.on_client_disconnected.fire([_client])
 		send_reliable_message("connection_destroyed", _client)
-		send_to_all_clients("client_disconnected:"+string_concat(_address[0],":",_address[1]), "server")
+		send_to_all_clients("client_disconnected:"+string_concat(_client[0],":",_client[1]), "server")
 	}
 }
 
@@ -190,10 +191,12 @@ function process_message(_message, _emisor) {
 
 
 	var _client_index = get_client_index_by_address(_emisor)
-	var _client = connected_clients[?_client_index]
-		
-	if _client != undefined {
-		_client[1] = current_time
+	
+	if _client_index >= 0 {
+		var _client = connected_clients[_client_index]	
+		if _client != undefined {
+			_client[1] = current_time
+		}
 	}
 }
 
