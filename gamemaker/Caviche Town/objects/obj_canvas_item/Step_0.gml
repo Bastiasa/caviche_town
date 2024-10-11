@@ -1,8 +1,8 @@
 /// @description Inserte aquí la descripción
 // Puede escribir su código en este editor
 
-if surface_get_width(surface) != width*scale_x || surface_get_height(surface) != height*scale_y {
-	surface_resize(surface, width*scale_x, height*scale_y)
+if surface_get_width(surface) != get_render_width()|| surface_get_height(surface) != get_render_height() {
+	surface_resize(surface, get_render_width(), get_render_height())
 }
 
 
@@ -33,6 +33,14 @@ if children_disposition == CANVAS_ITEM_CHILDREN_DISPOSITION.STATIC {
 			continue 
 		}
 		
+		_child.x = 0
 		
+		if _child_index == array_length(children) - 1 {
+			_child.y = spacing
+		} else {
+			var _above_silibing = children[_child_index + 1]
+			
+			_child.y = _above_silibing.y + _above_silibing.get_render_height() + spacing
+		}
 	}
 }

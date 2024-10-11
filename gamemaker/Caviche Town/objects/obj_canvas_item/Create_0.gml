@@ -7,10 +7,11 @@ enum CANVAS_ITEM_CHILDREN_DISPOSITION {
 }
 
 
-parent = CANVAS_ITEM_CHILDREN_DISPOSITION.FREE 
+parent = noone
 
+children_disposition = CANVAS_ITEM_CHILDREN_DISPOSITION.FREE 
 children = []
-children_disposition = -1
+spacing = 20
 
 position_x = x
 position_y = y
@@ -18,8 +19,11 @@ position_y = y
 scale_x = 1
 scale_y = 1
 
-width = 0
-height = 0
+width = 1
+height = 1
+
+relative_width = noone
+relative_height = noone
 
 offset_x = 0
 offset_y = 0
@@ -31,12 +35,23 @@ clip_content = false
 
 rotation = 0
 
+
 surface = surface_create(width, height)
 
 visible = true
 
 tmp = {
 	sprite_offsets: []
+}
+
+function get_render_width() {
+	var _parent_width = parent == noone ? room_width : parent.get_render_width()
+	return relative_width == noone ? width*scale_x : _parent_width * relative_width * scale_x
+}
+
+function get_render_height() {
+	var _parent_height = parent == noone ? room_height : parent.get_render_height()
+	return relative_height == noone ? height*scale_y : _parent_height * relative_height * scale_y
 }
 
 function _get_saved_sprite_offset_index(_sprite_index) {
@@ -114,14 +129,20 @@ function show() {
 
 function create_child(_object_index, _position_x = 0, _position_y = 0) {
 	var _new_child = instance_create_layer(_position_x,_position_y, layer, _object_index)
-	array_push(children, _new_child)
+	append_child(_new_child)
 	return _new_child
+}
+
+function append_child(_canvas_item) {
+	array_push(children, _canvas_item)
+	_canvas_item.parent = self
 }
 
 function remove_child(_child) {
 	var _found = array_get_index(children, _child)
 	
 	if _found != -1 {
+		_found.parent = noone
 		array_delete(children, _found, 1)
 	}
 }

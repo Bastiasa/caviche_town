@@ -1,7 +1,8 @@
 /// @description Inserte aquí la descripción
 // Puede escribir su código en este editor
 
-
+var _render_width = get_render_width()
+var _render_height = get_render_height()
 
 if outline_thickness > 0 {
 	
@@ -12,8 +13,8 @@ if outline_thickness > 0 {
 		0,
 		_outline_position[0],
 		_outline_position[1],
-		width * scale_x + outline_thickness*2*scale_x,
-		height * scale_y + outline_thickness*2*scale_y,
+		_render_width + outline_thickness*2*scale_x,
+		_render_height + outline_thickness*2*scale_y,
 		rotation,
 		outline_color,
 		alpha
@@ -25,8 +26,8 @@ draw_sprite_ext(
 	0,
 	x,
 	y,
-	width * scale_x,
-	height * scale_y,
+	_render_width,
+	_render_height,
 	rotation,
 	color,
 	alpha
