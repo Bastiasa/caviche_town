@@ -1,16 +1,21 @@
 var _event_type = async_load[?"type"]
-var _socket = async_load[? "socket"]
+var _id = async_load[? "id"]
 
-if _event_type == network_type_data  {
+if _event_type == network_type_data && _id == socket {
     
     var _ip_address = async_load[? "ip"]
     var _port = async_load[? "port"]
     var _buffer = async_load[? "buffer"]
-	
+	 
 	if !buffer_exists(_buffer) {
 		return
 	}
 	
+	var _message = buffer_read(_buffer, buffer_string);
+	_message = string_replace_all(_message, "\x00", "")
+	
+	show_debug_message(string_concat("Incoming message from ", _ip_address,":",_port,"."))
+	show_debug_message(string_concat(_message, "\n"))
 	
 	if is_array(_ip_address) {
 		for(var _index = 0; _index < array_length(_ip_address); _index++) {
@@ -31,12 +36,7 @@ if _event_type == network_type_data  {
 		return
 	}
 	
-    var _message = buffer_read(_buffer, buffer_string);
-	
 	events.on_message_received.fire([_message, [_ip_address, _port]])
-	
-    show_debug_message("New message from " + _ip_address + ":" + string(_port));
-    show_debug_message(_message+"\n");
-	
+
     buffer_delete(_buffer);
 }

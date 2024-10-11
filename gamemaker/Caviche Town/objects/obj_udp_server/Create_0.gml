@@ -84,7 +84,7 @@ function disconnect_client(_index) {
 	if _client != undefined {
 		array_delete(connected_clients, _index, 1)
 		server_events.on_client_disconnected.fire([_client])
-		send_reliable_message("connection_destroyed", _client)
+		send_reliable_message("connection_destroyed", _client[0])
 		send_to_all_clients("client_disconnected:"+string_concat(_client[0],":",_client[1]), "server")
 	}
 }
@@ -174,7 +174,7 @@ function process_message(_message, _emisor) {
 	
 	
 	_checking_commmand = "ping:"
-	if _message = _checking_commmand {
+	if string_starts_with(_message, _checking_commmand) {
 		send_message("pong:"+remove_message_preffix(_message, _checking_commmand), _emisor)
 	}
 	
@@ -193,7 +193,8 @@ function process_message(_message, _emisor) {
 	var _client_index = get_client_index_by_address(_emisor)
 	
 	if _client_index >= 0 {
-		var _client = connected_clients[_client_index]	
+		var _client = connected_clients[_client_index]
+		
 		if _client != undefined {
 			_client[1] = current_time
 		}

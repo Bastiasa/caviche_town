@@ -4,7 +4,7 @@
 event_inherited()
 
 server_address = noone
-server_timeout = 10
+server_timeout = 20
 
 connecting_start = -1
 connecting_timeout = 10
@@ -49,6 +49,7 @@ function connect_to_server(_url, _port, _password = "") {
 	} else {
 		show_debug_message("Connection request sended. Waiting for response.")
 		connecting_start = current_time
+		pong_received_on = current_time
 		server_address = _address
 		state = UDP_CLIENT_STATE.CONNECTING
 		return true
@@ -76,6 +77,11 @@ function is_server(_address) {
 }
 
 function send_ping() {
+	
+	if server_address == noone {
+		return
+	}
+	
 	last_sent_ping = current_time
 	send_message("ping:"+string(current_time), server_address)
 }
@@ -86,11 +92,13 @@ function process_message(_message, _emisor) {
 	
 	if _is_server {
 		show_debug_message("This message is from the server.")
+		show_debug_message(_message)
+		show_debug_message("")
 	}
 
 	if _message == "connection_destroyed" && _is_server {
+	show_debug_message("Connection destroyed by the server.")
 		disconnect_from_server()
-		show_debug_message("Connection destroyed by the server.")
 	}
 	
 	if _message == "connection_stablished" && _is_server && state == UDP_CLIENT_STATE.CONNECTING {
@@ -100,14 +108,15 @@ function process_message(_message, _emisor) {
 	}
 	
 	if _message == "connection_denied" && _is_server && state == UDP_CLIENT_STATE.CONNECTING {
+		show_debug_message("Connection request denied by the server.")
 		disconnect_from_server()
 		client_events.on_connection_denied.fire()
 	}
 	
-	if string_starts_with(_message, "pong:") && _is_server && _is_server == UDP_CLIENT_STATE.CONNECTED {
+	if string_starts_with(_message, "pong:") && _is_server && state == UDP_CLIENT_STATE.CONNECTED {
 		
 		var _pong_timestamp = string_delete(_message, 0, string_length("pong:"))
-		_pong_timestamp = int64(_pong_timestamp)
+		_pong_timestamp = int64(string_digits(_pong_timestamp))
 		
 		pong_received_on = current_time
 		ping = current_time - (_pong_timestamp)

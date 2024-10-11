@@ -5,6 +5,7 @@
 event_inherited();
 
 if state == UDP_CLIENT_STATE.CONNECTED && current_time - pong_received_on >= server_timeout * 1000 {
+	show_debug_message("The server has not been active. Disconnected.")
 	disconnect_from_server()
 }
 

@@ -74,6 +74,8 @@ function send_message(_message, _address) {
 	var _port = _address[1]
 	
 	show_debug_message(string_concat("Sending messsage to: ", _url,":",_port))
+	show_debug_message(_message)
+	show_debug_message("")
 	
 	var _length = string_length(_message)
 	var _buffer = buffer_create(_length, buffer_grow, 1)
@@ -122,7 +124,7 @@ function send_reliable_message(_message, _address, _max_retries = 5) {
 function process_message(_message, _emisor) {}
 
 function answer_reliable_message(_id, _emisor) {
-	send_message(string_concat("reliable_received:",_id), _emisor)
+	send_message(string_concat("reliable_received#",_id), _emisor)
 }
 
 events.on_message_received.add_listener(function(_args) {
