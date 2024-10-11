@@ -47,6 +47,7 @@
     {"name":"obj_dropped","order":5,"path":"objects/obj_dropped/obj_dropped.yy",},
     {"name":"obj_line_text","order":1,"path":"objects/obj_line_text/obj_line_text.yy",},
     {"name":"obj_rectangle","order":4,"path":"objects/obj_rectangle/obj_rectangle.yy",},
+    {"name":"obj_text_label","order":5,"path":"objects/obj_text_label/obj_text_label.yy",},
     {"name":"obj_udp_client","order":1,"path":"objects/obj_udp_client/obj_udp_client.yy",},
     {"name":"obj_udp_socket","order":2,"path":"objects/obj_udp_socket/obj_udp_socket.yy",},
     {"name":"singletons","order":3,"path":"objects/singletons/singletons.yy",},

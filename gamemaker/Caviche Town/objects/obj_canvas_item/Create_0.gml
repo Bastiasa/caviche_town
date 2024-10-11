@@ -16,6 +16,8 @@ offset_y = 0
 alpha = 1
 color = c_white
 
+clip_content = false
+
 rotation = 0
 
 visible = true
@@ -81,11 +83,13 @@ function get_offset_position(_offset_x = 0, _offset_y = 0) {
 	var _x_top_position = lengthdir_x(_top_magnitude, rotation-90)
 	var _y_top_position = lengthdir_y(_top_magnitude, rotation-90)
 	
-	var _result_x = position_x + _x_right_position + _x_top_position
-	var _result_y = position_y + _y_right_position + _y_top_position
+	var _result_x = x + _x_right_position + _x_top_position
+	var _result_y = y + _y_right_position + _y_top_position
 	
 	return [_result_x, _result_y]
 }
+
+
 
 function hide() {
 	visible = false

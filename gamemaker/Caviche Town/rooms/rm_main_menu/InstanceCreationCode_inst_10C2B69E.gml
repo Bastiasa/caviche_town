@@ -17,3 +17,5 @@ scale_y = 2
 
 outline_thickness = 3
 color = c_green
+
+text = "Hello world!"

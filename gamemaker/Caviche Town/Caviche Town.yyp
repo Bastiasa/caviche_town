@@ -73,6 +73,7 @@
     {"id":{"name":"obj_line_text","path":"objects/obj_line_text/obj_line_text.yy",},},
     {"id":{"name":"obj_player","path":"objects/obj_player/obj_player.yy",},},
     {"id":{"name":"obj_rectangle","path":"objects/obj_rectangle/obj_rectangle.yy",},},
+    {"id":{"name":"obj_text_label","path":"objects/obj_text_label/obj_text_label.yy",},},
     {"id":{"name":"obj_udp_client","path":"objects/obj_udp_client/obj_udp_client.yy",},},
     {"id":{"name":"obj_udp_server","path":"objects/obj_udp_server/obj_udp_server.yy",},},
     {"id":{"name":"obj_udp_socket","path":"objects/obj_udp_socket/obj_udp_socket.yy",},},
