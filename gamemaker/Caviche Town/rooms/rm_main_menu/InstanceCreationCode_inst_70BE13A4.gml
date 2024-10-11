@@ -11,7 +11,7 @@ outline_thickness = 3
 
 var _text_label = create_child(obj_text_label)
 
-_text_label.relative_width = 1
+_text_label.width = 300
 _text_label.height = 30 
 _text_label.outline_color = c_white
 

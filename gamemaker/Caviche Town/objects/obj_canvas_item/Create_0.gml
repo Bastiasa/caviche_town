@@ -35,12 +35,19 @@ clip_content = false
 
 rotation = 0
 
-surface = surface_create(width, height)
+surface = noone
 
 visible = true
 
 tmp = {
 	sprite_offsets: []
+}
+
+function create_surface() {
+	return surface_create(
+		get_render_width(),
+		get_render_height()
+	)
 }
 
 function get_render_width() {

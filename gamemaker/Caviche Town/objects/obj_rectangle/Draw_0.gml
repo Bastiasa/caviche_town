@@ -1,6 +1,8 @@
 /// @description Inserte aquí la descripción
 // Puede escribir su código en este editor
 
+event_inherited()
+
 var _render_width = get_render_width()
 var _render_height = get_render_height()
 
@@ -32,8 +34,6 @@ draw_sprite_ext(
 	color,
 	alpha
 )
-
-event_inherited()
 
 
 /*if outline_thickness > 0 {

@@ -1,11 +1,6 @@
 /// @description Inserte aquí la descripción
 // Puede escribir su código en este editor
 
-if surface_get_width(surface) != get_render_width()|| surface_get_height(surface) != get_render_height() {
-	surface_resize(surface, get_render_width(), get_render_height())
-}
-
-
 if rotation == 0 {
 	x = position_x - width * scale_x * offset_x
 	y = position_y - height * scale_y * offset_y

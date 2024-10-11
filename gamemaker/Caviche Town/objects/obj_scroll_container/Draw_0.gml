@@ -1,10 +1,16 @@
 /// @description Inserte aquí la descripción
 // Puede escribir su código en este editor
 
-surface_reset_target()
+// Inherit the parent event
+event_inherited();
+
+if !surface_exists(children_surface) {
+	children_surface = create_surface()
+}
+
 
 draw_surface_ext(
-	surface,
+	children_surface,
 	x,
 	y,
 	scale_x,
@@ -13,3 +19,4 @@ draw_surface_ext(
 	c_white,
 	alpha
 )
+
