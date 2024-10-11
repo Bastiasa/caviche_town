@@ -9,7 +9,7 @@ outline_color = c_white
 
 outline_thickness = 3
 
-var _text_label = create_child(obj_text_label)
+/*var _text_label = create_child(obj_text_label)
 
 _text_label.width = 300
 _text_label.height = 30 

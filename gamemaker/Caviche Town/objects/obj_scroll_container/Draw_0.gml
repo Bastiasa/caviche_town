@@ -5,15 +5,6 @@
 event_inherited();
 
 
-
-if !surface_exists(children_surface) {
-	children_surface = create_surface()
-}
-
-
-
-
-
 draw_surface_ext(
 	children_surface,
 	x,
@@ -24,5 +15,3 @@ draw_surface_ext(
 	c_white,
 	alpha
 )
-
-reset_surface()
