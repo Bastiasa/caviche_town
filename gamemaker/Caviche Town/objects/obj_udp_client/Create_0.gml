@@ -3,6 +3,8 @@
 
 event_inherited()
 
+client_id = -1
+
 server_address = noone
 server_timeout = 20
 
@@ -25,6 +27,8 @@ client_events = {
 
 function disconnect_from_server() {
 	state = UDP_CLIENT_STATE.DISCONNECTED
+	
+	client_id = -1
 	server_address = noone
 	
 	network_destroy(socket)
@@ -101,9 +105,17 @@ function process_message(_message, _emisor) {
 		disconnect_from_server()
 	}
 	
-	if _message == "connection_stablished" && _is_server && state == UDP_CLIENT_STATE.CONNECTING {
+	
+	if string_starts_with(_message, "connection_stablished") && _is_server && state == UDP_CLIENT_STATE.CONNECTING {
+		var _id = string_delete(_message, 0, string_length("connection_stablished"))
+		_id = string_digits(_id)
+		_id = int64(_id)
+		
+		client_id = _id
+		
 		state = UDP_CLIENT_STATE.CONNECTED
-		client_events.on_connected.fire()
+		client_events.on_connected.fire([_id])
+		
 		send_ping()
 	}
 	

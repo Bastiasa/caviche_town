@@ -40,6 +40,7 @@
   "ResourceOrderSettings":[
     {"name":"obj_bullet","order":2,"path":"objects/obj_bullet/obj_bullet.yy",},
     {"name":"obj_button","order":2,"path":"objects/obj_button/obj_button.yy",},
+    {"name":"obj_canvas_item","order":3,"path":"objects/obj_canvas_item/obj_canvas_item.yy",},
     {"name":"obj_character","order":1,"path":"objects/obj_character/obj_character.yy",},
     {"name":"obj_dropped_ammo","order":4,"path":"objects/obj_dropped_ammo/obj_dropped_ammo.yy",},
     {"name":"obj_dropped_gun","order":3,"path":"objects/obj_dropped_gun/obj_dropped_gun.yy",},

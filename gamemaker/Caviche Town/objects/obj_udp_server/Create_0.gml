@@ -12,6 +12,8 @@ connected_clients = []
 last_clients_ping = -1
 clients_ping_timeout = 24
 
+next_client_id = -1
+
 server_options = {
 	max_clients:32
 }
@@ -55,7 +57,7 @@ function get_client_index_by_address(_address) {
 	for(var _client_index = 0; _client_index < array_length(connected_clients); _client_index++) {
 		var _client = connected_clients[_client_index]
 		
-		if _client[0] == _address[0] && _client[1] == _address[1] {
+		if _client[0][0] == _address[0] && _client[0][1] == _address[1] {
 			_result = _client_index
 			break
 		}
@@ -65,11 +67,18 @@ function get_client_index_by_address(_address) {
 }
 
 function connect_client(_address) {
-	var _client = [_address, current_time]
+	
+	if array_length(_address) < 2 || !is_string(_address[0]) || !is_numeric(_address[1]) {
+		return
+	}
+	
+	next_client_id++
+	
+	var _client = [_address, current_time, next_client_id]
 	array_push(connected_clients, _client)
 	server_events.on_client_connected.fire([_client])
 	
-	send_reliable_message("connection_stablished", _address)
+	send_reliable_message("connection_stablished#"+string(_client[2]), _address)
 	send_to_all_clients("client_connected:"+string_concat(_address[0],":",_address[1]), "server")
 }
 
@@ -138,6 +147,16 @@ function send_to_all_clients(_message, _address) {
 
 function process_message(_message, _emisor) {
 	
+	var _client_index = get_client_index_by_address(_emisor)
+
+	if _client_index >= 0 {
+		var _client = connected_clients[_client_index]
+		
+		if _client != undefined {
+			_client[1] = current_time
+		}
+	}
+	
 	var _connected_clients_count = array_length(connected_clients)
 	var _checking_commmand = ""
 	
@@ -154,7 +173,6 @@ function process_message(_message, _emisor) {
 		if _password == password {	
 			connect_client(_emisor)
 			show_debug_message(string_concat("Client connected: ",address_to_string(_emisor)))
-			return true
 		} else {
 			send_reliable_message("connection_denied", _emisor)
 			show_debug_message("Incorrect password from "+address_to_string(_emisor))
@@ -185,18 +203,6 @@ function process_message(_message, _emisor) {
 		
 		if string_length(_to_send) > 0 {
 			send_to_all_clients(_to_send, _emisor)
-			return true
-		}
-	}
-
-
-	var _client_index = get_client_index_by_address(_emisor)
-	
-	if _client_index >= 0 {
-		var _client = connected_clients[_client_index]
-		
-		if _client != undefined {
-			_client[1] = current_time
 		}
 	}
 }

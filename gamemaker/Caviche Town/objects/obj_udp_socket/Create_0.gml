@@ -41,6 +41,12 @@ function remove_reliable_message(_reliable_message_id) {
 		
 		if _reliable_message_information.id == _reliable_message_id {
 			array_delete(reliable.messages, _index, 1)
+			
+			if is_callable(_reliable_message_information.on_received) {
+				reliable.on_received()
+			}
+			
+			delete _reliable_message_information
 			return true
 		}
 	}
@@ -96,13 +102,21 @@ function send_message(_message, _address) {
 	return _result
 }
 
-function generate_message_id(_message, _address) {
+function generate_message_id(_message, _address, _on_received = noone, _on_cancelled = noone) {
 	reliable.next_id++
 	
 	var _id = reliable.next_id
 	var _content = string_concat("reliable#",_id,":",_message)
 
-	var _info = {retries:reliable.max_retries, address:_address, content:_content, id:_id, start_time: current_time}
+	var _info = {
+		retries:reliable.max_retries,
+		address:_address,
+		content:_content,
+		id:_id,
+		start_time: current_time,
+		on_cancelled:_on_cancelled,
+		on_received: _on_received
+	}
 	
 	array_push(reliable.messages, _info)
 	return _info
