@@ -16,7 +16,6 @@ if string_length(text) > 0 {
 	var _relative_x = 0
 	var _relative_y = 0
 
-
 	switch text_horizontal_align {
 		case fa_left:
 		_relative_x = 0
@@ -45,9 +44,11 @@ if string_length(text) > 0 {
 		break
 	}
 
-	var _text_position = get_offset_position(_relative_x,_relative_y)
+	var _text_position = [150, 100]//get_offset_position(_relative_x,_relative_y)
 
 
+	show_debug_message(string_concat("Text position: ", _text_position))
+	
 	draw_text_ext_transformed(
 		_text_position[0],
 		_text_position[1],
@@ -65,4 +66,7 @@ if string_length(text) > 0 {
 }
 
 draw_set_color(c_white)
-reset_surface()
+
+if object_get_parent(object_index) == obj_rectangle {
+	reset_surface()
+}

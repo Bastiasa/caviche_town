@@ -6,8 +6,8 @@
   "name":"obj_collider",
   "overriddenProperties":[],
   "parent":{
-    "name":"Objetos",
-    "path":"folders/Objetos.yy",
+    "name":"Rutas",
+    "path":"folders/Rutas.yy",
   },
   "parentObjectId":null,
   "persistent":false,

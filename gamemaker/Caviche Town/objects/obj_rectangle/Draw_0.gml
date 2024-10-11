@@ -1,7 +1,7 @@
 /// @description Inserte aquí la descripción
 // Puede escribir su código en este editor
 
-event_inherited()
+check_surface()
 
 var _render_width = get_render_width()
 var _render_height = get_render_height()
@@ -35,7 +35,9 @@ draw_sprite_ext(
 	alpha
 )
 
-reset_surface()
+if object_get_parent(object_index) == obj_canvas_item {
+	reset_surface()
+}
 
 
 /*if outline_thickness > 0 {

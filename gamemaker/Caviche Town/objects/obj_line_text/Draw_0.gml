@@ -49,3 +49,7 @@ draw_text_color(
 		
 	1
 )
+
+if object_get_parent(object_index) == obj_rectangle {
+	reset_surface()
+}

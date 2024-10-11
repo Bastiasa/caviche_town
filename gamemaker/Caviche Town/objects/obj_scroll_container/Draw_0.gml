@@ -15,3 +15,7 @@ draw_surface_ext(
 	c_white,
 	alpha
 )
+
+if object_get_parent(object_index) == obj_canvas_item {
+	reset_surface()
+}

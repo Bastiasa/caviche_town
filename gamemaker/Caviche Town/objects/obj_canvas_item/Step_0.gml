@@ -21,21 +21,21 @@ if rotation == 0 {
 }
 
 if children_disposition == CANVAS_ITEM_CHILDREN_DISPOSITION.STATIC {
-	for(var _child_index = array_length(children) - 1; _child_index >= 0; _child_index--) {
+	for(var _child_index = 0; _child_index < array_length(children); _child_index++) {
 		var _child = children[_child_index]
 		
 		if _child == undefined {
 			continue 
 		}
 		
-		_child.x = 0
+		_child.position_x = children_offset_x
 		
-		if _child_index == array_length(children) - 1 {
-			_child.y = spacing
+		if _child_index == 0 {
+			_child.position_y = children_offset_y
 		} else {
-			var _above_silibing = children[_child_index + 1]
-			
-			_child.y = _above_silibing.y + _above_silibing.get_render_height() + spacing
+			var _above_silibing = children[_child_index - 1]
+			var _y_position = _above_silibing.y + _above_silibing.get_render_height() + spacing + children_offset_y
+			_child.position_y = _y_position
 		}
 	}
 }

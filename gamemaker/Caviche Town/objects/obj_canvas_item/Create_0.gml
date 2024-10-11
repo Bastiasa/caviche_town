@@ -28,6 +28,9 @@ relative_height = noone
 offset_x = 0
 offset_y = 0
 
+children_offset_x = 0
+children_offset_y = 0
+
 alpha = 1
 color = c_white
 
@@ -43,6 +46,12 @@ tmp = {
 	sprite_offsets: []
 }
 
+function check_surface() {
+	if surface != noone && surface_exists(surface) {
+		surface_set_target(surface)
+	}
+}
+
 function create_surface() {
 	return surface_create(
 		get_render_width(),
@@ -52,6 +61,7 @@ function create_surface() {
 
 function reset_surface() {
 	if surface != noone && surface_exists(surface) {
+		show_debug_message("Reseting surface.")
 		surface_reset_target()
 	}
 }
