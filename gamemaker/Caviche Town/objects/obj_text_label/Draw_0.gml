@@ -45,6 +45,7 @@ switch text_vertical_align {
 
 var _text_position = get_offset_position(_relative_x,_relative_y)
 
+
 draw_text_ext_transformed(
 	_text_position[0],
 	_text_position[1],
@@ -56,6 +57,7 @@ draw_text_ext_transformed(
 	width*scale_x,
 	text_scale_x,
 	text_scale_y,
+	
 	rotation
 )
 

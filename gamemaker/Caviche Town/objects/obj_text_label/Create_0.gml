@@ -12,5 +12,5 @@ text_vertical_align = fa_middle
 text_scale_x = 1
 text_scale_y = 1
 
-text_color = c_white
+text_color = c_black
 font = fnt_current_gun_ammo

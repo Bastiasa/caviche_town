@@ -35,7 +35,6 @@ clip_content = false
 
 rotation = 0
 
-
 surface = surface_create(width, height)
 
 visible = true

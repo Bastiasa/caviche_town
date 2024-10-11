@@ -1,15 +1,10 @@
 /// @description Inserte aquí la descripción
 // Puede escribir su código en este editor
 
-// Inherit the parent event
-event_inherited();
+surface_reset_target()
 
-draw_surface_part_ext(
+draw_surface_ext(
 	surface,
-	0,
-	0,
-	get_render_width(),
-	get_render_height(),
 	x,
 	y,
 	scale_x,

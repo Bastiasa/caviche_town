@@ -33,6 +33,7 @@ draw_sprite_ext(
 	alpha
 )
 
+event_inherited()
 
 
 /*if outline_thickness > 0 {
