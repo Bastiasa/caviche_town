@@ -16,7 +16,7 @@
     "name":"obj_udp_socket",
     "path":"objects/obj_udp_socket/obj_udp_socket.yy",
   },
-  "persistent":false,
+  "persistent":true,
   "physicsAngularDamping":0.1,
   "physicsDensity":0.5,
   "physicsFriction":0.2,

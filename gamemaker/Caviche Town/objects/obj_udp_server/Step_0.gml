@@ -12,13 +12,8 @@ for(var _client_index = array_length(connected_clients) - 1; _client_index > 0; 
 	
 	if current_time - _client[1] >= ping_timeout * 1000 {
 		disconnect_client(_client_index)
+		show_debug_message("Client disconnected for inactivity: "+address_to_string(_client))
 		continue
-	}
-	
-	if current_time - last_clients_ping >= clients_ping_timeout * 1000 {
-		send_reliable_message("connection_ping", _client)
-		show_debug_message(string_concat("Pinged client: ", address_to_string(_client)))
-		_pinged = true
 	}
 }
 

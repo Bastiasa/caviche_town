@@ -91,7 +91,7 @@ function send_to_all_clients(_message, _address) {
 	if is_array(_address) {
 		_client_index = get_client_index_by_address(_address)
 	} else if is_string(_address) && _address == "server" {
-		_client_index = 999
+		_client_index = 9999
 	}
 	
 	if _client_index == -1 {
@@ -106,9 +106,10 @@ function send_to_all_clients(_message, _address) {
 		return false
 	}
 	
-	var _message_length = string_length(_message)
+	var _message_result = "resent,"+address_to_string(_address)+":"+_message 
+	var _message_length = string_length(_message_result)
 	var _buffer = buffer_create(_message_length, buffer_grow, 1)
-	buffer_write(_buffer, buffer_string, _message)
+	buffer_write(_buffer, buffer_string, _message_result)
 	
 	var _failures = []
 	
@@ -165,15 +166,9 @@ function process_message(_message, _emisor) {
 	
 	
 	
-	_checking_commmand = "connection_ping"
+	_checking_commmand = "ping:"
 	if _message = _checking_commmand {
-		var _client_index = get_client_index_by_address(_emisor)
-		var _client = connected_clients[?_client_index]
-		
-		if _client != undefined {
-			_client[1] = current_time
-			return true
-		}
+		send_message("pong:"+remove_message_preffix(_message, _checking_commmand), _emisor)
 	}
 	
 	
@@ -187,6 +182,13 @@ function process_message(_message, _emisor) {
 		}
 	}
 
+
+	var _client_index = get_client_index_by_address(_emisor)
+	var _client = connected_clients[?_client_index]
+		
+	if _client != undefined {
+		_client[1] = current_time
+	}
 }
 
 events = {

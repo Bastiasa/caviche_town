@@ -37,11 +37,7 @@ function connect_to_server(_url, _port, _password = "") {
 	
 	show_debug_message(string_concat("Trying to connect to ",_url,":",_port,"."))
 	
-	if init() {
-		network_connect_raw(socket, _url, _port)
-	}
-	
-
+	init()
 	
 	var _address = [string_lower(_url), _port]
 	var _connect_message = send_reliable_message("connection_request:"+_password, _address)
