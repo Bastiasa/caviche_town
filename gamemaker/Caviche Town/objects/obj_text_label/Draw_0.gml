@@ -46,6 +46,11 @@ if string_length(text) > 0 {
 
 	var _text_position = get_offset_position(_relative_x,_relative_y)
 	
+	if has_parent() {
+		_text_position[0] -= parent.x
+		_text_position[1] -= parent.y
+	}
+	
 	draw_text_ext_transformed(
 		_text_position[0],
 		_text_position[1],

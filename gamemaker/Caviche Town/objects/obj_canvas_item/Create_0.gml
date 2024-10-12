@@ -3,7 +3,8 @@
 
 enum CANVAS_ITEM_CHILDREN_DISPOSITION {
 	FREE,
-	STATIC
+	VERTICAL_LAYOUT,
+	HORIZONTAL_LAYOUT
 }
 
 
@@ -35,7 +36,9 @@ alpha = 1
 color = c_white
 clip_content = false
 rotation = 0
+
 surface = noone
+children_surface = noone
 is_mouse_inside = false
 
 visible = true
@@ -46,13 +49,35 @@ tmp = {
 	sprite_offsets: []
 }
 
-function check_surface() {
-	if surface != noone && surface_exists(surface) {
-		surface_set_target(surface)
+function has_parent() {
+	return parent != noone && surface == parent.children_surface
+}
+
+function check_children_surface_existence() {
+	if !surface_exists(children_surface) {
+		children_surface = create_surface()
+		array_foreach(children, function(_child){_child.surface = children_surface})
+	}
+}
+
+function set_surface_size(_surface_id) {
+	if surface_exists(_surface_id) {
+		
+		surface_resize(_surface_id,
+			get_render_width(),
+			get_render_height()
+		)
+	}
+}
+
+function set_surface(_surface) {
+	if _surface != noone && surface_exists(_surface) && surface_get_target() != application_surface {
+		surface_set_target(_surface)
 	}
 }
 
 function create_surface() {
+	
 	return surface_create(
 		get_render_width(),
 		get_render_height()
@@ -60,7 +85,7 @@ function create_surface() {
 }
 
 function reset_surface() {
-	if surface != noone && surface_exists(surface) {
+	if surface_get_target() != application_surface {
 		surface_reset_target()
 	}
 }
@@ -157,6 +182,7 @@ function create_child(_object_index, _position_x = 0, _position_y = 0) {
 function append_child(_canvas_item) {
 	array_push(children, _canvas_item)
 	_canvas_item.parent = self
+	_canvas_item.surface = children_surface
 }
 
 function remove_child(_child) {
@@ -175,3 +201,5 @@ function remove() {
 		}
 	}
 }
+
+children_surface = create_surface()
