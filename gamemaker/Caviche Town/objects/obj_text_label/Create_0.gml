@@ -4,6 +4,8 @@
 // Inherit the parent event
 event_inherited();
 
+
+
 text = ""
 
 text_horizontal_align = fa_center

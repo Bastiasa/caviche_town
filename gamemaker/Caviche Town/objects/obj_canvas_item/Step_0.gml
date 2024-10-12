@@ -1,12 +1,22 @@
 /// @description Inserte aquí la descripción
 // Puede escribir su código en este editor
 
+set_surface_size(children_surface)
+check_children_surface_existence()
+
 mask_index = spr_whitesquare
 
 image_xscale = get_render_width()
 image_yscale = get_render_height()
 image_angle = rotation
 
+for(var _index = 0; _index < array_length(children); _index++) {
+	var _child = children[_index]
+	
+	if _child.surface != children_surface {
+		_child.surface = children_surface
+	}
+}
 
 if rotation == 0 {
 	x = position_x - get_render_width() * offset_x
@@ -48,7 +58,6 @@ if children_disposition == CANVAS_ITEM_CHILDREN_DISPOSITION.VERTICAL_LAYOUT {
 }
 
 
-set_surface_size(children_surface)
-check_children_surface_existence()
+
 
 //is_mouse_inside = (mouse_x > x && mouse_x < x + get_render_width()) && (mouse_y > y && mouse_y < y + get_render_height())

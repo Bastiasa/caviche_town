@@ -4,7 +4,6 @@
 // Inherit the parent event
 event_inherited();
 
-
 draw_surface_ext(
 	children_surface,
 	x,
@@ -16,6 +15,4 @@ draw_surface_ext(
 	alpha
 )
 
-if object_get_parent(object_index) == obj_canvas_item {
-	reset_surface()
-}
+reset_surface_target_if_parent_is(obj_canvas_item)

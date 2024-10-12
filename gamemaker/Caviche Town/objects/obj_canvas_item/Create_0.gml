@@ -37,7 +37,7 @@ color = c_white
 clip_content = false
 rotation = 0
 
-surface = noone
+surface = application_surface
 children_surface = noone
 is_mouse_inside = false
 
@@ -49,6 +49,12 @@ tmp = {
 	sprite_offsets: []
 }
 
+function reset_surface_target_if_parent_is(_parent_index) {
+	if object_get_parent(object_index) == _parent_index {
+		reset_surface()
+	}
+}
+
 function has_parent() {
 	return parent != noone && surface == parent.children_surface
 }
@@ -56,7 +62,6 @@ function has_parent() {
 function check_children_surface_existence() {
 	if !surface_exists(children_surface) {
 		children_surface = create_surface()
-		array_foreach(children, function(_child){_child.surface = children_surface})
 	}
 }
 
@@ -71,7 +76,7 @@ function set_surface_size(_surface_id) {
 }
 
 function set_surface(_surface) {
-	if _surface != noone && surface_exists(_surface) && surface_get_target() != application_surface {
+	if _surface != noone && surface_exists(_surface) && surface_get_target() == application_surface {
 		surface_set_target(_surface)
 	}
 }
@@ -189,8 +194,9 @@ function remove_child(_child) {
 	var _found = array_get_index(children, _child)
 	
 	if _found != -1 {
-		_found.parent = noone
 		array_delete(children, _found, 1)
+		_child.parent = noone
+		_child.surface = application_surface
 	}
 }
 
