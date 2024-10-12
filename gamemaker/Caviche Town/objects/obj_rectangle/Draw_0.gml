@@ -3,7 +3,10 @@
 
 event_inherited()
 
-set_surface(surface)
+if has_parent() {
+	set_surface(surface)
+}
+
 
 var _render_width = get_render_width()
 var _render_height = get_render_height()
@@ -22,6 +25,7 @@ if outline_thickness > 0 {
 		_outline_position[0] -= parent.x
 		_outline_position[1] -= parent.y
 	}
+	
 	
 	draw_sprite_ext(
 		spr_whitesquare,
@@ -43,6 +47,7 @@ if has_parent() {
 	_square_x -= parent.x
 	_square_y -= parent.y
 }
+
 
 draw_sprite_ext(
 	spr_whitesquare,

@@ -3,7 +3,6 @@
 
 // Inherit the parent event
 event_inherited();
-
 set_surface(surface)
 
 if string_length(text) > 0 {
@@ -37,7 +36,7 @@ if string_length(text) > 0 {
 		break
 	
 		case fa_middle:
-		_relative_y = 0.5 - (font_get_size(font) * scale_y * .5) / height
+		_relative_y = 0.5// - (font_get_size(font) * scale_y * .5) / height
 		break
 	
 		case fa_bottom:
@@ -52,20 +51,43 @@ if string_length(text) > 0 {
 		_text_position[1] -= parent.y
 	}
 	
-	draw_text_ext_transformed(
-		_text_position[0],
-		_text_position[1],
+	if has_own_surface() {
+		_text_position[0] = _relative_x * get_render_width()
+		_text_position[1] = _relative_y * get_render_height()
+	}
 	
-		text,
+	last_text_position = _text_position
 	
-		font_get_size(font),
+	if text_wrapping {
+		draw_text_ext_transformed(
+			_text_position[0] + text_offset_x,
+			_text_position[1] + text_offset_y,
 	
-		get_render_width(),
-		text_scale_x,
-		text_scale_y,
+			text,
 	
-		rotation
-	)
+			font_get_size(font),
+	
+			get_render_width(),
+			text_scale_x,
+			text_scale_y,
+	
+			rotation
+		)
+	} else {
+		draw_text_transformed(
+			_text_position[0],
+			_text_position[1],
+	
+			text,
+
+			text_scale_x,
+			text_scale_y,
+	
+			rotation
+		)
+	}
+	
+
 }
 
 draw_set_color(c_white)

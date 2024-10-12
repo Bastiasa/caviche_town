@@ -5,8 +5,14 @@
 event_inherited();
 
 
+last_text_position = [0,0]
 
 text = ""
+
+text_offset_x = 0
+text_offset_y = 0
+
+text_wrapping = true
 
 text_horizontal_align = fa_center
 text_vertical_align = fa_middle

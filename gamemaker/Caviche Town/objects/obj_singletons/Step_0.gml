@@ -1,3 +1,3 @@
 /// @description Inserte aquí la descripción
 // Puede escribir su código en este editor
-timer = 0
+global.ui_manager.step_event()

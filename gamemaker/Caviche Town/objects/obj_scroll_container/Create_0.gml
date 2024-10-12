@@ -19,11 +19,12 @@ scroll_thumbnail_color = c_white
 scroll_thumbnail_margin = 10
 
 function can_scroll() {
+	var _mouse_keeper = global.ui_manager.mouse_keeper
 	
-	if global.ui_manager.active_element == noone && global.ui_manager.mouse_keeper == self {
+	if _mouse_keeper == noone && is_mouse_inside {
 		return true
-	} else {
-		return global.ui_manager.active_element == self || has_child(global.ui_manager.active_element)
+	} else if _mouse_keeper != noone {
+		return _mouse_keeper.id == id || has_child(_mouse_keeper)
 	}
 }
 

@@ -6,9 +6,25 @@ event_inherited()
 timer = 0
 cursor = 0
 
-text = ""
-placeholder = ""
+cursor_timer = 0
+cursor_alpha = 0.6
+cursor_color = c_black
+cursor_thickness = 3
 
+text = "Tangamandapio"
+placeholder = "Tangamandapio"
+
+_normal_text_color = text_color
+placeholder_color = c_gray
+
+surface = create_surface()
+
+text_wrapping = false
+
+padding_x = 30
+padding_y = 5
+
+text_horizontal_align = fa_left
 text_color = c_black
 placeholder_color = c_gray
 
@@ -23,6 +39,5 @@ virtual_keyboard = {
 	autocapitalize: kbv_autocapitalize_sentences
 }
 
-
-focused = false
 cooldown = 0.5
+

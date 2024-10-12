@@ -61,6 +61,7 @@ tmp = {
 	sprite_offsets: []
 }
 
+
 function _mouse_entered() {
 	events.on_mouse_enter.fire()
 }
@@ -87,6 +88,11 @@ function reset_surface_target_if_parent_is(_parent_index) {
 
 function has_parent() {
 	return parent != noone && surface == parent.children_surface
+}
+
+
+function has_own_surface() {
+	return !has_parent() && surface != noone && surface_exists(surface)
 }
 
 function check_children_surface_existence() {

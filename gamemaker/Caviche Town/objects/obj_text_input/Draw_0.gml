@@ -1,41 +1,49 @@
 /// @description Inserte aquí la descripción
 // Puede escribir su código en este editor
 
-event_inherited()
+// Inherit the parent event
+event_inherited();
+
+if has_parent() {
+	set_surface(surface)
+}
 
 if focused {
-	text = keyboard_string
+	
+	var _font_size = font_get_size(font)
+	
+	cursor_timer += delta_time / MILLION
+	
+	if cursor_timer > 0 && cursor_timer < 0.4 {
+		
+		draw_sprite_ext(
+			spr_whitesquare,
+			0,
+			last_text_position[0] + x + padding_x*.5 + _font_size*cursor*.5 + cursor_thickness * .5, //x + padding_x*.5 + cursor * _font_size - cursor_thickness * .5,
+			last_text_position[1] + y - _font_size * .5 + padding_y * .5, //y + get_render_height()*.5 - _font_size * .5,
+			cursor_thickness,
+			_font_size,
+			rotation,
+			cursor_color,
+			cursor_alpha
+		)
+	} else if cursor_timer > 0.8 {
+		cursor_timer = 0
+	}
+
 }
 
-
-var _x = x - width * offset_x
-var _y = y - height * offset_y
-
-
-var _has_text = string_length(text) > 0
-var _text_to_draw = _has_text ? text : placeholder
-var _text_color = _has_text ? text_color : placeholder_color
-
-draw_set_font(font)
-	
-draw_set_halign(fa_left)
-draw_set_valign(fa_top)
-	
-draw_text_color(
-		
-	_x + padding_x,
-	_y + padding_y,
-		
-	_text_to_draw,
-		
-	_text_color,
-	_text_color,
-	_text_color,
-	_text_color,
-		
-	1
-)
-
-if object_get_parent(object_index) == obj_rectangle {
-	reset_surface()
+if surface != noone && surface_exists(surface) { 
+	draw_surface_ext(
+		surface,
+		x + padding_x * .5,
+		y + padding_y * .5,
+		scale_x,
+		scale_y,
+		rotation,
+		c_white,
+		alpha
+	)
 }
+
+reset_surface()

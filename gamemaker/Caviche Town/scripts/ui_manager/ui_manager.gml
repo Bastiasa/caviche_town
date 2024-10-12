@@ -3,27 +3,60 @@
 function UIManager() constructor {
 	
 	clicked_instances = []
+	mouse_keepers = []
 	active_element = noone
 	mouse_keeper = noone
 	
 	function set_mouse_keeper(_canvas_item) {
 		if mouse_keeper == noone && argument0 != noone {
 			mouse_keeper = argument0
-			show_debug_message(string_concat("New mouse keeper: ", object_get_name(_canvas_item.object_index)))
+			//show_debug_message(string_concat("New mouse keeper: ", object_get_name(_canvas_item.object_index)))
 			return
 		}
 		
-		if argument0 == noone || argument0 == undefined || !is_struct(argument0) {
+		if argument0 == noone || argument0 == undefined {
 			mouse_keeper = noone
-			show_debug_message("Mouse keeper is noone.")
+			//show_debug_message("Mouse keeper is noone. Given value was "+string(argument0))
 			return
 		}
 		
-		if mouse_keeper.depth > argument0.depth {
+		if mouse_keeper.depth >= argument0.depth {
 			mouse_keeper = argument0
-			show_debug_message(string_concat("New mouse keeper: ", object_get_name(_canvas_item.object_index)))
+			//show_debug_message(string_concat("New mouse keeper: ", object_get_name(_canvas_item.object_index)))
 			return
 		}
+	}
+	
+	function _mouse_keeper_check() {
+		var _mouse_collision_list = ds_list_create()
+		
+		
+		collision_point_list(mouse_x, mouse_y, obj_canvas_item, false, false, _mouse_collision_list, true)
+		
+		var _collision_count = ds_list_size(_mouse_collision_list)
+		
+		if _collision_count > 0 {
+			
+			var _index = -1
+			
+			repeat(_collision_count) {
+				_index++
+				var _mouse_keeper = ds_list_find_value(_mouse_collision_list, _index)
+			
+				if _mouse_keeper.modal && _mouse_keeper != mouse_keeper {
+					set_mouse_keeper(_mouse_keeper)
+				}
+			}
+
+		} else if mouse_keeper != noone {
+			set_mouse_keeper(noone)
+		}
+		
+		delete _mouse_collision_list
+	}
+	
+	function step_event() {
+		_mouse_keeper_check()
 	}
 	
 	function end_step_event() {
@@ -33,6 +66,7 @@ function UIManager() constructor {
 		}
 		
 		var _clicked_instances_length = array_length(clicked_instances)
+		//var _mouse_keepers_length = array_length(mouse_keepers)
 		
 		if _clicked_instances_length > 0 {
 			
@@ -50,7 +84,7 @@ function UIManager() constructor {
 			show_debug_message(string_concat("Focus grabbed by ", object_get_name(_focus_grabber.object_index)))
 			
 			active_element = _focus_grabber
-			active_element.blur()
+			active_element.focus()
 			
 			array_delete(clicked_instances, 0, _clicked_instances_length)
 			
