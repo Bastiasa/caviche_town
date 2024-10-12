@@ -41,3 +41,6 @@ virtual_keyboard = {
 
 cooldown = 0.5
 
+events.on_focus.add_listener(function() {
+	keyboard_virtual_show()
+})
