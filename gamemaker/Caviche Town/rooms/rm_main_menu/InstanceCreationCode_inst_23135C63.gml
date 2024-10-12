@@ -1,0 +1,1 @@
+create_child(obj_text_label)

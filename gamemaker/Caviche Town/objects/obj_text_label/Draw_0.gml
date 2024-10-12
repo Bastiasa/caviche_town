@@ -3,7 +3,6 @@
 
 // Inherit the parent event
 event_inherited();
-set_surface(surface)
 
 if string_length(text) > 0 {
 	draw_set_font(fnt_current_gun_ammo)
@@ -91,4 +90,3 @@ if string_length(text) > 0 {
 }
 
 draw_set_color(c_white)
-reset_surface()

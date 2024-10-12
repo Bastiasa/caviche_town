@@ -1,18 +1,10 @@
 /// @description Inserte aquí la descripción
 // Puede escribir su código en este editor
 
-enum CANVAS_ITEM_CHILDREN_DISPOSITION {
-	FREE,
-	VERTICAL_LAYOUT,
-	HORIZONTAL_LAYOUT
-}
+
 
 
 parent = noone
-
-children_disposition = CANVAS_ITEM_CHILDREN_DISPOSITION.FREE 
-children = []
-spacing = 20
 
 position_x = x
 position_y = y
@@ -34,17 +26,16 @@ children_offset_y = 0
 
 alpha = 1
 background_color = c_white
-clip_content = false
 rotation = 0
 
-surface = application_surface
-children_surface = noone
 is_mouse_inside = false
 
 visible = true
 
 modal = false
 focused = false
+
+surface = application_surface
 
 events = {
 	on_mouse_down: new Event(),
@@ -90,23 +81,12 @@ function has_parent() {
 	return parent != noone && surface == parent.children_surface
 }
 
-
-function has_own_surface() {
-	return !has_parent() && surface != noone && surface_exists(surface)
-}
-
-function check_children_surface_existence() {
-	if !surface_exists(children_surface) {
-		children_surface = create_surface()
-	}
-}
-
 function set_surface_size(_surface_id) {
 	if surface_exists(_surface_id) {
 		
 		surface_resize(_surface_id,
-			get_render_width(),
-			get_render_height()
+			max(1,get_render_width()),
+			max(1,get_render_height())
 		)
 	}
 }
@@ -120,8 +100,8 @@ function set_surface(_surface) {
 function create_surface() {
 	
 	return surface_create(
-		get_render_width(),
-		get_render_height()
+		max(1,get_render_width()),
+		max(1,get_render_height())
 	)
 }
 
@@ -222,31 +202,6 @@ function show() {
 	visible = true
 }
 
-function has_child(_canvas_item) {
-	return array_get_index(children, argument0) != -1
-}
-
-function create_child(_object_index, _position_x = 0, _position_y = 0) {
-	var _new_child = instance_create_layer(_position_x,_position_y, layer, _object_index)
-	append_child(_new_child)
-	return _new_child
-}
-
-function append_child(_canvas_item) {
-	array_push(children, _canvas_item)
-	_canvas_item.parent = self
-	_canvas_item.surface = children_surface
-}
-
-function remove_child(_child) {
-	var _found = array_get_index(children, _child)
-	
-	if _found != -1 {
-		array_delete(children, _found, 1)
-		_child.parent = noone
-		_child.surface = application_surface
-	}
-}
 
 function remove() {
 	if parent != noone {

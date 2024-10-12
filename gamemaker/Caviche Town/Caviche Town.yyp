@@ -69,6 +69,7 @@
     {"id":{"name":"obj_character","path":"objects/obj_character/obj_character.yy",},},
     {"id":{"name":"obj_collider","path":"objects/obj_collider/obj_collider.yy",},},
     {"id":{"name":"obj_collision_placeholder","path":"objects/obj_collision_placeholder/obj_collision_placeholder.yy",},},
+    {"id":{"name":"obj_container","path":"objects/obj_container/obj_container.yy",},},
     {"id":{"name":"obj_dropped_ammo","path":"objects/obj_dropped_ammo/obj_dropped_ammo.yy",},},
     {"id":{"name":"obj_dropped_gun","path":"objects/obj_dropped_gun/obj_dropped_gun.yy",},},
     {"id":{"name":"obj_dropped","path":"objects/obj_dropped/obj_dropped.yy",},},

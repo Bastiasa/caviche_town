@@ -4,6 +4,15 @@
 event_inherited()
 
 
+
+if focused && keyboard_virtual_status() {
+	x = 0
+	y = 0
+	
+	width = room_width
+	height = room_height - keyboard_virtual_height()
+}
+
 if keyboard_check_pressed(vk_anykey) {
 	if keyboard_check_pressed(vk_backspace) || keyboard_check_pressed(vk_left){
 		cursor -= 1
@@ -30,7 +39,7 @@ if string_length(keyboard_string) <= 0 {
 if surface != noone && surface_exists(surface) {
 	surface_resize(
 		surface,
-		get_render_width() - padding_x,
-		get_render_height()
+		max(1, get_render_width() - padding_x),
+		max(1, get_render_height())
 	)
 }

@@ -36,11 +36,16 @@ modal = true
 virtual_keyboard = {
 	type: kbv_type_default,
 	return_type: kbv_type_default,
-	autocapitalize: kbv_autocapitalize_sentences
+	autocapitalize: kbv_autocapitalize_sentences,
+	predictivie_text_enabled: true
 }
 
 cooldown = 0.5
 
 events.on_focus.add_listener(function() {
-	keyboard_virtual_show()
+	keyboard_virtual_show(virtual_keyboard.type, virtual_keyboard.return_type, virtual_keyboard.autocapitalize, virtual_keyboard.predictivie_text_enabled)
+})
+
+events.on_blur.add_listener(function() {
+	keyboard_virtual_hide()
 })

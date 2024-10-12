@@ -4,10 +4,6 @@
 // Inherit the parent event
 event_inherited();
 
-if has_parent() {
-	set_surface(surface)
-}
-
 if focused {
 	
 	var _font_size = font_get_size(font)
@@ -45,5 +41,3 @@ if surface != noone && surface_exists(surface) {
 		alpha
 	)
 }
-
-reset_surface()

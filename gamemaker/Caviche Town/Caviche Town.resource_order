@@ -44,6 +44,7 @@
     {"name":"obj_canvas_item","order":3,"path":"objects/obj_canvas_item/obj_canvas_item.yy",},
     {"name":"obj_character","order":1,"path":"objects/obj_character/obj_character.yy",},
     {"name":"obj_collision_placeholder","order":7,"path":"objects/obj_collision_placeholder/obj_collision_placeholder.yy",},
+    {"name":"obj_container","order":8,"path":"objects/obj_container/obj_container.yy",},
     {"name":"obj_dropped_ammo","order":4,"path":"objects/obj_dropped_ammo/obj_dropped_ammo.yy",},
     {"name":"obj_dropped_gun","order":3,"path":"objects/obj_dropped_gun/obj_dropped_gun.yy",},
     {"name":"obj_dropped","order":5,"path":"objects/obj_dropped/obj_dropped.yy",},
