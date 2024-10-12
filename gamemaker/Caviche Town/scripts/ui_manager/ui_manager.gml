@@ -28,6 +28,10 @@ function UIManager() constructor {
 	
 	function end_step_event() {
 		
+		if keyboard_check_pressed(ord("F")) {
+			show_debug_message(string_concat("Mouse keeper: ", (mouse_keeper != noone ? object_get_name(mouse_keeper.object_index) : mouse_keeper)))
+		}
+		
 		var _clicked_instances_length = array_length(clicked_instances)
 		
 		if _clicked_instances_length > 0 {
