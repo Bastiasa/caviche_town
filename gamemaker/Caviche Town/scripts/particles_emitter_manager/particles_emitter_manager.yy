@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"particles_emitter_manager",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"particles_emitter_manager",
+  "parent":{
+    "name":"singletons",
+    "path":"folders/Scripts/singletons.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}
