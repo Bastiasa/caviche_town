@@ -3,6 +3,8 @@
 
 event_inherited()
 
+set_surface()
+
 var _render_width = get_render_width()
 var _render_height = get_render_height()
 
@@ -55,3 +57,5 @@ draw_sprite_ext(
 	background_color,
 	alpha
 )
+
+reset_surface()

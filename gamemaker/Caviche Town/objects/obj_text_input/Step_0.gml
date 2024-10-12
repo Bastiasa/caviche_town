@@ -4,15 +4,6 @@
 event_inherited()
 
 
-
-if focused && keyboard_virtual_status() {
-	x = 0
-	y = 0
-	
-	width = room_width
-	height = room_height - keyboard_virtual_height()
-}
-
 if keyboard_check_pressed(vk_anykey) {
 	if keyboard_check_pressed(vk_backspace) || keyboard_check_pressed(vk_left){
 		cursor -= 1

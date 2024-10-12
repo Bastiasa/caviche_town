@@ -21,9 +21,6 @@ relative_height = noone
 offset_x = 0
 offset_y = 0
 
-children_offset_x = 0
-children_offset_y = 0
-
 alpha = 1
 background_color = c_white
 rotation = 0
@@ -35,7 +32,7 @@ visible = true
 modal = false
 focused = false
 
-surface = application_surface
+surface = noone
 
 events = {
 	on_mouse_down: new Event(),
@@ -91,8 +88,8 @@ function set_surface_size(_surface_id) {
 	}
 }
 
-function set_surface(_surface) {
-	if _surface != noone && surface_exists(_surface) && surface_get_target() == application_surface {
+function set_surface(_surface = surface) {
+	if _surface != noone && surface_exists(_surface) {
 		surface_set_target(_surface)
 	}
 }
@@ -106,7 +103,7 @@ function create_surface() {
 }
 
 function reset_surface() {
-	if surface_get_target() != application_surface {
+	if surface != noone {
 		surface_reset_target()
 	}
 }

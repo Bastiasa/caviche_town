@@ -11,13 +11,13 @@ cursor_alpha = 0.6
 cursor_color = c_black
 cursor_thickness = 3
 
-text = "Tangamandapio"
+text = ""
 placeholder = "Tangamandapio"
 
 _normal_text_color = text_color
 placeholder_color = c_gray
 
-surface = create_surface()
+text_surface = create_surface()
 
 text_wrapping = false
 

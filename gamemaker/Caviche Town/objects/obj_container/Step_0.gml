@@ -34,4 +34,23 @@ if disposition == CONTAINER_DISPOSITION.VERTICAL_LAYOUT {
 			_child.position_y = _y_position
 		}
 	}
+} else if disposition == CONTAINER_DISPOSITION.HORIZONTAL_LAYOUT {
+	
+	for(var _child_index = 0; _child_index < array_length(children); _child_index++) {
+		var _child = children[_child_index]
+		
+		if _child == undefined {
+			continue 
+		}
+		
+		_child.position_y = y + children_offset_y
+		
+		if _child_index == 0 {
+			_child.position_x = x + children_offset_x
+		} else {
+			var _above_silibing = children[_child_index - 1]
+			var _x_position = _above_silibing.x + _above_silibing.get_render_width() + spacing
+			_child.position_x = _x_position
+		}
+	}
 }

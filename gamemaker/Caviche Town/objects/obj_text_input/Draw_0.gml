@@ -15,8 +15,8 @@ if focused {
 		draw_sprite_ext(
 			spr_whitesquare,
 			0,
-			last_text_position[0] + x + padding_x*.5 + _font_size*cursor*.5 + cursor_thickness * .5, //x + padding_x*.5 + cursor * _font_size - cursor_thickness * .5,
-			last_text_position[1] + y - _font_size * .5 + padding_y * .5, //y + get_render_height()*.5 - _font_size * .5,
+			last_text_position[0] + padding_x*.5 + _font_size*cursor*.5 + cursor_thickness * .5, //x + padding_x*.5 + cursor * _font_size - cursor_thickness * .5,
+			last_text_position[1] - _font_size * .5 + padding_y * .5, //y + get_render_height()*.5 - _font_size * .5,
 			cursor_thickness,
 			_font_size,
 			rotation,
@@ -29,9 +29,9 @@ if focused {
 
 }
 
-if surface != noone && surface_exists(surface) { 
+if text_surface != noone && surface_exists(text_surface) { 
 	draw_surface_ext(
-		surface,
+		text_surface,
 		x + padding_x * .5,
 		y + padding_y * .5,
 		scale_x,
@@ -41,3 +41,4 @@ if surface != noone && surface_exists(surface) {
 		alpha
 	)
 }
+

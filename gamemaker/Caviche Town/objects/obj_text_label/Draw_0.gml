@@ -4,6 +4,8 @@
 // Inherit the parent event
 event_inherited();
 
+set_surface()
+
 if string_length(text) > 0 {
 	draw_set_font(fnt_current_gun_ammo)
 	draw_set_color(text_color)
@@ -50,10 +52,6 @@ if string_length(text) > 0 {
 		_text_position[1] -= parent.y
 	}
 	
-	if has_own_surface() {
-		_text_position[0] = _relative_x * get_render_width()
-		_text_position[1] = _relative_y * get_render_height()
-	}
 	
 	last_text_position = _text_position
 	
@@ -90,3 +88,4 @@ if string_length(text) > 0 {
 }
 
 draw_set_color(c_white)
+reset_surface()
