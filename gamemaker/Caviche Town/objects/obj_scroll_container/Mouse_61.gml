@@ -6,5 +6,5 @@ if !is_mouse_inside {
 }
 
 if vertical_scroll_enabled {
-	scroll_y += get_render_height()*.5
+	scroll_y -= get_render_height()*.1
 }
