@@ -1,24 +1,6 @@
 /// @description Inserte aquí la descripción
 // Puede escribir su código en este editor
 
-if collision_square != noone {
-	
-	var _x = get_offset_position()[0]
-	var _y = get_offset_position()[1]
-	
-	if parent != noone && surface != noone {
-		_x += parent.x
-		_y +=  parent.y
-	}
-	
-	var _position = get_offset_position()
-	collision_square.x = _position[0]
-	collision_square.y = _position[1]
-	collision_square.image_angle = rotation
-}
-
-rotation += 1
-
 if rotation == 0 {
 	x = position_x - get_render_width() * offset_x
 	y = position_y - get_render_height() * offset_y
