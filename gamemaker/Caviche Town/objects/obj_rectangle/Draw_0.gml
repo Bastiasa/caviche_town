@@ -10,14 +10,17 @@ var _render_height = get_render_height()
 
 if outline_thickness > 0 {
 	
-	var _outline_position = get_offset_position(-outline_thickness/width, -outline_thickness/height)
+	var _outline_position = get_offset_position(
+		-outline_thickness/_render_width,
+		-outline_thickness/_render_height
+	)
 	
 	var _outline_x = _render_width + outline_thickness*2*scale_x
 	var  _outline_y = _render_height + outline_thickness*2*scale_y
 	
 	if has_parent() {
-		_outline_x -= parent.x
-		_outline_y -= parent.y
+		_outline_position[0] -= parent.x
+		_outline_position[1] -= parent.y
 	}
 	
 	draw_sprite_ext(
@@ -49,7 +52,7 @@ draw_sprite_ext(
 	_render_width,
 	_render_height,
 	rotation,
-	color,
+	background_color,
 	alpha
 )
 

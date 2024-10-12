@@ -78,7 +78,15 @@ function get_min_and_max_position() {
         _max_x = max(_max_x, _left_top[0], _right_top[0], _left_bottom[0], _right_bottom[0]);
         _max_y = max(_max_y, _left_top[1], _right_top[1], _left_bottom[1], _right_bottom[1]);
     }
-
+	
+	/*_max_x -= children_offset_x
+	_min_x -= children_offset_x
+	
+	_max_y -= children_offset_y
+	_min_y -= children_offset_y*/
+	
+	//show_debug_message(string_concat("Min position: ", _min_x, ", ", _min_y))
+	//show_debug_message(string_concat("Max position: ", _max_x, ", ", _max_y))
 
     return [[_min_x, _min_y], [_max_x, _max_y]];
 }

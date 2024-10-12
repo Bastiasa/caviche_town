@@ -1,6 +1,7 @@
 /// @description Inserte aquí la descripción
 // Puede escribir su código en este editor
 
+event_inherited()
 
 if focused {
 	text = keyboard_string
@@ -10,22 +11,6 @@ if focused {
 var _x = x - width * offset_x
 var _y = y - height * offset_y
 
-var _rectangle_color = focused ? focused_outline_color : outline_color
-
-draw_rectangle_color(
-	_x,
-	_y,
-	
-	_x+width,
-	_y+height,
-	
-	_rectangle_color,
-	_rectangle_color,
-	_rectangle_color,
-	_rectangle_color,
-	
-	true
-)
 
 var _has_text = string_length(text) > 0
 var _text_to_draw = _has_text ? text : placeholder

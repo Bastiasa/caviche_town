@@ -1,8 +1,10 @@
 width = 300
 height = 64
 
-x = room_width*.5
-y = room_height*.5
+offset_x = .5
+offset_y = .5
+
+position_x = room_width*.5
 
 text = global.rooms.main_menu.url
 

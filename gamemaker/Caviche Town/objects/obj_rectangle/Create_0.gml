@@ -1,4 +1,4 @@
 event_inherited();
 
-outline_color = c_white
+outline_color = c_black
 outline_thickness = 1

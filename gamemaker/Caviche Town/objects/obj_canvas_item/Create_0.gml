@@ -33,7 +33,7 @@ children_offset_x = 0
 children_offset_y = 0
 
 alpha = 1
-color = c_white
+background_color = c_white
 clip_content = false
 rotation = 0
 
@@ -44,6 +44,14 @@ is_mouse_inside = false
 visible = true
 
 collision_square = noone
+
+events = {
+	on_mouse_down: new Event(),
+	on_mouse_up: new Event(),
+	on_mouse_click: new Event(),
+	on_mouse_enter: new Event(),
+	on_mouse_leave: new Event()
+}
 
 tmp = {
 	sprite_offsets: []
@@ -168,7 +176,15 @@ function get_offset_position(_offset_x = 0, _offset_y = 0) {
 	return [_result_x, _result_y]
 }
 
+function corners() {
+	var _left_top = get_offset_position(0, 0);
+    var _right_top = get_offset_position(1, 0);
+    var _left_bottom = get_offset_position(0, 1);
+    var _right_bottom = get_offset_position(1, 1);
 
+	
+	return [_left_top, _right_top, _left_bottom, _right_bottom]
+}
 
 function hide() {
 	visible = false
