@@ -4,6 +4,8 @@
 // Inherit the parent event
 event_inherited();
 
+modal = true
+
 children_disposition = CANVAS_ITEM_CHILDREN_DISPOSITION.VERTICAL_LAYOUT
 
 vertical_scroll_enabled = true
@@ -16,41 +18,14 @@ scroll_thumbnail_rounded = false
 scroll_thumbnail_color = c_white
 scroll_thumbnail_margin = 10
 
-/*function obtenerTamanoContenido(elementos) {
-  if (elementos.length === 0) {
-    return { ancho: 0, alto: 0 };  // Manejar el caso de array vacío
-  }
-
-  // Inicializar valores mínimos y máximos con los primeros elementos
-  let minX = elementos[0].x;
-  let maxX = elementos[0].x;
-  let minY = elementos[0].y;
-  let maxY = elementos[0].y;
-
-  // Iterar a través del array para encontrar los valores extremos
-  for (let i = 1; i < elementos.length; i++) {
-    let elem = elementos[i];
-    if (elem.x < minX) minX = elem.x;
-    if (elem.x > maxX) maxX = elem.x;
-    if (elem.y < minY) minY = elem.y;
-    if (elem.y > maxY) maxY = elem.y;
-  }
-
-  // Calcular el ancho y el alto
-  let ancho = maxX - minX;
-  let alto = maxY - minY;
-
-  return { ancho, alto };
+function can_scroll() {
+	
+	if global.ui_manager.active_element == noone && global.ui_manager.mouse_keeper == self {
+		return true
+	} else {
+		return global.ui_manager.active_element == self || has_child(global.ui_manager.active_element)
+	}
 }
-
-// Ejemplo de uso
-let elementos = [
-  { x: 10, y: 20 },
-  { x: 40, y: 80 },
-  { x: 30, y: 50 },
-  // Más elementos...
-];
-*/
 
 function get_min_and_max_position() {
     if array_length(children) <= 0 {

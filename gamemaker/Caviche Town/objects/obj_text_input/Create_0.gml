@@ -15,6 +15,7 @@ placeholder_color = c_gray
 outline_color = c_black
 color = c_white
 
+modal = true
 
 virtual_keyboard = {
 	type: kbv_type_default,

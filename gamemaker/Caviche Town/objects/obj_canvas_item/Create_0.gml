@@ -43,18 +43,40 @@ is_mouse_inside = false
 
 visible = true
 
-collision_square = noone
+modal = false
+focused = false
 
 events = {
 	on_mouse_down: new Event(),
 	on_mouse_up: new Event(),
 	on_mouse_click: new Event(),
 	on_mouse_enter: new Event(),
-	on_mouse_leave: new Event()
+	on_mouse_leave: new Event(),
+	
+	on_focus: new Event(),
+	on_blur: new Event()
 }
 
 tmp = {
 	sprite_offsets: []
+}
+
+function _mouse_entered() {
+	events.on_mouse_enter.fire()
+}
+
+function _mouse_leave() {
+	events.on_mouse_leave.fire()
+}
+
+function focus() {
+	focused = true
+	events.on_focus.fire()
+}
+
+function blur() {
+	focused = false
+	events.on_blur.fire()
 }
 
 function reset_surface_target_if_parent_is(_parent_index) {
@@ -192,6 +214,10 @@ function hide() {
 
 function show() {
 	visible = true
+}
+
+function has_child(_canvas_item) {
+	return array_get_index(children, argument0) != -1
 }
 
 function create_child(_object_index, _position_x = 0, _position_y = 0) {
