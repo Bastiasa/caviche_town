@@ -33,16 +33,14 @@ children_offset_y = 0
 
 alpha = 1
 color = c_white
-
 clip_content = false
-
 rotation = 0
-
 surface = noone
-
 is_mouse_inside = false
 
 visible = true
+
+collision_square = noone
 
 tmp = {
 	sprite_offsets: []
