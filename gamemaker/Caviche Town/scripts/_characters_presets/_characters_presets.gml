@@ -36,7 +36,7 @@ global.characters_sprite_set = {
 			wallslide: spr_char_hitman_wallslide,
 			dash: spr_char_hitman_dash,
 			jump: spr_char_hitman_jumping,
-			
+			death: spr_char_hitman_death
 		}
 	}
 }

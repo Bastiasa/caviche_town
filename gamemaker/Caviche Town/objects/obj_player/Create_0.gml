@@ -10,7 +10,7 @@ camera = new CameraView(view_camera[0])
 character = instance_create_layer(x,y, layer, obj_character)
 
 character.controller = self
-//character.sprites = global.characters_sprite_set.default_enemy()
+character.sprites = global.characters_sprite_set.hitman()
 
 last_mouse_position = new Vector(mouse_x, mouse_y)
 last_aim_gamepad_movement = new Vector()
