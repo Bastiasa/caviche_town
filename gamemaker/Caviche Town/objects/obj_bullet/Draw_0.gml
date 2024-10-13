@@ -21,6 +21,10 @@ draw_sprite_ext(
 
 timer += delta_time / MILLION
 
+draw_set_color(c_red)
+draw_line(x, y, start_x, start_y)
+draw_set_color(c_white)
+
 var _direction = new Vector(lengthdir_x(speed,direction), lengthdir_y(speed,direction))
 var _position = new Vector(x,y)
 var _next_position = _position.add(_direction)

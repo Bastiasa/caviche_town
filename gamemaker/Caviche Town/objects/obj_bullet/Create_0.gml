@@ -12,6 +12,9 @@ scale = 1
 rotation = 0
 position = new Vector(x,y)
 
+start_x = x
+start_y = y
+
 to_destroy = false
 
 lifetime = 2
