@@ -26,8 +26,8 @@
   "nineSlice":null,
   "origin":4,
   "parent":{
-    "name":"default_enemy",
-    "path":"folders/Sprites/characters/default_enemy.yy",
+    "name":"red_enemy",
+    "path":"folders/Sprites/characters/red_enemy.yy",
   },
   "preMultiplyAlpha":false,
   "resourceType":"GMSprite",

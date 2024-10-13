@@ -7,7 +7,6 @@ var _delta = delta_time / MILLION
 
 if !place_meeting(x,y+1, obj_collider) {
 	vertical_speed += 9.81 * _delta
-
 } else {
 	vertical_speed = 0
 }

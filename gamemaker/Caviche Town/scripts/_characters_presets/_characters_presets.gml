@@ -26,5 +26,17 @@ global.characters_sprite_set = {
 			jump: spr_jumping_enemy,
 			death: spr_death_enemy
 		}
+	},
+	
+	hitman: function() {
+		return {
+			idle: spr_char_hitman_idle,
+			running: spr_char_hitman_walk,
+			falling: spr_char_hitman_falling,
+			wallslide: spr_char_hitman_wallslide,
+			dash: spr_char_hitman_dash,
+			jump: spr_char_hitman_jumping,
+			
+		}
 	}
 }
