@@ -33,10 +33,24 @@ global.characters_sprite_set = {
 			idle: spr_char_hitman_idle,
 			running: spr_char_hitman_walk,
 			falling: spr_char_hitman_falling,
+			landing: spr_char_hitman_landing,
 			wallslide: spr_char_hitman_wallslide,
 			dash: spr_char_hitman_dash,
 			jump: spr_char_hitman_jumping,
 			death: spr_char_hitman_death
+		}
+	},
+	
+	soldier01: function() {
+		return {
+			idle: spr_char_soldier01_idle,
+			running: spr_char_soldier01_walk,
+			falling: spr_char_soldier01_falling,
+			wallslide: spr_char_soldier01_wallslide,
+			landing: spr_char_soldier01_landing,
+			dash: spr_char_soldier01_dash,
+			jump: spr_char_soldier01_jumping,
+			death: spr_char_soldier01_death
 		}
 	}
 }
