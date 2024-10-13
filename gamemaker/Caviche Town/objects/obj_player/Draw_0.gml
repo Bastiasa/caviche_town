@@ -29,7 +29,7 @@ for(var _hit_particle_index = 0; _hit_particle_index < array_length(hit_particle
 	var _scale_in_lifetime = _hit_particle_data.lifetime - _scale_in_end
 	
 	var _scale = _scale_in_lifetime / _scale_in * 2
-	_scale = max(1.3, _scale)
+	_scale = max(1, _scale)
 	
 	draw_text_transformed(
 		_hit_particle_data.character.x + abs(_character_size.x) + 20,
