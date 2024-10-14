@@ -34,11 +34,13 @@ last_looking_front_result = noone
 
 current_particle_icon_data = noone
 
+character.events.on_died.add_listener(function(_args) {
+	instance_destroy(id)
+	show_debug_message("Someone died :(")
+	return
+})
+
 character.events.on_damage.add_listener(function(_args){
-	
-	if character.died {
-		return
-	}
 	
 	var _damage = _args[0]
 	var _from = _args[1]
