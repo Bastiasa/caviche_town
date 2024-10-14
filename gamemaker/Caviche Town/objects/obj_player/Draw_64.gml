@@ -6,6 +6,10 @@ var _ammo_text = "0/0"
 var _text_x = room_width - 10
 var _text_y = room_height - 10
 
+var _camera_aspect_ratio = 16/9
+
+
+
 if character.equipped_gun_manager.gun_information != noone {
 	var _loaded_ammo = get_from_struct(character.equipped_gun_manager.gun_information, "loaded_ammo", 0)
 	var _bullet_type = get_from_struct(character.equipped_gun_manager.gun_information, "bullet_type", BULLET_TYPE.LIL_GUY)

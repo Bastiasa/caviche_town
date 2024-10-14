@@ -6,6 +6,9 @@ timer = 0
 camera_shakeness = 0
 camera_shakeness_decrease = 50
 
+camera_aspect_ratio = 16/9
+camera_zoom = 10
+
 camera = new CameraView(view_camera[0])
 character = instance_create_layer(x,y, layer, obj_character)
 
@@ -122,6 +125,12 @@ character.equipped_gun_manager.events.on_bullet_shooted.add_listener(function(_a
 		create_hit_particle(_hitted_character, _bullet.damage)
 	})
 })
+
+function reset_camera_size() {
+	var _window_width = window_get_width()
+	var _window_height = window_get_height()
+	
+}
 
 function check_if_pressed(_input_key_name) {
 	var _keyboard_key = get_from_struct(global.keyboard_input_keys, _input_key_name, noone)

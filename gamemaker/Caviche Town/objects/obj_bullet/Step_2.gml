@@ -32,7 +32,7 @@ if !to_destroy {
 	ds_list_clear(_raycast_list)
 	
 
-	if _raycast != noone {
+	if _raycast != noone &&  object_get_parent(_raycast.object_index) != obj_dropped {
 		
 		show_debug_message("Bullet collided with "+object_get_name(_raycast.object_index))
 		

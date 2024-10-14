@@ -2,8 +2,8 @@
 // Puede escribir su código en este editor
 
 
-camera.size.x = window_get_width()
-camera.size.y = window_get_height()
+//camera.size.x = window_get_width()
+//camera.size.y = window_get_height()
 
 timer += get_delta()
 

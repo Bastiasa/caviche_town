@@ -1,6 +1,8 @@
 /// @description Inserte aquí la descripción
 // Puede escribir su código en este editor
 
+mask_index = -1
+
 events = {
 	on_character_hitted: new Event()
 }
