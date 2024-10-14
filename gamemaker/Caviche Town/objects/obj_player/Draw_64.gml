@@ -28,8 +28,8 @@ if character.equipped_gun_manager.reloading && character.equipped_gun_manager.gu
 	
 	
 	draw_progress_circle(
-		room_width*.5,
-		room_height*.5,
+		_gui_width*.5,
+		_gui_height*.5,
 		character.equipped_gun_manager.timer/character.equipped_gun_manager.gun_information.reload_time,
 		0.6
 	)

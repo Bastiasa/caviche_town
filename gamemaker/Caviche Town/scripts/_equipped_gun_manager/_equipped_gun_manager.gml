@@ -36,10 +36,9 @@ function EquippedGunManager(_character = noone) constructor {
 			return
 		}
 		
-		reloading = false
-		
-		timer = 0
 		gun_information = _information
+		reloading = false
+		timer = 0
 		equipping = true
 		_added_rotation = -35
 	}
@@ -62,8 +61,6 @@ function EquippedGunManager(_character = noone) constructor {
 			return
 		}
 		
-		can_shoot = false
-		
 		if character.backpack.get_ammo(gun_information.bullet_type) <= 0 {
 			return
 		}
@@ -78,7 +75,8 @@ function EquippedGunManager(_character = noone) constructor {
 		return abs(_rotation) > 90 && abs(_rotation) < 270 ? -1 : 1
 	}
 
-	static shoot = function() {
+	function shoot() {
+		
 		
 		if gun_information == noone || character == noone || equipping {
 			return
@@ -87,6 +85,10 @@ function EquippedGunManager(_character = noone) constructor {
 		if gun_information.loaded_ammo <= 0 {
 			gun_information.loaded_ammo = 0
 			return
+		}
+		
+		if reloading {
+			reloading = false
 		}
 		
 		if !can_shoot {
@@ -245,6 +247,17 @@ function EquippedGunManager(_character = noone) constructor {
 	
 	static on_draw_event = function() {
 		
+		timer += delta_time/MILLION
+		
+		if equipping {
+			_added_rotation += (0 - _added_rotation) * timer/equipping_time
+			
+			if timer >= equipping_time {
+				_added_rotation = 0
+				equipping = false
+			}
+		}
+		
 		if gun_information == noone {
 			shooting = false
 			return
@@ -252,7 +265,6 @@ function EquippedGunManager(_character = noone) constructor {
 		
 		var _sprite_info = sprite_get_info(gun_information.sprite)
 		
-		timer += delta_time/MILLION
 		
 		if shooting || !can_shoot {
 			
@@ -279,7 +291,7 @@ function EquippedGunManager(_character = noone) constructor {
 			if timer >= gun_information.reload_time {
 				
 				var _current_ammo = character.backpack.get_ammo(gun_information.bullet_type)
-				var _required_ammo = gun_information.max_ammo - gun_information.loaded_ammo
+				var _required_ammo =  gun_information.reload_ammo
 				var _reloaded_ammo = 0
 				
 				if _current_ammo >= _required_ammo {
@@ -291,8 +303,14 @@ function EquippedGunManager(_character = noone) constructor {
 				character.backpack.set_ammo(gun_information.bullet_type, _current_ammo - _reloaded_ammo)
 				gun_information.loaded_ammo += _reloaded_ammo
 				
-				reloading = false
-				can_shoot = true
+				
+				if gun_information.loaded_ammo < gun_information.max_ammo && character.backpack.get_ammo(gun_information.bullet_type) > 0 {
+					timer = 0
+				} else {
+					reloading = false
+					can_shoot = true
+				}
+
 				
 				show_debug_message("Reloaded: "+string(gun_information.loaded_ammo))
 				show_debug_message("Ammo: "+string(_current_ammo - _reloaded_ammo))
@@ -301,15 +319,6 @@ function EquippedGunManager(_character = noone) constructor {
 			
 		}
 		
-		if equipping {
-			
-			_added_rotation += (0 - _added_rotation) * timer/equipping_time
-			
-			if timer >= equipping_time {
-				_added_rotation = 0
-				equipping = false
-			}
-		}
 		
 		if !shooting && !equipping && !reloading {
 		

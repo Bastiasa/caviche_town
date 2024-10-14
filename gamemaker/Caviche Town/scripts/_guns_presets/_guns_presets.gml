@@ -26,10 +26,38 @@ function get_pistol_information() {
 		loaded_ammo:12,
 		max_ammo:12,
 		
+		reload_ammo: 12,
 		reload_time:1.5,
 	}
 }
 
+function get_m1014_information() {
+	return  {
+		name:"m1014_shotgun",
+		sprite: spr_m1014,
+		sprite_unloaded: spr_m1014_unloaded,
+		scale:1,
+		bullet_type: BULLET_TYPE.MEDIUM,
+		cooldown: 0.7,
+		movement_weight: 0.06,
+		distance: 50,
+		muzzle_offset: new Vector(43/48, 4/17),
+		dispersion:0,
+		
+		damage:80,
+		
+		drops_particle: true,
+		dropped_particle_offset: new Vector(5/9, 2/6),
+		dropped_particle_scale: 0.35,
+		
+		//loaded_ammo:12,
+		loaded_ammo:0,
+		max_ammo:7,
+		
+		reload_ammo: 1,
+		reload_time:0.567,
+	}
+}
 
 function get_m16_information() {
 	return {
@@ -57,6 +85,7 @@ function get_m16_information() {
 		loaded_ammo:20,
 		max_ammo:20,
 		
+		reload_ammo: 20,
 		reload_time: 2.5
 	}	
 }
