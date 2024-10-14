@@ -57,8 +57,14 @@ virtual_joystick = {
 	touch: -1
 }
 
-function get_virtual_joystick_normalized() {
+function get_virtual_joystick_normalized(_round = false) {
 	var _joystick_radius = global.input_options.touchscreen.virtual_joystick_radius
+	
+	if _round {
+		_joystick_radius[0] = round(_joystick_radius[0])
+		_joystick_radius[1] = round(_joystick_radius[1])
+	}
+	
 	return [
 		virtual_joystick._fg_x / _joystick_radius,
 		virtual_joystick._fg_y / _joystick_radius
@@ -69,8 +75,8 @@ function set_virtual_joystick_position(_gui_x, _gui_y) {
 	
 	var _joystick_radius = global.input_options.touchscreen.virtual_joystick_radius
 	
-	var _joystick_x = global.input_options.touchscreen.virtual_joystick_rel_x * camera.size.x
-	var _joystick_y = global.input_options.touchscreen.virtual_joystick_rel_x * camera.size.y
+	var _joystick_x = global.input_options.touchscreen.virtual_joystick_rel_x * display_get_gui_width()
+	var _joystick_y = global.input_options.touchscreen.virtual_joystick_rel_y * display_get_gui_height()
 	
 	virtual_joystick.fg_x = _gui_x - _joystick_x
 	virtual_joystick.fg_y = _gui_y - _joystick_y

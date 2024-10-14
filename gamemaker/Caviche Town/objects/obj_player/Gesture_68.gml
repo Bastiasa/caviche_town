@@ -6,6 +6,7 @@ touchscreen_mode = true
 var _touch = event_data[?"touch"]
 
 if virtual_joystick.touch == _touch {
+	virtual_joystick.touch = -1
 	virtual_joystick.dragging = false
 	virtual_joystick.fg_x = 0
 	virtual_joystick.fg_y = 0

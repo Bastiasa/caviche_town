@@ -1,5 +1,8 @@
 /// @description Inserte aquí la descripción
 // Puede escribir su código en este editor
+
+var _virtual_joystick_movement = get_virtual_joystick_normalized(true)
+
 reset_camera_size()
 
 timer += get_delta()
@@ -10,7 +13,7 @@ var _gamepad_direction = get_gamepad_direction(
 	true
 )
 
-if check_if_pressed("player_do_jump") {
+if check_if_pressed("player_do_jump") || _virtual_joystick_movement[1] >= 1{
 	character.jump()
 	touchscreen_mode = false
 }
@@ -61,7 +64,6 @@ var _slot_change = check_if_pressed("player_do_next_slot") - check_if_pressed("p
 
 if _slot_change != 0 {
 	var _current_slot = character.backpack.get_gun_slot(character.equipped_gun_manager.gun_information)
-	touchscreen_mode = false
 	show_debug_message(string_concat("Gun slot change: ", _current_slot, " + ", _slot_change))
 
 	if _current_slot == -1 {
@@ -94,6 +96,7 @@ if _slot_change != 0 {
 for (var _slot = 1; _slot < 4; _slot++) {
 	if check_if_pressed("player_do_equip_slot_"+string(_slot)) {
 		character.equipped_gun_manager.set_gun(character.backpack.get_gun(_slot-1))
+		touchscreen_mode = false
 	}
 }
 
@@ -138,8 +141,19 @@ if check_if_pressed("player_do_throw_gun") {
 
 if _gamepad_direction == noone || _gamepad_direction.magnitude() == 0 {
 	character.horizontal_movement = check_input("player_move_right") - check_input("player_move_left")
+	
+	if character.horizontal_movement != 0 
+		touchscreen_mode = false
 } else {
 	character.horizontal_movement = _gamepad_direction.x
+	
+	if character.horizontal_movement != 0 
+		touchscreen_mode = false
+}
+
+if touchscreen_mode {
+	
+	character.horizontal_movement = round(_virtual_joystick_movement[0])
 }
 
 var _current_delta = delta_time
@@ -160,7 +174,6 @@ if _mouse_motion.magnitude() > 0 || !aiming_with_gamepad {
 	character.equipped_gun_manager.target_position.y = mouse_y
 	
 	aiming_with_gamepad = false
-	touchscreen_mode = false
 }
 
 if aiming_with_gamepad && global.input_options.gamepad.auto_aim && last_aim_gamepad_movement.magnitude() <= 0.3 {
@@ -178,7 +191,6 @@ if aiming_with_gamepad && global.input_options.gamepad.auto_aim && last_aim_game
 
 if last_aim_gamepad_movement.magnitude() > global.input_options.gamepad.aim_death_zone {
 	var _aim_position = character.equipped_gun_manager.target_position
-
 	
 	_aim_position.x += last_aim_gamepad_movement.x * global.input_options.gamepad.aim_sensitivity * 32
 	_aim_position.y += last_aim_gamepad_movement.y * global.input_options.gamepad.aim_sensitivity * 32
@@ -193,7 +205,6 @@ if last_aim_gamepad_movement.magnitude() > global.input_options.gamepad.aim_deat
 	}
 	
 	aiming_with_gamepad = true
-	touchscreen_mode = false
 }
 
 
