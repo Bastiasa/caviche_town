@@ -5,7 +5,7 @@ var _gui_width = display_get_gui_width()
 var _gui_height= display_get_gui_height()
 
 var _camera_size = camera.get_size()
-var _ammo_text = "0/0"
+var _ammo_text = ""
 var _text_x =_gui_width * .9
 var _text_y = _gui_height * .9
 

@@ -1,7 +1,7 @@
 /// @description Inserte aquí la descripción
 // Puede escribir su código en este editor
 
-touchscreen_mode = true
+if !touchscreen_mode return
 
 var _touch = event_data[?"touch"]
 	

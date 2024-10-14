@@ -15,10 +15,8 @@ var _gamepad_direction = get_gamepad_direction(
 
 if check_if_pressed("player_do_jump") {
 	character.jump()
-	touchscreen_mode = false
 } else if _virtual_joystick_movement[1] <= -0.5 {
 	character.jump()
-	touchscreen_mode = true
 }
 
 if check_if_pressed("player_do_dash") {
@@ -27,10 +25,7 @@ if check_if_pressed("player_do_dash") {
 	
 	if _gamepad_direction != noone && _gamepad_direction.magnitude() != 0 {
 		character.dash(_gamepad_direction)
-		touchscreen_mode = false
 	} else {
-		
-		touchscreen_mode = false
 		
 		var _direction = get_keyboard_input_direction(
 			global.keyboard_input_keys.player_move_left,
@@ -60,7 +55,6 @@ if check_if_pressed("player_do_dash") {
 
 if check_if_pressed("player_do_reload") {
 	character.equipped_gun_manager.reload()
-	touchscreen_mode = false
 }
 
 var _slot_change = check_if_pressed("player_do_next_slot") - check_if_pressed("player_do_previous_slot")
@@ -99,14 +93,11 @@ if _slot_change != 0 {
 for (var _slot = 1; _slot < 4; _slot++) {
 	if check_if_pressed("player_do_equip_slot_"+string(_slot)) {
 		character.equipped_gun_manager.set_gun(character.backpack.get_gun(_slot-1))
-		touchscreen_mode = false
 	}
 }
 
 if check_if_pressed("player_do_throw_gun") {
 	if character.equipped_gun_manager.gun_information != noone && !character.equipped_gun_manager.reloading && !character.equipped_gun_manager.equipping {
-		
-		touchscreen_mode = false
 		
 		var _dropped_position = character.equipped_gun_manager.get_offset_position()
 		var _gun_information = character.equipped_gun_manager.gun_information
@@ -142,20 +133,17 @@ if check_if_pressed("player_do_throw_gun") {
 	}
 }
 
-if _gamepad_direction == noone || _gamepad_direction.magnitude() == 0 {
-	character.horizontal_movement = check_input("player_move_right") - check_input("player_move_left")
-	
-	if character.horizontal_movement != 0 
-		touchscreen_mode = false
-} else {
-	character.horizontal_movement = _gamepad_direction.x
-	
-	if character.horizontal_movement != 0 
-		touchscreen_mode = false
-}
 
-if touchscreen_mode {
+var _buttons_direction = check_input("player_move_right") - check_input("player_move_left")
+
+if _gamepad_direction == noone || _gamepad_direction.magnitude() == 0 && _buttons_direction != 0 {
+	character.horizontal_movement = _buttons_direction
+} else if _virtual_joystick_movement[0] != 0 && touchscreen_mode {
 	character.horizontal_movement = _virtual_joystick_movement[0]
+} else if _gamepad_direction != noone {
+	character.horizontal_movement = _gamepad_direction.x
+} else {
+	character.horizontal_movement = 0
 }
 
 var _current_delta = delta_time
