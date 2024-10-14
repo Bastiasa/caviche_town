@@ -3,6 +3,7 @@
 
 event_inherited()
 
+typed = false
 timer = 0
 cursor = 0
 

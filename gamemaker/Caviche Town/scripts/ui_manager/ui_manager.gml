@@ -7,6 +7,30 @@ function UIManager() constructor {
 	active_element = noone
 	mouse_keeper = noone
 	
+	virtual_keyboard_status = "hidden"
+	virtual_keyboard_last_height = 0
+	
+	virtual_keyboard_text_result = ""
+	
+	function on_virtual_keyboard_status(_status, _height) {
+		virtual_keyboard_status = _status
+		virtual_keyboard_last_height = _height
+		
+		show_debug_message("Virtual keyboard status changed.")
+	}
+	
+	function draw_gui() {
+		
+		if virtual_keyboard_status == "showing" || virtual_keyboard_status == "visible" {
+			
+			draw_set_color(c_black)
+			draw_rectangle(0, 0, room_width, room_height - virtual_keyboard_last_height, false)
+			
+		}
+		
+		virtual_keyboard_last_height = keyboard_virtual_height()
+	}
+	
 	function set_mouse_keeper(_canvas_item) {
 		if mouse_keeper == noone && argument0 != noone {
 			mouse_keeper = argument0

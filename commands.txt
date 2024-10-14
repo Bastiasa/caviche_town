@@ -1,0 +1,1 @@
+Show Android app logcat: adb -s "111926de" logcat yoyo:V DEBUG:V AndroidRuntime:V  *:S

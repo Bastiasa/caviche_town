@@ -3,15 +3,17 @@
 
 event_inherited()
 
+timer += delta_time / MILLION
 
-if keyboard_check_pressed(vk_anykey) {
-	if keyboard_check_pressed(vk_backspace) || keyboard_check_pressed(vk_left){
-		cursor -= 1
-	} else if text != keyboard_string || keyboard_check_pressed(vk_right) {
-		cursor += 1
-	}
+
+var _last_text = string_copy(text, 0, string_length(text))
+text = string_insert(keyboard_string, text, cursor)
+var _difference = string_length(text) - string_length(_last_text)
+
+if _difference != 0 {
 	
 }
+
 
 if focused {
 	text = keyboard_string
