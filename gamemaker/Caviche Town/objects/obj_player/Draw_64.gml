@@ -2,8 +2,9 @@
 // Puede escribir su código en este editor
 
 var _camera_size = camera.get_size()
-var _text_position = _camera_size.subtract(new Vector(50,50))
 var _ammo_text = "0/0"
+var _text_x = room_width - 10
+var _text_y = room_height - 10
 
 if character.equipped_gun_manager.gun_information != noone {
 	var _loaded_ammo = get_from_struct(character.equipped_gun_manager.gun_information, "loaded_ammo", 0)
@@ -15,15 +16,12 @@ if character.equipped_gun_manager.gun_information != noone {
 
 
 
-draw_set_halign(fa_right)
-draw_set_font(fnt_current_gun_ammo)
-
 if character.equipped_gun_manager.reloading && character.equipped_gun_manager.gun_information != noone {
 	
 	
 	draw_progress_circle(
-		_camera_size.x*.5,
-		_camera_size.y*.5,
+		room_width*.5,
+		room_height*.5,
 		character.equipped_gun_manager.timer/character.equipped_gun_manager.gun_information.reload_time,
 		0.6
 	)
@@ -36,19 +34,23 @@ if character.equipped_gun_manager.reloading && character.equipped_gun_manager.gu
 
 // Dibujar el contorno (alrededor del texto)
 draw_set_color(c_black);
+draw_set_halign(fa_right)
+draw_set_valign(fa_bottom)
+draw_set_font(fnt_current_gun_ammo)
+
 
 for (var _dx = -3; _dx <= 3; _dx++) {
     for (var _dy = -3; _dy <= 3; _dy++) {
         // Evitar dibujar en el centro (donde irá el texto principal)
         if (_dx != 0 || _dy != 0) {
-            draw_text(_text_position.x + _dx, _text_position.y + _dy, _ammo_text);
+            draw_text(_text_x + _dx, _text_y + _dy, _ammo_text);
         }
     }
 }
 
 // Dibujar el texto principal encima del contorno
 draw_set_color(c_white);
-draw_text(_text_position.x, _text_position.y, _ammo_text);
+draw_text(_text_x, _text_y, _ammo_text);
 
 
 draw_set_alpha(1)

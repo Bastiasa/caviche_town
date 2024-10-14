@@ -120,7 +120,6 @@ function CameraView(_id, _position = new Vector(0,0)) constructor {
 	static set_size = function(_size) {
 		camera_set_view_size(id, _size.x, _size.y)
 		size = _size
-		
 	}
 	
 	size = get_size()

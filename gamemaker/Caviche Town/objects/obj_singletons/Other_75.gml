@@ -8,3 +8,6 @@ if _event_type == "virtual keyboard status" {
 	var _vk_status = async_load[?"keyboard_status"]
 	global.ui_manager.on_virtual_keyboard_status(_vk_status, _vk_height)
 }
+
+room_width = window_get_width()
+room_height = window_get_height()

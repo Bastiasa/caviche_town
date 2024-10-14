@@ -1,6 +1,10 @@
 /// @description Inserte aquí la descripción
 // Puede escribir su código en este editor
 
+
+camera.size.x = window_get_width()
+camera.size.y = window_get_height()
+
 timer += get_delta()
 
 var _gamepad_direction = get_gamepad_direction(
