@@ -14,14 +14,12 @@ var _collision_circle_result = noone
 
 
 with obj_character {
+	var _sprite_size = get_sprite_size().multiply(.5)
 	var _distance = point_distance(x,y, other.x, other.y)
+	var _sprite_length = point_distance(0,0, _sprite_size.x, _sprite_size.y)
 	
-	show_debug_message(_distance)
-	
-	if _distance <= other.collision_circle_radius {
+	if _distance <= other.collision_circle_radius + _sprite_length {
 		_collision_circle_result = self
-		
-		
 	}
 }
  

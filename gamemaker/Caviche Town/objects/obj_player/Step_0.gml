@@ -1,10 +1,5 @@
 /// @description Inserte aquí la descripción
 // Puede escribir su código en este editor
-
-
-//camera.size.x = window_get_width()
-//camera.size.y = window_get_height()
-
 reset_camera_size()
 
 timer += get_delta()
