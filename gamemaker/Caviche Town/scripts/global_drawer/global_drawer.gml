@@ -29,6 +29,8 @@ function GlobalDrawer() constructor {
 			
 			_draw_data[array_length(_draw_data) - 1] -= delta_time / MILLION
 			
+			
+			if _draw_data[0] != "circle" show_debug_message(_draw_data[0]+": "+string(array_last(_draw_data)))
 			if array_last(_draw_data) <= 0 {
 				array_delete(drawings, _draw_index, 1)
 			}

@@ -16,6 +16,8 @@ if to_destroy {
 			)
 		}
 	}
+	
+	return
 
 }
 
