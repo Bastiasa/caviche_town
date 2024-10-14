@@ -3,30 +3,39 @@
 
 event_inherited()
 
-timer += delta_time / MILLION
 
+if keyboard_check_pressed(vk_backspace) {
+	cursor -= 2
+	text = string_delete(text, cursor + 1, 2)
+}
 
-var _last_text = string_copy(text, 0, string_length(text))
-text = string_insert(keyboard_string, text, cursor)
-var _difference = string_length(text) - string_length(_last_text)
+if keyboard_lastkey == 8 {
+	keyboard_lastkey = vk_nokey
+	keyboard_lastchar = ""
+}
 
-if _difference != 0 {
+if focused && keyboard_lastkey != vk_nokey {
+	
+	var _last_text = string_copy(text, 0, string_length(text))
+	text = string_insert(keyboard_lastchar, text, cursor + 1)
+	var _difference = string_length(text) - string_length(_last_text)
+	
+	cursor += _difference
+	
+	show_debug_message("Last char: "+keyboard_lastchar)
+	show_debug_message("Last key: "+string(keyboard_lastkey))
+	
+	if _difference != 0 {
+		keyboard_lastkey = vk_nokey
+		keyboard_lastchar = ""
+		
+	}
 	
 }
 
 
-if focused {
-	text = keyboard_string
-}
 
-cursor = clamp(cursor, 0, string_length(text) + 1)
 
-if string_length(keyboard_string) <= 0 {
-	text = placeholder
-	text_color = placeholder_color
-} else {
-	text_color = _normal_text_color
-}
 
 
 if surface != noone && surface_exists(surface) {

@@ -43,8 +43,10 @@ virtual_keyboard = {
 
 cooldown = 0.5
 
-events.on_focus.add_listener(function() {
-	keyboard_virtual_show(virtual_keyboard.type, virtual_keyboard.return_type, virtual_keyboard.autocapitalize, virtual_keyboard.predictivie_text_enabled)
+events.on_mouse_up.add_listener(function() {
+	if global.ui_manager.active_element == self {
+		keyboard_virtual_show(virtual_keyboard.type, virtual_keyboard.return_type, virtual_keyboard.autocapitalize, virtual_keyboard.predictivie_text_enabled)
+	}
 })
 
 events.on_blur.add_listener(function() {
