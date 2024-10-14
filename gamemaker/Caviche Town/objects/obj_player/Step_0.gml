@@ -12,13 +12,19 @@ var _gamepad_direction = get_gamepad_direction(
 
 if check_if_pressed("player_do_jump") {
 	character.jump()
+	touchscreen_mode = false
 }
 
 if check_if_pressed("player_do_dash") {
 	
+	
+	
 	if _gamepad_direction != noone && _gamepad_direction.magnitude() != 0 {
 		character.dash(_gamepad_direction)
+		touchscreen_mode = false
 	} else {
+		
+		touchscreen_mode = false
 		
 		var _direction = get_keyboard_input_direction(
 			global.keyboard_input_keys.player_move_left,
@@ -48,14 +54,15 @@ if check_if_pressed("player_do_dash") {
 
 if check_if_pressed("player_do_reload") {
 	character.equipped_gun_manager.reload()
+	touchscreen_mode = false
 }
 
 var _slot_change = check_if_pressed("player_do_next_slot") - check_if_pressed("player_do_previous_slot")
 
 if _slot_change != 0 {
 	var _current_slot = character.backpack.get_gun_slot(character.equipped_gun_manager.gun_information)
-
-	show_debug_message(string_concat(_current_slot, " + ", _slot_change))
+	touchscreen_mode = false
+	show_debug_message(string_concat("Gun slot change: ", _current_slot, " + ", _slot_change))
 
 	if _current_slot == -1 {
 		_current_slot = character.backpack.first_busy_slot()
@@ -92,6 +99,9 @@ for (var _slot = 1; _slot < 4; _slot++) {
 
 if check_if_pressed("player_do_throw_gun") {
 	if character.equipped_gun_manager.gun_information != noone && !character.equipped_gun_manager.reloading && !character.equipped_gun_manager.equipping {
+		
+		touchscreen_mode = false
+		
 		var _dropped_position = character.equipped_gun_manager.get_offset_position()
 		var _gun_information = character.equipped_gun_manager.gun_information
 		var _backpack_index = array_get_index(character.backpack.guns, _gun_information)
@@ -150,6 +160,7 @@ if _mouse_motion.magnitude() > 0 || !aiming_with_gamepad {
 	character.equipped_gun_manager.target_position.y = mouse_y
 	
 	aiming_with_gamepad = false
+	touchscreen_mode = false
 }
 
 if aiming_with_gamepad && global.input_options.gamepad.auto_aim && last_aim_gamepad_movement.magnitude() <= 0.3 {
@@ -182,6 +193,7 @@ if last_aim_gamepad_movement.magnitude() > global.input_options.gamepad.aim_deat
 	}
 	
 	aiming_with_gamepad = true
+	touchscreen_mode = false
 }
 
 

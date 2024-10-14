@@ -41,6 +41,47 @@ blood_spots = []
 
 on_low_health_blood_spot_timer = 0
 
+touchscreen_mode = os_type == os_android || os_type == os_ios
+
+virtual_joystick = {
+	rel_x: .2,
+	rel_y: .7,
+	radius: 78,
+	
+	fg_x: 0,
+	fg_y: 0
+}
+
+function draw_virtual_joystick() {
+	draw_set_circle_precision(virtual_joystick.radius*.5)
+	draw_set_alpha(0.4)
+	
+	var _joystick_x = camera.size.x * virtual_joystick.rel_x
+	var _joystick_y = camera.size.y * virtual_joystick.rel_y
+	
+	draw_circle(
+		_joystick_x,
+		_joystick_y,
+		virtual_joystick.radius,
+		false
+	)
+	
+	draw_set_circle_precision(virtual_joystick.radius*.25)
+
+	draw_circle(
+		_joystick_x + virtual_joystick.fg_x,
+		_joystick_y + virtual_joystick.fg_y,
+		virtual_joystick.radius * .5,
+		false
+	)
+	
+	
+
+	
+	draw_set_alpha(1)
+	draw_set_circle_precision(32)
+}
+
 function create_blood_spot() {
 	var _hp_critical_index = 1-(character.hp / character.max_hp)
 	
@@ -129,8 +170,15 @@ function reset_camera_size() {
 	var _window_width = window_get_width()
 	var _window_height = window_get_height()
 	
-	camera.size.x = _window_width/_window_height * camera_distance
-	camera.size.y = camera_distance
+	var _width =  _window_width/_window_height * camera_distance
+	var _height = camera_distance
+	
+	camera.size.x = _width
+	camera.size.y = _height
+	
+	view_wport[0] = _width
+	view_hport[0] = _height
+	
 }
 
 function check_if_pressed(_input_key_name) {
