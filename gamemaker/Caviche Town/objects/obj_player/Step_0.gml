@@ -13,9 +13,12 @@ var _gamepad_direction = get_gamepad_direction(
 	true
 )
 
-if check_if_pressed("player_do_jump") || _virtual_joystick_movement[1] >= 1{
+if check_if_pressed("player_do_jump") {
 	character.jump()
 	touchscreen_mode = false
+} else if _virtual_joystick_movement[1] <= -0.5 {
+	character.jump()
+	touchscreen_mode = true
 }
 
 if check_if_pressed("player_do_dash") {
@@ -152,8 +155,7 @@ if _gamepad_direction == noone || _gamepad_direction.magnitude() == 0 {
 }
 
 if touchscreen_mode {
-	
-	character.horizontal_movement = round(_virtual_joystick_movement[0])
+	character.horizontal_movement = _virtual_joystick_movement[0]
 }
 
 var _current_delta = delta_time

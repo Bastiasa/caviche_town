@@ -1,4 +1,4 @@
 /// @description Inserte aquí la descripción
 // Puede escribir su código en este editor
 
-show_debug_overlay(global.debugging)
+show_debug_overlay(global.debugging, true, 3)

@@ -18,7 +18,5 @@ var _distance = point_distance(_gui_x,_gui_y,_joystick_x,_joystick_y)
 if _distance <= _joystick_radius && virtual_joystick.touch == -1 {
 	virtual_joystick.touch = _touch
 	virtual_joystick.dragging = true
-	
-	set_virtual_joystick_position(_gui_x,_gui_y)
 } 
 

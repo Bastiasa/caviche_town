@@ -60,15 +60,17 @@ virtual_joystick = {
 function get_virtual_joystick_normalized(_round = false) {
 	var _joystick_radius = global.input_options.touchscreen.virtual_joystick_radius
 	
-	if _round {
-		_joystick_radius[0] = round(_joystick_radius[0])
-		_joystick_radius[1] = round(_joystick_radius[1])
-	}
-	
-	return [
+	var _result = [
 		virtual_joystick._fg_x / _joystick_radius,
 		virtual_joystick._fg_y / _joystick_radius
 	]
+	
+	if _round {
+		_result[0] = round(_result[0])
+		_result[1] = round(_result[1])
+	}
+	
+	return _result
 }
 
 function set_virtual_joystick_position(_gui_x, _gui_y) {
@@ -118,8 +120,8 @@ function draw_virtual_joystick(_gui_width, _gui_height) {
 	
 	draw_set_circle_precision(_joystick_radius*.25)
 
-	virtual_joystick._fg_x = lerp(virtual_joystick._fg_x, virtual_joystick.fg_x, 0.1)
-	virtual_joystick._fg_y = lerp(virtual_joystick._fg_y, virtual_joystick.fg_y, 0.1)
+	virtual_joystick._fg_x = lerp(virtual_joystick._fg_x, virtual_joystick.fg_x, 0.2)
+	virtual_joystick._fg_y = lerp(virtual_joystick._fg_y, virtual_joystick.fg_y, 0.2)
 
 	draw_circle(
 		_joystick_x + virtual_joystick._fg_x,
