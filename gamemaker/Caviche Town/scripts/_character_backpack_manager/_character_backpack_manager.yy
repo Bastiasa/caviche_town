@@ -1,9 +1,9 @@
 {
   "$GMScript":"v1",
-  "%Name":"input",
+  "%Name":"_character_backpack_manager",
   "isCompatibility":false,
   "isDnD":false,
-  "name":"input",
+  "name":"_character_backpack_manager",
   "parent":{
     "name":"util",
     "path":"folders/Scripts/util.yy",

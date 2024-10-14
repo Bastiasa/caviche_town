@@ -11,8 +11,7 @@ if _event_type == network_type_data && _id == socket {
 		return
 	}
 	
-	var _message = buffer_read(_buffer, buffer_string);
-	_message = string_replace_all(_message, "\x00", "")
+	var _message = buffer_read(_buffer, buffer_text);
 	
 	show_debug_message(string_concat("Incoming message from ", _ip_address,":",_port,"."))
 	show_debug_message(string_concat(_message, "\n"))

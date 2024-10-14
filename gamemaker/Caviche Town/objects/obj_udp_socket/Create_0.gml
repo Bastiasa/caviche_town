@@ -86,7 +86,7 @@ function send_message(_message, _address) {
 	var _length = string_length(_message)
 	var _buffer = buffer_create(_length, buffer_grow, 1)
 	
-	buffer_write(_buffer, buffer_string, _message)
+	buffer_write(_buffer, buffer_text, _message)
 	
 	var _result = send_buffer(_buffer, _address, true)
 	/*buffer_write(_buffer, buffer_string, _message)

@@ -1,9 +1,9 @@
 {
   "$GMScript":"v1",
-  "%Name":"input",
+  "%Name":"_save_and_load",
   "isCompatibility":false,
   "isDnD":false,
-  "name":"input",
+  "name":"_save_and_load",
   "parent":{
     "name":"util",
     "path":"folders/Scripts/util.yy",

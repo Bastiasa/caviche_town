@@ -104,17 +104,17 @@ gamepad_axis_input_keys = {
 function save_input_settings() {
 	
 	var _data = {
-		input_options:input_options,
-		mouse_button_input_keys:mouse_button_input_keys,
-		keyboard_input_keys:keyboard_input_keys,
-		gamepad_input_keys:gamepad_input_keys,
-		gamepad_axis_input_keys:gamepad_axis_input_keys
+		input_options: global.input_options,
+		mouse_button_input_keys: global.mouse_button_input_keys,
+		keyboard_input_keys: global.keyboard_input_keys,
+		gamepad_input_keys: global.gamepad_input_keys,
+		gamepad_axis_input_keys: global.gamepad_axis_input_keys
 	}
 	
 	var _json_string = json_stringify(_data)
 	var _buffer = buffer_create(string_length(_json_string), buffer_grow, 1)
 	
-	buffer_write(_buffer, buffer_string, _json_string)
+	buffer_write(_buffer, buffer_text, _json_string)
 	buffer_save(_buffer, "input_settings.json")
 	buffer_delete(_buffer)
 }
@@ -127,7 +127,7 @@ function load_input_settings() {
 	} else {
 		
 		try {
-			var _raw_json = buffer_read(_buffer, buffer_string)
+			var _raw_json = buffer_read(_buffer, buffer_text)
 			var _json = json_parse(_raw_json, noone, true)	
 			
 			input_options = _json.input_options
@@ -135,8 +135,6 @@ function load_input_settings() {
 			keyboard_input_keys = _json.keyboard_input_keys
 			gamepad_input_keys = _json.gamepad_input_keys
 			gamepad_axis_input_keys = _json.gamepad_axis_input_keys
-			
-			show_debug_message("Loaded settings: "+_raw_json)
 			
 		} catch(_err) {
 			
