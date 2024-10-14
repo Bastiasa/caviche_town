@@ -62,6 +62,7 @@
     {"name":"rm_sandbox","order":2,"path":"rooms/rm_sandbox/rm_sandbox.yy",},
     {"name":"_character_backpack_manager","order":5,"path":"scripts/_character_backpack_manager/_character_backpack_manager.yy",},
     {"name":"_draw_circular_bar","order":1,"path":"scripts/_draw_circular_bar/_draw_circular_bar.yy",},
+    {"name":"_equipped_gun_manager","order":6,"path":"scripts/_equipped_gun_manager/_equipped_gun_manager.yy",},
     {"name":"_guns_presets","order":1,"path":"scripts/_guns_presets/_guns_presets.yy",},
     {"name":"_save_and_load","order":4,"path":"scripts/_save_and_load/_save_and_load.yy",},
     {"name":"debugging","order":8,"path":"scripts/debugging/debugging.yy",},

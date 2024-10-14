@@ -16,7 +16,7 @@ function on_touched_by_character(_character) {
 	}
 
 	if gun_information != noone && !_character.died && _character.backpack.free_slot() != -1 && !_character.backpack.has_gun(gun_information.name) {
-		_character.backpack.put_gun(gun_information, _character.backpack.free_slot())
+		_character.backpack.add_gun(gun_information)
 	
 		if _character.equipped_gun_manager.gun_information == noone {
 			_character.equipped_gun_manager.set_gun(gun_information)

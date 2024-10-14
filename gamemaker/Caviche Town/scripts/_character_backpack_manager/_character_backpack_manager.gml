@@ -4,11 +4,13 @@ function CharacterBackpackManager(_character = noone) constructor {
 	lil_guys = 0
 	medium_bullets = 0
 	big_jocks = 0
+	shells = 0
 	rockets = 0
 	
 	max_lil_guys = 500
 	max_medium_bullets = 500
 	max_big_jocks = 500
+	max_shells = 500
 	max_rockets = 12
 	
 	max_guns = 3
@@ -21,7 +23,7 @@ function CharacterBackpackManager(_character = noone) constructor {
 		
 		if _reversed {
 			_guns_array = array_reverse(guns, 0, max_guns)
-			_offset = max_guns -1 - _offset
+			_offset = max_guns - 1 - _offset
 		}
 		
 		for(var _slot = _offset; _slot < max_guns; _slot++) {
@@ -31,7 +33,7 @@ function CharacterBackpackManager(_character = noone) constructor {
 			}
 		}
 		
-		return _result
+		return !_reversed ? _result : max_guns - 1 - _result
 	}
 	
 	function get_gun_slot(_gun_information) {
@@ -82,8 +84,10 @@ function CharacterBackpackManager(_character = noone) constructor {
 	}
 	
 	function add_gun(_information) {
-		if array_length(guns) < max_guns {
-			array_push(guns, _information)
+		var _free_slot = free_slot()
+		
+		if _free_slot != noone {
+			guns[_free_slot] = _information
 			return true
 		}
 		
@@ -94,41 +98,56 @@ function CharacterBackpackManager(_character = noone) constructor {
 		guns[_index] = noone
 	}
 	
-	static get_ammo = function(_type) {
+	function get_ammo(_type) {
 		switch _type {
 			case BULLET_TYPE.LIL_GUY: return lil_guys
 			break
+			
 			case BULLET_TYPE.MEDIUM: return medium_bullets
 			break
+			
 			case BULLET_TYPE.BIG_JOCK: return big_jocks
 			break
+			
+			case BULLET_TYPE.SHELL: return shells
+			break
+			
 			case BULLET_TYPE.ROCKET: return rockets
 			break
+			
 			default: return noone
 			break
 		}
 	}
 	
-	static get_max_ammo = function(_type) {
+	function get_max_ammo(_type) {
 		switch _type {
 			case BULLET_TYPE.LIL_GUY: return max_lil_guys
 			break
+			
 			case BULLET_TYPE.MEDIUM: return max_medium_bullets
 			break
+			
 			case BULLET_TYPE.BIG_JOCK: return max_big_jocks
 			break
+			
 			case BULLET_TYPE.ROCKET: return max_rockets
 			break
+			
+			case BULLET_TYPE.SHELL: return max_shells
+			break
+			
 			default: return noone
 			break
 		}
 	}
 		
-	static set_ammo = function(_type, _new_ammo) {
+	function set_ammo(_type, _new_ammo) {
 		switch _type {
 			case BULLET_TYPE.LIL_GUY: lil_guys = clamp(_new_ammo, 0, max_lil_guys); break
 			case BULLET_TYPE.MEDIUM: medium_bullets = clamp(_new_ammo, 0, max_medium_bullets); break
 			case BULLET_TYPE.BIG_JOCK: big_jocks = clamp(_new_ammo, 0, max_big_jocks); break
+			case BULLET_TYPE.SHELL: shells = clamp(_new_ammo, 0, max_shells); break
 			case BULLET_TYPE.ROCKET: rockets = clamp(_new_ammo, 0, max_rockets); break
 			default: return false; break
 		}

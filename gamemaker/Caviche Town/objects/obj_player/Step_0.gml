@@ -59,38 +59,44 @@ var _slot_change = check_if_pressed("player_do_next_slot") - check_if_pressed("p
 
 if _slot_change != 0 {
 	var _current_slot = character.backpack.get_gun_slot(character.equipped_gun_manager.gun_information)
+	var _target_slot = _current_slot + _slot_change
 	show_debug_message(string_concat("Gun slot change: ", _current_slot, " + ", _slot_change))
-
-	if _current_slot == -1 {
-		_current_slot = character.backpack.first_busy_slot()
-		
-		
-		
-		if _current_slot != -1 {
-			character.equipped_gun_manager.set_gun(character.backpack.get_gun(_current_slot))
-		}
+	
+	var _reversed =  _slot_change < 0
+	var _result = noone
+	
+	if _current_slot <= -1 || _current_slot >= character.backpack.max_guns {
+		_result = character.backpack.first_busy_slot(0, false)
+	} else if _target_slot >= character.backpack.max_guns || _target_slot <= -1 {
+		_result = character.backpack.first_busy_slot(!_reversed ? 0 : character.backpack.max_guns - 1, _reversed)
+		show_debug_message("Getting extreme")
 	} else {
-		var _next_slot = _current_slot + _slot_change
+		_result = character.backpack.first_busy_slot(_target_slot, _reversed)
 		
-		if _next_slot >= character.backpack.max_guns {
-			_next_slot = 0
-		} else if _next_slot < 0 {
-			_next_slot = character.backpack.max_guns - 1
-		}
-		
-		var _gun = character.backpack.get_gun(_next_slot)
-		
-		if _gun != noone {
-			character.equipped_gun_manager.set_gun(_gun)
+		if _result == -1 {
+			_result = character.backpack.first_busy_slot(!_reversed ? 0 : character.backpack.max_guns - 1, _reversed)
 		}
 	}
 	
 	
+	if _result != -1 {
+		show_debug_message("New slot: "+string(_result))
+		character.equipped_gun_manager.set_gun(character.backpack.get_gun(_result))
+	} else {
+		show_debug_message("Could not find any gun.")
+	}
+
 }
 
 for (var _slot = 1; _slot < 4; _slot++) {
 	if check_if_pressed("player_do_equip_slot_"+string(_slot)) {
-		character.equipped_gun_manager.set_gun(character.backpack.get_gun(_slot-1))
+		
+		if character.equipped_gun_manager.gun_information == character.backpack.get_gun(_slot-1) {
+			character.equipped_gun_manager.set_gun(noone)
+		} else {
+			character.equipped_gun_manager.set_gun(character.backpack.get_gun(_slot-1))
+		}
+		
 	}
 }
 

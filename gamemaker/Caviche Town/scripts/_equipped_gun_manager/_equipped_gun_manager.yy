@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"_equipped_gun_manager",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"_equipped_gun_manager",
+  "parent":{
+    "name":"util",
+    "path":"folders/Scripts/util.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}
