@@ -1,6 +1,14 @@
 /// @description Inserte aquí la descripción
 // Puede escribir su código en este editor
 
+enum AI_STATE {
+	PATROLLING,
+	SEARCHING_ENEMY,
+	ATTACKING_ENEMY
+}
+
+state = 
+
 character = instance_create_layer(x,y, layer, obj_character)
 
 character.sprites = global.characters_sprite_set.default_enemy()

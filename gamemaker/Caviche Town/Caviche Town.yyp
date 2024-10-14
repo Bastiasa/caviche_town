@@ -93,6 +93,7 @@
     {"id":{"name":"_guns_presets","path":"scripts/_guns_presets/_guns_presets.yy",},},
     {"id":{"name":"debugging","path":"scripts/debugging/debugging.yy",},},
     {"id":{"name":"enums","path":"scripts/enums/enums.yy",},},
+    {"id":{"name":"global_drawer","path":"scripts/global_drawer/global_drawer.yy",},},
     {"id":{"name":"input","path":"scripts/input/input.yy",},},
     {"id":{"name":"methods","path":"scripts/methods/methods.yy",},},
     {"id":{"name":"particles_emitter_manager","path":"scripts/particles_emitter_manager/particles_emitter_manager.yy",},},

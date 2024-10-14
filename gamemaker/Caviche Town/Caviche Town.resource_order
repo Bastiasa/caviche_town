@@ -64,6 +64,7 @@
     {"name":"_guns_presets","order":1,"path":"scripts/_guns_presets/_guns_presets.yy",},
     {"name":"debugging","order":8,"path":"scripts/debugging/debugging.yy",},
     {"name":"enums","order":3,"path":"scripts/enums/enums.yy",},
+    {"name":"global_drawer","order":2,"path":"scripts/global_drawer/global_drawer.yy",},
     {"name":"input","order":2,"path":"scripts/input/input.yy",},
     {"name":"particles_emitter_manager","order":1,"path":"scripts/particles_emitter_manager/particles_emitter_manager.yy",},
     {"name":"props","order":1,"path":"scripts/props/props.yy",},

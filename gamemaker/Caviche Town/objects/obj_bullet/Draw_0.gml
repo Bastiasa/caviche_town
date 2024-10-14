@@ -21,15 +21,18 @@ draw_sprite_ext(
 
 timer += delta_time / MILLION
 
-draw_set_color(c_red)
-draw_line(x, y, start_x, start_y)
-draw_set_color(c_white)
+if global.debugging && global.debugging_options.show_bullets_trayectory {
+	draw_set_color(c_red)
+	draw_line(x, y, start_x, start_y)
+	draw_set_color(c_white)
+}
+
 
 var _direction = new Vector(lengthdir_x(speed,direction), lengthdir_y(speed,direction))
 var _position = new Vector(x,y)
 var _next_position = _position.add(_direction)
 
-if place_meeting(_next_position.x, _next_position.y, obj_collider) {
+/*if place_meeting(_next_position.x, _next_position.y, obj_collider) {
 		
 	var _normal = _direction.normalize()
 	
@@ -43,7 +46,7 @@ if place_meeting(_next_position.x, _next_position.y, obj_collider) {
 	_speed = 0
 	
 	to_destroy = true
-}
+}*/
 
 if particle_manager != noone {
 	

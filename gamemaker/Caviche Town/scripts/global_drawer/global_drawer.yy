@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"global_drawer",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"global_drawer",
+  "parent":{
+    "name":"singletons",
+    "path":"folders/Scripts/singletons.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}
