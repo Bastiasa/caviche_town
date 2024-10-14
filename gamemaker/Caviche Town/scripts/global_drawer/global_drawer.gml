@@ -10,6 +10,10 @@ function GlobalDrawer() constructor {
 		array_push(drawings, ["line", _x1, _y1, _x2, _y2, _color, _lifetime])
 	}
 	
+	function save_circle(_x,_y,_radius, _color = c_white, _lifetime = 3) {
+		array_push(drawings, ["circle", _x,_y,_radius,_color,_lifetime])
+	} 
+	
 	function draw_end() {
 		
 		for(var _draw_index = array_length(drawings) - 1; _draw_index >= 0; _draw_index--) {
@@ -18,6 +22,9 @@ function GlobalDrawer() constructor {
 			if _draw_data[0] == "line" {
 				draw_set_color(_draw_data[5])
 				draw_line(_draw_data[1], _draw_data[2], _draw_data[3], _draw_data[4])
+			} else if _draw_data[0] == "circle" {
+				draw_set_color(_draw_data[4])
+				draw_circle(_draw_data[1], _draw_data[2], _draw_data[3], false)
 			}
 			
 			_draw_data[array_length(_draw_data) - 1] -= delta_time / MILLION

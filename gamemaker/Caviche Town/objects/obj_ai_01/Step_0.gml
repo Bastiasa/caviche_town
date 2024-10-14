@@ -1,6 +1,11 @@
 /// @description Inserte aquí la descripción
 // Puede escribir su código en este editor
 
+
+patrolling_loop()
+
+return
+
 if character.died {
 	instance_destroy(id)
 	return

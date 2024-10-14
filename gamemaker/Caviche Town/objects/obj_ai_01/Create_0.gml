@@ -7,22 +7,21 @@ enum AI_STATE {
 	ATTACKING_ENEMY
 }
 
-state = 
+state = AI_STATE.PATROLLING
 
 character = instance_create_layer(x,y, layer, obj_character)
 
-character.sprites = global.characters_sprite_set.default_enemy()
+character.sprites = global.characters_sprite_set.default_enemy
+
 character.walk_velocity = 1 
 character.max_velocity = 1
-
 character.controller = self
-character.team = team
 
 last_target_position = noone
 target = noone
 
-next_direction = noone
-current_direction = 1
+randomize()
+current_direction = sign(random_range(-1, 1)) || 1
 
 first_time = false
 stopped = false
@@ -50,6 +49,8 @@ character.events.on_damage.add_listener(function(_args){
 		last_target_position = new Vector(_from.x,_from.y)
 	}
 })
+
+
 
 function show_question_mark() {
 	
@@ -157,7 +158,21 @@ function will_be_floor(_direction = current_direction) {
 		draw_set_color(c_white)
 	}
 	
-	return !position_empty(_future_x_position,_future_y_position)
+	return collision_point(_future_x_position, _future_y_position, obj_collider, false, true) != noone
+}
+
+function patrolling_loop() {
+	
+	var _x = character.x + current_direction*50 + character.get_sprite_size().x * .5
+	var _something_front = collision_point(_x, character.y, obj_collider, false, true) != noone
+	
+	global.drawer.save_circle(_x, character.y, 2, c_red, delta_time/MILLION)
+	
+	if will_be_floor(current_direction) && !_something_front {
+		character.horizontal_movement = current_direction
+	} else {
+		current_direction *= -1
+	}
 }
 
 function look_at(_direction, _view_range = 3, _spacing = 5) {
