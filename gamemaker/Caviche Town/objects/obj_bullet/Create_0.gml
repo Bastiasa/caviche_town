@@ -54,15 +54,17 @@ function init() {
 		case BULLET_TYPE.SHELL:
 			
 			randomize()
-			var _shell_bullets_count = round(random_range(10,20))
+			var _shell_bullets_count = round(random_range(17,20))
 			
 			repeat(_shell_bullets_count) {
 				var _shell_bullet = instance_create_layer(x,y,layer, obj_bullet)
 				
 				randomize()
 			
+				var _angle = 18
+				
 				_shell_bullet.type = BULLET_TYPE._SHELL_BULLET
-				_shell_bullet.rotation = rotation + random_range(-5, 5)
+				_shell_bullet.rotation = rotation + random_range(-_angle, _angle)
 				_shell_bullet.damage = damage/_shell_bullets_count
 				_shell_bullet.shooter = shooter
 				_shell_bullet.events.on_character_hitted.add_listeners(events.on_character_hitted.listeners)
