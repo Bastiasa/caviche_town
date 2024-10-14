@@ -128,6 +128,7 @@
     {"id":{"name":"spr_death_enemy","path":"sprites/spr_death_enemy/spr_death_enemy.yy",},},
     {"id":{"name":"spr_death_player","path":"sprites/spr_death_player/spr_death_player.yy",},},
     {"id":{"name":"spr_discover_check","path":"sprites/spr_discover_check/spr_discover_check.yy",},},
+    {"id":{"name":"spr_dropped_object_grabbed_particle","path":"sprites/spr_dropped_object_grabbed_particle/spr_dropped_object_grabbed_particle.yy",},},
     {"id":{"name":"spr_dust_1","path":"sprites/spr_dust_1/spr_dust_1.yy",},},
     {"id":{"name":"spr_empty_cannon_particle","path":"sprites/spr_empty_cannon_particle/spr_empty_cannon_particle.yy",},},
     {"id":{"name":"spr_falling_enemy","path":"sprites/spr_falling_enemy/spr_falling_enemy.yy",},},

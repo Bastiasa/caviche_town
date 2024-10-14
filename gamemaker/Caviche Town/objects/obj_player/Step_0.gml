@@ -5,6 +5,8 @@
 //camera.size.x = window_get_width()
 //camera.size.y = window_get_height()
 
+reset_camera_size()
+
 timer += get_delta()
 
 var _gamepad_direction = get_gamepad_direction(

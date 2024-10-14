@@ -6,8 +6,6 @@ var _ammo_text = "0/0"
 var _text_x = room_width - 10
 var _text_y = room_height - 10
 
-var _camera_aspect_ratio = 16/9
-
 
 
 if character.equipped_gun_manager.gun_information != noone {

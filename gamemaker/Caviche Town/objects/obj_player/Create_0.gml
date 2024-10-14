@@ -6,8 +6,7 @@ timer = 0
 camera_shakeness = 0
 camera_shakeness_decrease = 50
 
-camera_aspect_ratio = 16/9
-camera_zoom = 10
+camera_distance = 600
 
 camera = new CameraView(view_camera[0])
 character = instance_create_layer(x,y, layer, obj_character)
@@ -130,6 +129,11 @@ function reset_camera_size() {
 	var _window_width = window_get_width()
 	var _window_height = window_get_height()
 	
+	camera.size.x = _window_width/_window_height * camera_distance
+	camera.size.y = _window_height/_window_width* camera_distance
+	
+	//room_set_width(room, camera.size.x)
+	//room_set_height(room, camera.size.y)
 }
 
 function check_if_pressed(_input_key_name) {
