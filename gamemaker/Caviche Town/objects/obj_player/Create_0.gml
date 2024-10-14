@@ -48,30 +48,77 @@ virtual_joystick = {
 	rel_y: .7,
 	radius: 78,
 	
+	_fg_x: 0,
+	_fg_y: 0,
 	fg_x: 0,
-	fg_y: 0
+	fg_y: 0,
+	
+	dragging: false,
+	touch: -1
 }
 
-function draw_virtual_joystick() {
-	draw_set_circle_precision(virtual_joystick.radius*.5)
+function get_virtual_joystick_normalized() {
+	var _joystick_radius = global.input_options.touchscreen.virtual_joystick_radius
+	return [
+		virtual_joystick._fg_x / _joystick_radius,
+		virtual_joystick._fg_y / _joystick_radius
+	]
+}
+
+function set_virtual_joystick_position(_gui_x, _gui_y) {
+	
+	var _joystick_radius = global.input_options.touchscreen.virtual_joystick_radius
+	
+	var _joystick_x = global.input_options.touchscreen.virtual_joystick_rel_x * camera.size.x
+	var _joystick_y = global.input_options.touchscreen.virtual_joystick_rel_x * camera.size.y
+	
+	virtual_joystick.fg_x = _gui_x - _joystick_x
+	virtual_joystick.fg_y = _gui_y - _joystick_y
+	
+	if point_distance(0,0,virtual_joystick.fg_x, virtual_joystick.fg_y) > _joystick_radius {
+		var _direction = point_direction(0,0, virtual_joystick.fg_x, virtual_joystick.fg_y)
+		virtual_joystick.fg_x = lengthdir_x(_joystick_radius, _direction)
+		virtual_joystick.fg_y = lengthdir_y(_joystick_radius, _direction)
+	}
+}
+
+function draw_virtual_joystick(_gui_width, _gui_height) {
+	
+	var _joystick_x = _gui_width * global.input_options.touchscreen.virtual_joystick_rel_x
+	var _joystick_y = _gui_height * global.input_options.touchscreen.virtual_joystick_rel_y
+	
+	var _joystick_radius = global.input_options.touchscreen.virtual_joystick_radius
+	
+	draw_set_circle_precision(_joystick_radius*.5)
 	draw_set_alpha(0.4)
 	
-	var _joystick_x = camera.size.x * virtual_joystick.rel_x
-	var _joystick_y = camera.size.y * virtual_joystick.rel_y
+	draw_set_color(c_black)
 	
 	draw_circle(
 		_joystick_x,
 		_joystick_y,
-		virtual_joystick.radius,
+		_joystick_radius,
+		false
+	)
+
+	draw_set_color(c_white)
+	
+	draw_circle(
+		_joystick_x,
+		_joystick_y,
+		_joystick_radius,
 		false
 	)
 	
-	draw_set_circle_precision(virtual_joystick.radius*.25)
+	draw_set_circle_precision(_joystick_radius*.25)
+
+	virtual_joystick._fg_x = lerp(virtual_joystick._fg_x, virtual_joystick.fg_x, 0.1)
+	virtual_joystick._fg_y = lerp(virtual_joystick._fg_y, virtual_joystick.fg_y, 0.1)
 
 	draw_circle(
-		_joystick_x + virtual_joystick.fg_x,
-		_joystick_y + virtual_joystick.fg_y,
-		virtual_joystick.radius * .5,
+		_joystick_x + virtual_joystick._fg_x,
+		_joystick_y + virtual_joystick._fg_y,
+		_joystick_radius * .5,
 		false
 	)
 	
@@ -178,6 +225,8 @@ function reset_camera_size() {
 	
 	view_wport[0] = _width
 	view_hport[0] = _height
+	
+	display_set_gui_size(_width, _height)
 	
 }
 

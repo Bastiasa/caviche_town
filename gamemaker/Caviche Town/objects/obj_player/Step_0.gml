@@ -200,3 +200,4 @@ if last_aim_gamepad_movement.magnitude() > global.input_options.gamepad.aim_deat
 if is_shooting() {
 	character.equipped_gun_manager.shoot()
 }
+

@@ -1,13 +1,18 @@
 /// @description Inserte aquí la descripción
 // Puede escribir su código en este editor
 
+var _gui_width = display_get_gui_width()
+var _gui_height= display_get_gui_height()
+
 var _camera_size = camera.get_size()
 var _ammo_text = "0/0"
-var _text_x = room_width - 20
-var _text_y = room_height - 20
+var _text_x =_gui_width * .9
+var _text_y = _gui_height * .9
 
 
-draw_virtual_joystick()
+if touchscreen_mode {
+	draw_virtual_joystick(_gui_width, _gui_height)
+}
 
 if character.equipped_gun_manager.gun_information != noone {
 	var _loaded_ammo = get_from_struct(character.equipped_gun_manager.gun_information, "loaded_ammo", 0)

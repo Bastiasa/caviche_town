@@ -23,6 +23,12 @@ input_options = {
 		
 		invert_gamepad_aim_x_axis: false,
 		invert_gamepad_aim_y_axis: false
+	},
+	
+	touchscreen : {
+		virtual_joystick_rel_x: .2,
+		virtual_joystick_rel_y: .7,
+		virtual_joystick_radius: 78,
 	}
 }
 
