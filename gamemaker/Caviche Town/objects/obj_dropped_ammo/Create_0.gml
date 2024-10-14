@@ -7,7 +7,9 @@ type = -1
 amount = 0
 collision_circle_radius = 0
 
-function on_character_touched(_character) {
+last_touched_character = noone
+
+function on_touched_by_character(_character) {
 	if !_character.died {
 	
 		var _current_ammo = _character.backpack.get_ammo(type)
@@ -27,6 +29,7 @@ function on_character_touched(_character) {
 		} else if _ammo_space > 0 && _ammo_space < amount {
 			amount -= _ammo_space
 			_character.backpack.set_ammo(type, _max_ammo)
+			spawn_action_particle()
 		}
 	
 		

@@ -6,6 +6,8 @@ event_inherited()
 gun_information = noone
 timer = 0
 collision_circle_radius = 0
+last_touched_character = noone
+
 
 function on_touched_by_character(_character) {
 	
@@ -28,12 +30,14 @@ function on_touched_by_character(_character) {
 		var _ammo_space = _max_ammo - _current_ammo	
 		var _new_ammo = _current_ammo
 	
-		if _ammo_space > 0 && _ammo_space >= gun_information.loaded_ammo {
+		if _ammo_space > 0 && _ammo_space >= gun_information.loaded_ammo && _ammo_space != 0 && gun_information.loaded_ammo > 0 {
 			_new_ammo = _current_ammo + gun_information.loaded_ammo
 			gun_information.loaded_ammo = 0
+			spawn_action_particle()
 		} else if _ammo_space > 0 && _ammo_space < gun_information.loaded_ammo {
 			gun_information.loaded_ammo -= _ammo_space
 			_new_ammo = _current_ammo + _ammo_space
+			spawn_action_particle()
 		}
 	
 		_character.backpack.set_ammo(gun_information.bullet_type, _new_ammo)

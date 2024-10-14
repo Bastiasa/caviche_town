@@ -11,6 +11,9 @@ function ParticleEmitterManager() constructor {
 		var _position = new Vector()
 		_position = get_from_struct(_data, "position", _position)
 		
+		var _color = get_from_struct(_data, "color", c_white)
+		var _alpha = get_from_struct(_data, "alpha", 1)
+		
 		var _animation_params = get_from_struct(_data, "animation_params", {})
 
 		var _min_scale = get_from_struct(_data, "min_scale", 1)
@@ -29,6 +32,8 @@ function ParticleEmitterManager() constructor {
 		
 		var _particle = {
 			sprite: _sprite,
+			color: _color,
+			alpha: _alpha,
 			position: _position,
 			
 			_lifetime:_lifetime,
@@ -94,7 +99,7 @@ function ParticleEmitterManager() constructor {
 			}
 		}
 		
-		var _alpha = 1
+		var _alpha = _particle_information.alpha
 		var _fade_out_duration = get_from_struct(_particle_information.animation_params, "fade_out", noone)
 		var _fade_in_duration = get_from_struct(_particle_information.animation_params, "fade_in", noone)
 		
@@ -114,7 +119,7 @@ function ParticleEmitterManager() constructor {
 		
 		var _subimages_count = _particle_information.sprite_info.num_subimages
 		var _subimage = round(_subimages_count * (1-(_particle_information.lifetime/_particle_information._lifetime)))
-	
+		
 		draw_sprite_ext(
 			_particle_information.sprite,
 			min(_subimages_count - 1, _subimage),
@@ -123,7 +128,7 @@ function ParticleEmitterManager() constructor {
 			_particle_information.scale,
 			_particle_information.scale,
 			_particle_information.rotation,
-			c_white,
+			_particle_information.color,
 			_alpha
 		)
 		
