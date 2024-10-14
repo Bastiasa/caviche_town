@@ -271,7 +271,7 @@ function EquippedGunManager(_character = noone) constructor {
 			subimage = timer/(_sprite_info.num_subimages/sprite_get_speed(gun_information.sprite)) * _sprite_info.num_subimages
 			
 			randomize()
-			_added_rotation += random(2) * get_direction()
+			_added_rotation += get_direction()
 		
 			if timer >= gun_information.cooldown {
 				can_shoot = true
@@ -291,7 +291,7 @@ function EquippedGunManager(_character = noone) constructor {
 			if timer >= gun_information.reload_time {
 				
 				var _current_ammo = character.backpack.get_ammo(gun_information.bullet_type)
-				var _required_ammo =  gun_information.reload_ammo
+				var _required_ammo =  gun_information.max_ammo - gun_information.loaded_ammo
 				var _reloaded_ammo = 0
 				
 				if _current_ammo >= _required_ammo {
@@ -300,9 +300,12 @@ function EquippedGunManager(_character = noone) constructor {
 					_reloaded_ammo = _current_ammo
 				}
 				
+				if _reloaded_ammo > gun_information.reload_ammo {
+					_reloaded_ammo = gun_information.reload_ammo
+				}
+				
 				character.backpack.set_ammo(gun_information.bullet_type, _current_ammo - _reloaded_ammo)
 				gun_information.loaded_ammo += _reloaded_ammo
-				
 				
 				if gun_information.loaded_ammo < gun_information.max_ammo && character.backpack.get_ammo(gun_information.bullet_type) > 0 {
 					timer = 0

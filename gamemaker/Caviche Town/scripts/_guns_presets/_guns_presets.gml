@@ -37,10 +37,10 @@ function get_m1014_information() {
 		sprite: spr_m1014,
 		sprite_unloaded: spr_m1014_unloaded,
 		scale:1,
-		bullet_type: BULLET_TYPE.MEDIUM,
+		bullet_type: BULLET_TYPE.SHELL,
 		cooldown: 0.7,
 		movement_weight: 0.06,
-		distance: 50,
+		distance: 24,
 		muzzle_offset: new Vector(43/48, 4/17),
 		dispersion:0,
 		
@@ -50,8 +50,7 @@ function get_m1014_information() {
 		dropped_particle_offset: new Vector(5/9, 2/6),
 		dropped_particle_scale: 0.35,
 		
-		//loaded_ammo:12,
-		loaded_ammo:0,
+		loaded_ammo:7,
 		max_ammo:7,
 		
 		reload_ammo: 1,

@@ -28,6 +28,7 @@ start_position_y = y
 damage = 0
 
 _speed = 0
+vertical_speed = 0
 
 particle_manager = noone
 
@@ -48,6 +49,36 @@ function init() {
 			_speed = 30
 			
 			scale = 0.5
+			break
+			
+		case BULLET_TYPE.SHELL:
+			
+			randomize()
+			var _shell_bullets_count = round(random_range(10,15))
+			
+			repeat(_shell_bullets_count) {
+				var _shell_bullet = instance_create_layer(x,y,layer, obj_bullet)
+				
+				randomize()
+			
+				_shell_bullet.type = BULLET_TYPE._SHELL_BULLET
+				_shell_bullet.rotation = rotation + random_range(-10, 10)
+				_shell_bullet.damage = damage/_shell_bullets_count
+				_shell_bullet.shooter = shooter
+				_shell_bullet.events.on_character_hitted.add_listeners(events.on_character_hitted.listeners)
+				_shell_bullet.init()
+			}
+			
+
+			
+			instance_destroy(id)
+			return
+			break
+			
+		case BULLET_TYPE._SHELL_BULLET:
+			sprite_index = spr_shell_bullet
+			_speed = 7
+			scale = 1
 			break
 	}
 	

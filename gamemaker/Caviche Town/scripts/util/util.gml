@@ -188,7 +188,7 @@ function Event() constructor {
 	listeners = {}
 	next_listener_id = -1
 	
-	static add_listener = function(_listener) {
+	function add_listener(_listener) {
 		
 		if !is_callable(_listener) {
 			return noone
@@ -197,6 +197,14 @@ function Event() constructor {
 		next_listener_id++
 		variable_struct_set(listeners, next_listener_id, _listener)
 		return next_listener_id
+	}
+	
+	function add_listeners(_listeners) {
+		var _names struct_get_names(_listeners) 
+		
+		for(var _name_index = 0; _name_index < array_length(_names); _name_index++) {
+			add_listener(variable_struct_get(_listeners, _names[_name_index]))
+		}
 	}
 	
 	

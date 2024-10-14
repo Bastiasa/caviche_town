@@ -1,6 +1,11 @@
 /// @description Inserte aquí la descripción
 // Puede escribir su código en este editor
 
+var _delta = delta_time/MILLION
+
+vertical_speed += 981 * _delta
+y +=  vertical_speed * _delta
+
 if to_destroy {
 	
 	instance_destroy(self.id)
@@ -34,7 +39,7 @@ if !to_destroy {
 	ds_list_clear(_raycast_list)
 	
 
-	if _raycast != noone &&  object_get_parent(_raycast.object_index) != obj_dropped {
+	if _raycast != noone &&  object_get_parent(_raycast.object_index) != obj_dropped && _raycast.object_index != obj_bullet {
 		
 		show_debug_message("Bullet collided with "+object_get_name(_raycast.object_index))
 		
