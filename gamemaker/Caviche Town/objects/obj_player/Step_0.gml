@@ -15,8 +15,6 @@ var _gamepad_direction = get_gamepad_direction(
 
 if check_if_pressed("player_do_jump") {
 	character.jump()
-} else if _virtual_joystick_movement[1] <= -0.5 {
-	character.jump()
 }
 
 if check_if_pressed("player_do_dash") {
@@ -198,7 +196,7 @@ if last_aim_gamepad_movement.magnitude() > global.input_options.gamepad.aim_deat
 }
 
 
-if is_shooting() {
+if is_shooting() && !touchscreen_mode {
 	character.equipped_gun_manager.shoot()
 }
 

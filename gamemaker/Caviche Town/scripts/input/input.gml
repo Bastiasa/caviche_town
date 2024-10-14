@@ -101,6 +101,61 @@ gamepad_axis_input_keys = {
 }
 
 
+function save_input_settings() {
+	
+	var _data = {
+		input_options:input_options,
+		mouse_button_input_keys:mouse_button_input_keys,
+		keyboard_input_keys:keyboard_input_keys,
+		gamepad_input_keys:gamepad_input_keys,
+		gamepad_axis_input_keys:gamepad_axis_input_keys
+	}
+	
+	var _json_string = json_stringify(_data)
+	var _buffer = buffer_create(string_length(_json_string), buffer_grow, 1)
+	
+	buffer_write(_buffer, buffer_string, _json_string)
+	buffer_save(_buffer, "input_settings.json")
+	buffer_delete(_buffer)
+}
+
+function load_input_settings() {
+	var _buffer = buffer_load("input_settings.json")
+	
+	if _buffer < 0 {
+		return false
+	} else {
+		
+		try {
+			var _raw_json = buffer_read(_buffer, buffer_string)
+			var _json = json_parse(_raw_json, noone, true)	
+			
+			input_options = _json.input_options
+			mouse_button_input_keys = _json.mouse_button_input_keys
+			keyboard_input_keys = _json.keyboard_input_keys
+			gamepad_input_keys = _json.gamepad_input_keys
+			gamepad_axis_input_keys = _json.gamepad_axis_input_keys
+			
+			show_debug_message("Loaded settings: "+_raw_json)
+			
+		} catch(_err) {
+			
+			show_debug_message("Error while parsing settings content: "+string(_err))
+			
+		}
+		
+		buffer_delete(_buffer)
+		return true
+	}
+}
+
+if load_input_settings() {
+	 show_debug_message("Input settings have been loaded successfully.")
+} else {
+	show_debug_message("Input settings have not been loaded correctly. Saving default settings.")
+	save_input_settings()
+}
+
 function get_keyboard_input_direction(_left, _right, _up, _down) {
 	return new Vector(
 		keyboard_check(_right) - keyboard_check(_left),
