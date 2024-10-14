@@ -9,7 +9,7 @@ if keyboard_check_pressed(vk_backspace) {
 	text = string_delete(text, cursor + 1, 2)
 }
 
-if keyboard_lastkey == 8 {
+if keyboard_lastkey == vk_backspace {
 	keyboard_lastkey = vk_nokey
 	keyboard_lastchar = ""
 }
