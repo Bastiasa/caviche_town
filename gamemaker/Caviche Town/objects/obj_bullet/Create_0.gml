@@ -54,7 +54,7 @@ function init() {
 		case BULLET_TYPE.SHELL:
 			
 			randomize()
-			var _shell_bullets_count = round(random_range(10,15))
+			var _shell_bullets_count = round(random_range(10,20))
 			
 			repeat(_shell_bullets_count) {
 				var _shell_bullet = instance_create_layer(x,y,layer, obj_bullet)
@@ -62,7 +62,7 @@ function init() {
 				randomize()
 			
 				_shell_bullet.type = BULLET_TYPE._SHELL_BULLET
-				_shell_bullet.rotation = rotation + random_range(-10, 10)
+				_shell_bullet.rotation = rotation + random_range(-5, 5)
 				_shell_bullet.damage = damage/_shell_bullets_count
 				_shell_bullet.shooter = shooter
 				_shell_bullet.events.on_character_hitted.add_listeners(events.on_character_hitted.listeners)
@@ -77,8 +77,11 @@ function init() {
 			
 		case BULLET_TYPE._SHELL_BULLET:
 			sprite_index = spr_shell_bullet
-			_speed = 7
-			scale = 1
+			randomize()
+			_speed = random_range(10, 15)
+			scale = random_range(.3, .8)
+			
+			lifetime = random_range(0.12, 0.3)
 			break
 	}
 	

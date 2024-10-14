@@ -126,7 +126,7 @@ function EquippedGunManager(_character = noone) constructor {
 			var _sprite = get_from_struct(gun_information, "dropped_particle_sprite", spr_empty_cannon_particle)
 			var _scale = get_from_struct(gun_information, "dropped_particle_scale", 1)
 			
-			global.particle_manager.create_particle(spr_empty_cannon_particle, {
+			global.particle_manager.create_particle(_sprite, {
 				position: _position.add(character.position),
 				min_lifetime: 0.5,
 				max_lifetime: 0.5,

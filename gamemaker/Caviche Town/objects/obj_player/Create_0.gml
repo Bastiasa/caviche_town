@@ -57,6 +57,20 @@ virtual_joystick = {
 	touch: -1
 }
 
+character.equipped_gun_manager.events.on_bullet_shooted.add_listener(function(_args) {
+	
+	if character.equipped_gun_manager == noone {
+		return
+	}
+	
+	var _camera_shake_enabled = get_from_struct(character.equipped_gun_manager.gun_information, "player_camera_shake", false)
+	var _camera_shake_amount = get_from_struct(character.equipped_gun_manager.gun_information, "player_camera_shake_amount", 0)
+	
+	if _camera_shake_enabled {
+		camera_shakeness += _camera_shake_amount
+	}
+})
+
 function get_virtual_joystick_normalized(_round = false) {
 	var _joystick_radius = global.input_options.touchscreen.virtual_joystick_radius
 	

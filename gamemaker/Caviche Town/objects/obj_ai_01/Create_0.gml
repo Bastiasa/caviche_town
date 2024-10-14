@@ -28,6 +28,7 @@ stopped = false
 timer = 0
 timer2 = 0
 stopping_time = 0
+next_direction = 0
 
 debugging_lines = []
 last_looking_front_result = noone

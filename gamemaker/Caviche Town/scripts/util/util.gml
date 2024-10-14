@@ -200,7 +200,7 @@ function Event() constructor {
 	}
 	
 	function add_listeners(_listeners) {
-		var _names struct_get_names(_listeners) 
+		var _names = struct_get_names(_listeners) 
 		
 		for(var _name_index = 0; _name_index < array_length(_names); _name_index++) {
 			add_listener(variable_struct_get(_listeners, _names[_name_index]))
