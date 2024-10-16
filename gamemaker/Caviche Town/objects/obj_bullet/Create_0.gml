@@ -54,7 +54,7 @@ function init() {
 		case BULLET_TYPE.SHELL:
 			
 			randomize()
-			var _shell_bullets_count = round(random_range(17,20))
+			var _shell_bullets_count = round(random_range(6,10))
 			
 			repeat(_shell_bullets_count) {
 				var _shell_bullet = instance_create_layer(x,y,layer, obj_bullet)

@@ -51,14 +51,14 @@ keyboard_input_keys = {
 	player_do_jump: vk_space,
 	player_do_dash: vk_shift,
 	player_do_reload: ord("R"),
-	player_do_throw_gun: noone,//ord("Q"),
+	player_do_throw_gun: ord("Q"),
 	
 	player_do_equip_slot_1: ord("1"),
 	player_do_equip_slot_2: ord("2"),
 	player_do_equip_slot_3: ord("3"),
 	
 	player_do_next_slot: ord("E"),
-	player_do_previous_slot: ord("Q"),
+	player_do_previous_slot: noone,
 	
 	pause_menu: ord("P")
 }
@@ -146,6 +146,7 @@ function load_input_settings() {
 		return true
 	}
 }
+
 
 if load_input_settings() {
 	 show_debug_message("Input settings have been loaded successfully.")

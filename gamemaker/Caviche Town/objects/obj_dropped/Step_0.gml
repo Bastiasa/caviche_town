@@ -2,7 +2,7 @@
 // Puede escribir su código en este editor
 //return
 
-image_angle = rotation
+
 
 var _is_on_floor = place_meeting(x,y,obj_collider)
 var _delta = delta_time / MILLION
