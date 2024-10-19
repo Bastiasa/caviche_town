@@ -128,10 +128,10 @@ function get_sniper_information() {
 		sprite: spr_sniper,
 		sprite_unloaded: spr_sniper_unloaded,
 		
-		distance_damage_decrease: 1200,
+		distance_damage_decrease: 300,
 
 		scale:1,
-		damage: 60,
+		damage: 150,
 		bullet_type: BULLET_TYPE.BIG_JOCK,
 		cooldown: 0,
 		movement_weight: 0.05,

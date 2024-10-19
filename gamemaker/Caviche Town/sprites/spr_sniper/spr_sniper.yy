@@ -26,7 +26,7 @@
   "origin":0,
   "parent":{
     "name":"sniper",
-    "path":"folders/Sprites/props/sniper.yy",
+    "path":"folders/Sprites/props/guns/sniper.yy",
   },
   "preMultiplyAlpha":false,
   "resourceType":"GMSprite",
