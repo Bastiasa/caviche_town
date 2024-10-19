@@ -125,22 +125,33 @@ function create_dropped_ammo(_type, _amount) {
 	_dropped_ammo.vertical_speed = -3
 	_dropped_ammo.horizontal_speed = sign(random_range(-1, 1)) * 3
 	
-	switch _type {
-		case BULLET_TYPE.LIL_GUY:
-		_dropped_ammo.sprite_index = spr_lil_guys_box
-		break
-		
-		case BULLET_TYPE.MEDIUM:
-		_dropped_ammo.sprite_index = spr_medium_bullets_box
-		break
-		
-		case BULLET_TYPE.GRENADES:
-		_dropped_ammo.sprite_index = spr_grenade
-		break
-		
-	}
+	_dropped_ammo.load_sprite()
 	
 	return _dropped_ammo
+}
+
+function drop_ammo(_type, _amount) {
+	
+	if _amount == all {
+		var _result = create_dropped_ammo(_type, backpack.get_ammo(_type))
+		backpack.set_ammo(_type, 0)
+		return _result
+	} else {
+		
+		var _current_ammo = backpack.get_ammo(_type)
+		var _dropped_amount = 0
+		
+		if _current_ammo < _amount {
+			_dropped_amount = _current_ammo
+		} else {
+			_dropped_amount = _amount
+		}
+		
+		backpack.set_ammo(_type, _current_ammo - _dropped_amount)
+		return create_dropped_ammo(_type, _dropped_amount)
+	}
+
+
 }
 
 function apply_damage(_damage, _from = noone) {
@@ -159,11 +170,12 @@ function apply_damage(_damage, _from = noone) {
 		
 		array_foreach(backpack.guns, create_dropped_gun)
 		
-		var _lil_guys_ammo = backpack.lil_guys
-		var _medium_bullets_ammo = backpack.medium_bullets
-		
-		create_dropped_ammo(BULLET_TYPE.LIL_GUY,_lil_guys_ammo)
-		create_dropped_ammo(BULLET_TYPE.MEDIUM,_medium_bullets_ammo)
+		drop_ammo(BULLET_TYPE.LIL_GUY, all)
+		drop_ammo(BULLET_TYPE.MEDIUM, all)
+		drop_ammo(BULLET_TYPE.BIG_JOCK, all)
+		drop_ammo(BULLET_TYPE.ROCKET, all)
+		drop_ammo(BULLET_TYPE.SHELL, all)
+		drop_ammo(BULLET_TYPE.GRENADES, all)
 		
 		equipped_gun_manager.set_gun(noone)
 		
