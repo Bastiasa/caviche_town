@@ -298,9 +298,9 @@ character.equipped_gun_manager.events.on_bullet_shooted.add_listener(function(_a
 	
 	_bullet.events.on_character_hitted.add_listener(function(_args2) {
 		var _hitted_character = _args2[0]
-		var _bullet = _args2[1]
+		var _damage = _args2[1]
 		
-		create_hit_particle(_hitted_character, _bullet.damage)
+		create_hit_particle(_hitted_character, _damage)
 	})
 })
 

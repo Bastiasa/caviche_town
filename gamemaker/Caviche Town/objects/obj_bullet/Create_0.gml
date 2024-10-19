@@ -36,13 +36,14 @@ events.on_character_hitted.add_listener(function(_args) {
 	var _target = _args[0]
 	
 	var _distance = point_distance(_target.x, _target.y, start_position_x, start_position_y)
+	var _result_damage = damage
 			
 	if  _distance > 300 {
-		damage = max(5, 300/_distance * damage)
+		_result_damage = max(5, 300/_distance * damage)
 	}
 	
 	if type != BULLET_TYPE.ROCKET {
-		_target.apply_damage(damage, shooter)
+		_target.apply_damage(_result_damage, shooter)
 	}
 })
 

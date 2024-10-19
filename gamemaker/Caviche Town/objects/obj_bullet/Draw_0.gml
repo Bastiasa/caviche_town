@@ -57,7 +57,8 @@ if particle_manager != noone {
 		_last_position.y,
 		_position.x,
 		_position.y,
-		speed * .2
+		speed * .2,
+		type != BULLET_TYPE.ROCKET ? spr_bullet_particle : spr_dust_1
 	)
 	
 	/*particle_manager.create_particle(spr_bullet_particle, {

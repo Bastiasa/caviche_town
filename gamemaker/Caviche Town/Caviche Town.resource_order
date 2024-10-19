@@ -72,6 +72,7 @@
     {"name":"_save_and_load","order":4,"path":"scripts/_save_and_load/_save_and_load.yy",},
     {"name":"debugging","order":8,"path":"scripts/debugging/debugging.yy",},
     {"name":"enums","order":3,"path":"scripts/enums/enums.yy",},
+    {"name":"explosions","order":7,"path":"scripts/explosions/explosions.yy",},
     {"name":"global_drawer","order":2,"path":"scripts/global_drawer/global_drawer.yy",},
     {"name":"input","order":3,"path":"scripts/input/input.yy",},
     {"name":"particles_emitter_manager","order":1,"path":"scripts/particles_emitter_manager/particles_emitter_manager.yy",},
