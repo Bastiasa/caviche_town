@@ -157,6 +157,7 @@ function EquippedGunManager(_character = noone) constructor {
 		_bullet.rotation = _rotation - _added_rotation + random_range(-gun_information.dispersion, gun_information.dispersion)
 		_bullet.type = gun_information.bullet_type
 		_bullet.damage = gun_information.damage
+		_bullet.distance_damage_decrease = get_from_struct(gun_information, "distance_damage_decrease", 500)
 		
 		events.on_bullet_shooted.fire([_bullet])
 		

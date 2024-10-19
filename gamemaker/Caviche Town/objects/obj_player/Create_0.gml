@@ -7,6 +7,10 @@ camera_shakeness = 0
 camera_shakeness_decrease = 36
 
 camera_distance = 400
+_camera_distance = 400
+
+sniper_camera_distance = 800
+normal_camera_distance = 500
 
 camera = new CameraView(view_camera[0])
 character = instance_create_layer(x,y, layer, obj_character)
@@ -308,7 +312,7 @@ function reset_camera_size() {
 	var _window_width = window_get_width()
 	var _window_height = window_get_height()
 	
-	var _width =  _window_width/_window_height * camera_distance
+	var _width =  _window_width/_window_height * _camera_distance
 	var _height = camera_distance
 	
 	camera.size.x = _width

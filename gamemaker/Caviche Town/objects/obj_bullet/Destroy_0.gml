@@ -4,8 +4,8 @@
 if type == BULLET_TYPE.ROCKET {
 	
 	var _explosion = create_explosion(
-		x,
-		y,
+		xprevious,
+		yprevious,
 		layer,
 		128,
 		damage,

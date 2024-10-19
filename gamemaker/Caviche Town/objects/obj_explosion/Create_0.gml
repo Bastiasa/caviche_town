@@ -5,8 +5,10 @@
 cause = noone
 radius = 128
 player_shakeness = 30
-max_damage = 100
 
+max_force = 30
+
+max_damage = 100
 max_damage_range = 0.5
 
 events = {
@@ -15,10 +17,20 @@ events = {
 
 function character_gotten_by_explosion(_character, _damage) {
 	_character.apply_damage(_damage, cause)
-	events.on_character_hitted.fire([self, _damage])
+	events.on_character_hitted.fire([_character, _damage])
 	
-	_character.velocity.x += x - _character.x
-	_character.velocity.y += y - _character.y
+	var _dir_x = _character.x - x
+	var _dir_y = _character.y - y
+	
+	var _dir_length = point_distance(_character.x, _character.y, x, y)
+	
+	var _normal_x = _dir_x / _dir_length
+	var _normal_y = _dir_y / _dir_length
+	
+	var _force = max_force / _dir_length
+	
+	_character.velocity.x += _force * _normal_x
+	_character.velocity.y += _force * _normal_y
 }
 
 function init() {
@@ -45,6 +57,10 @@ function init() {
 		with obj_character {
 			
 			if other.cause != noone && other.cause.team == team && other.cause != self {
+				continue
+			}
+			
+			if current_state == CHARACTER_STATE.DASHING {
 				continue
 			}
 			

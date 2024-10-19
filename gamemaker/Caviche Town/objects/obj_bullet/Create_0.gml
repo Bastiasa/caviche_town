@@ -26,6 +26,7 @@ start_position_x = x
 start_position_y = y
 
 damage = 0
+distance_damage_decrease = 900
 
 _speed = 0
 vertical_speed = 0
@@ -38,13 +39,15 @@ function apply_damage_to_target(_target) {
 	var _distance = point_distance(_target.x, _target.y, start_position_x, start_position_y)
 	var _result_damage = damage
 			
-	if  _distance > 300 {
-		_result_damage = max(5, 300/_distance * damage)
+	if  _distance > distance_damage_decrease {
+		_result_damage = max(5, distance_damage_decrease/_distance * damage)
 	}
 	
 	if type != BULLET_TYPE.ROCKET {
 		_target.apply_damage(_result_damage, shooter)
 	}
+	
+	events.on_character_hitted.fire([_target, _result_damage])
 }
 
 function init() {
@@ -104,7 +107,13 @@ function init() {
 		case BULLET_TYPE.ROCKET:
 			sprite_index = spr_rocket_bullet
 			_speed = 6
-			lifetime = 5
+			lifetime = 4
+		break
+		
+		case BULLET_TYPE.BIG_JOCK: 
+			sprite_index = spr_big_jock_bullet
+			_speed = 40
+			lifetime = 1
 		break
 	}
 	

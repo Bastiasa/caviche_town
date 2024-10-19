@@ -48,7 +48,6 @@ if !to_destroy {
 						
 			
 			if type != BULLET_TYPE.ROCKET {
-				events.on_character_hitted.fire([_raycast, damage])
 				apply_damage_to_target(_raycast)
 			}
 			

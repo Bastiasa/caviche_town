@@ -2,6 +2,20 @@
 // Puede escribir su código en este editor
 
 var _virtual_joystick_movement = get_virtual_joystick_normalized(true)
+var _equipped_gun = character.equipped_gun_manager.gun_information
+
+if _equipped_gun != noone {
+	
+	if _equipped_gun.name == "sniper" {
+		camera_distance = sniper_camera_distance
+	} else {
+		camera_distance = normal_camera_distance
+	}
+} else {
+	camera_distance = normal_camera_distance
+}
+
+_camera_distance = lerp(_camera_distance, camera_distance, 0.2)
 
 reset_camera_size()
 
