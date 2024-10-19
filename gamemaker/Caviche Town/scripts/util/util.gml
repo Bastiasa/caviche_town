@@ -7,6 +7,10 @@ function Vector(_x = 0, _y = 0) constructor {
 	
 	// Vector properties
 	
+	static abs = function() {
+		return new Vector(abs(x), abs(y))
+	}
+	
 	static angle = function() {
 		return point_direction(0,0, x,y) * pi/180
 	}

@@ -32,8 +32,8 @@ vertical_speed = 0
 
 particle_manager = noone
 
-events.on_character_hitted.add_listener(function(_args) {
-	var _target = _args[0]
+
+function apply_damage_to_target(_target) {
 	
 	var _distance = point_distance(_target.x, _target.y, start_position_x, start_position_y)
 	var _result_damage = damage
@@ -45,7 +45,7 @@ events.on_character_hitted.add_listener(function(_args) {
 	if type != BULLET_TYPE.ROCKET {
 		_target.apply_damage(_result_damage, shooter)
 	}
-})
+}
 
 function init() {
 	
@@ -117,7 +117,7 @@ function init() {
 	y = position.y
 }
 
-function create_particles(_start_x,_start_y,_end_x,_end_y, _steps = 10) {
+function create_particles(_start_x,_start_y,_end_x,_end_y, _steps = 10, _sprite = spr_bullet_particle) {
 	
 	var _position = new Vector(_start_x,_start_y)
 	var _end = new Vector(_end_x,_end_y)
@@ -128,7 +128,7 @@ function create_particles(_start_x,_start_y,_end_x,_end_y, _steps = 10) {
 	for (var _index = 0; _index < _steps; _index++) {
 		
 		particle_manager.create_particle(
-			spr_bullet_particle,
+			_sprite,
 			{
 				position: _position.copy(),
 				

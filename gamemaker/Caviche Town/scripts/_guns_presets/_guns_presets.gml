@@ -115,7 +115,7 @@ function get_rpg7_information() {
 		max_ammo:1,
 		
 		reload_ammo: 1,
-		reload_time: 4
+		reload_time: 3
 	}	
 }
 

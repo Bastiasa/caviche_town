@@ -3,7 +3,7 @@
 
 
 function is_player(_posible_player) {
-	return _posible_player != noone && _posible_player.object_index == obj_character && _posible_player.player != noone
+	return _posible_player != noone && _posible_player.object_index == obj_character && _posible_player.controller != noone && _posible_player.controller.object_index == obj_player
 }
 
 function is_teammate(_character, _team) {

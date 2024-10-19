@@ -4,7 +4,7 @@
 timer = 0
 
 camera_shakeness = 0
-camera_shakeness_decrease = 50
+camera_shakeness_decrease = 36
 
 camera_distance = 400
 

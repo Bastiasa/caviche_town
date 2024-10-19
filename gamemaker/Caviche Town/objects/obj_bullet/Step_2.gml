@@ -47,7 +47,11 @@ if !to_destroy {
 		if _raycast.object_index == obj_character && !_raycast.is_character_teammate(shooter) && !_raycast.died && _raycast.current_state != CHARACTER_STATE.DASHING {
 						
 			
-			events.on_character_hitted.fire([_raycast, damage])
+			if type != BULLET_TYPE.ROCKET {
+				events.on_character_hitted.fire([_raycast, damage])
+				apply_damage_to_target(_raycast)
+			}
+			
 		} else if _raycast.object_index == obj_character && _raycast.current_state != CHARACTER_STATE.DASHING {
 			to_destroy = false
 		}
