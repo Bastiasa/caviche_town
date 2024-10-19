@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bones Animation Creator</title>
+
+    <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+
+    <main id="content">
+
+        <div id="top_panel">
+            <img src="icons/centered_position.svg" id="reset_position_button" onclick="resetCanvasTransform();">
+        </div>
+
+        <div id="world_container">
+            <div id="world">
+            </div>
+        </div>
+
+
+
+        <div id="bottom_panel">
+
+        </div>
+
+    </main>
+
+    <div id="cm_0" class="context_menu hidden">
+        <span class="button" onclick="startBoneCreation();">Create bone <img src="icons/bone.svg" alt="BONE" class="icon"></span>
+        <span class="button" onclick="resetCanvasTransform();">Reset canvas transform <img src="icons/centered_position.svg" alt="" class="icon"></span>
+        <span class="button" onclick="selectAllBones()">Select all bones</span>
+    </div>
+
+    <div id="cm_1" class="context_menu hidden">
+        <span class="button" onclick="startBoneCreation(getBoneElementByVertex(currentContextMenuTarget))">Append child bone <img src="icons/joint.svg" alt="BONE" class="icon"></span>
+        <span class="button" onclick="deleteBoneByVertex(currentContextMenuTarget);">Delete bone <img src="icons/trash.svg" alt="BONE" class="icon"></span>
+        <span class="button" onclick="resetCanvasTransform();">Reset canvas transform <img src="icons/centered_position.svg" alt="" class="icon"></span>
+    </div>
+
+    <div id="cm_2" class="context_menu hidden">
+        <span class="button" onclick="startBoneCreation(getBoneByVertex(currentContextMenuTarget).parent)">Add brother bone <img src="icons/joint.svg" alt="BONE" class="icon"></span>
+        <span class="button" onclick="deleteBoneByVertex(currentContextMenuTarget);">Delete bone <img src="icons/trash.svg" alt="BONE" class="icon"></span>
+        <span class="button" onclick="resetCanvasTransform();">Reset canvas transform <img src="icons/centered_position.svg" alt="" class="icon"></span>
+    </div>
+
+    <div id="cm_3" class="context_menu hidden">
+        <span class="button" onclick="startBoneCreation(getBoneById(currentContextMenuTarget.getAttribute('data-id')).parent)">Append brother bone<img src="icons/joint.svg" alt="BONE" class="icon"></span>
+        <span class="button" onclick="startBoneCreation(currentContextMenuTarget)">Append child bone <img src="icons/joint.svg" alt="BONE" class="icon"></span>
+        <span class="button" onclick="deleteBoneByElement(currentContextMenuTarget);">Delete bone <img src="icons/trash.svg" alt="BONE" class="icon"></span>
+        <span class="button" onclick="resetCanvasTransform();">Reset canvas transform <img src="icons/centered_position.svg" alt="" class="icon"></span>
+    </div>
+
+
+    <div id="cm_4" class="context_menu hidden">
+        <span class="button" onclick="deleteSelectedBones()">Delete selected bones<img src="icons/trash.svg" alt="BONE" class="icon"></span>
+    </div>
+
+
+    
+    <script src="js/classes.js"></script>
+    <script src="js/activity.js"></script>
+    <script src="js/world.js"></script>
+</body>
+</html>

@@ -32,6 +32,20 @@ vertical_speed = 0
 
 particle_manager = noone
 
+events.on_character_hitted.add_listener(function(_args) {
+	var _target = _args[0]
+	
+	var _distance = point_distance(_target.x, _target.y, start_position_x, start_position_y)
+			
+	if  _distance > 300 {
+		damage = max(5, 300/_distance * damage)
+	}
+	
+	if type != BULLET_TYPE.ROCKET {
+		_target.apply_damage(damage, shooter)
+	}
+})
+
 function init() {
 	
 	switch type {
@@ -85,6 +99,12 @@ function init() {
 			
 			lifetime = random_range(0.12, 0.3)
 			break
+			
+		case BULLET_TYPE.ROCKET:
+			sprite_index = spr_rocket_bullet
+			_speed = 6
+			lifetime = 5
+		break
 	}
 	
 	speed = _speed * delta_time / MILLION * 100

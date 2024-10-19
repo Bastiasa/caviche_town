@@ -4,43 +4,16 @@
 socket = noone
 
 received_reliables = {}
-received_packages_fragments = {}
-
-
 
 reliable = {
 	timeout:4,
 	max_retries: 4,
 	next_id: -1,
-	messages:[],
-	
-	fragments_size: 32,
-	sended_packages: {},
-	send_queue: []
+	messages:[]
 }
 
 events = {
 	on_message_received: new Event()
-}
-
-function string_get_parts(_str, _parts_size) {
-	var _result = []
-	var _current = ""
-	
-	for(_index = 0; _index < string_length(_str); _index++) {
-		if string_length(_current) < _parts_size {
-			_current += string_char_at(_str, _index)
-		} else {
-			array_insert(_result, 0, _current)
-			_current = ""
-		}
-	}
-	
-	if string_length(_current) > 0 {
-		array_insert(_result,0, _current)
-	}
-	
-	return _result
 }
 
 function address_to_string(_address) {

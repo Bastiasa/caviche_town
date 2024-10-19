@@ -1,0 +1,73 @@
+:root {
+    --bone-thickness:5px;
+    --bone-color:aqua;
+    --bone-placeholder-color:red;
+    --bone-onhover-color: yellow;
+
+    --bone-vertex-scale:16px;
+    --bone-vertex-half-scale:calc(var(--bone-vertex-scale) * .5);
+}
+
+.bone {
+    position: absolute;
+    background-color: var(--bone-color);
+    height: var(--bone-thickness);
+    box-sizing: border-box;
+    cursor: pointer;
+    transform-origin: calc(var(--bone-vertex-half-scale) * -1) center;
+    transition: scale 200ms ease;
+    transition-property: scale, opacity, background-color;
+
+    scale: 1;
+    opacity: 1;
+    /* rotate: 90deg; */
+
+}
+
+.bone.placeholder {
+    background-color: var(--bone-placeholder-color);
+    opacity: 0.8;
+    pointer-events: none;
+}
+
+.bone.hidden {
+    scale: 0.9;
+    opacity: 0;
+
+    pointer-events: none;
+}
+
+
+
+.bone:not(.bone.placeholder):hover, .bone:not(.bone.placeholder).selected{
+    background-color: var(--bone-onhover-color);
+}
+
+.bone_vertex {
+    position: absolute;
+    border: var(--bone-thickness) solid var(--bone-color);
+    border-radius: 50%;
+    
+    width: var(--bone-vertex-scale);
+    height: var(--bone-vertex-scale);
+
+    box-sizing: border-box;
+    top: 50%;
+    transform: translateY(-50%) translate(-100%);
+
+    left: 0;
+    cursor: pointer;
+}
+
+.bone.placeholder .bone_vertex {
+    border: var(--bone-placeholder-color) solid var(--bone-thickness);
+}
+
+.bone_vertex:hover:not(.bone.placeholder .bone_vertex), .bone.selected .bone_vertex:not(.bone.placeholder .bone_vertex) {
+    border: var(--bone-thickness) solid var(--bone-onhover-color);
+}
+
+.bone_vertex.end {
+    left: 100%;
+    transform: translate(0, -50%);
+}

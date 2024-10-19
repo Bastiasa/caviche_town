@@ -1,0 +1,91 @@
+@import url('bones.css');
+@import url('context_menu.css');
+
+:root {
+    --main-color:rgb(32, 32, 32);
+}
+
+* {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    color: white;
+}
+
+html {
+    background-color: var(--main-color);
+}
+
+body {
+     margin: 0;
+}
+
+#content {
+    height: 100vh;
+    width: 100%;
+    max-width: 1300px;
+    margin: 0 auto;
+
+    display: flex;
+    flex-direction: column;
+}
+
+#top_panel {
+    width: 100%;
+    height: 48px;
+    padding: 8px;
+    box-sizing: border-box;
+
+    border-bottom: 1px solid white;
+    display: flex;
+
+    justify-content: center;
+
+    gap: 16px;
+}
+
+
+#top_panel > * {
+    height: 100%;
+    width: auto;
+
+    cursor: pointer;
+}
+
+
+
+#world_container {
+    position: relative;
+    overflow: hidden;
+    flex-grow: 1;
+}
+
+#world {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    box-sizing: border-box;
+
+    border: 1px solid red;
+}
+
+#bottom_panel {
+    width: 100%;
+    height: 100px;
+
+    border-top: 1px solid white;
+}
+
+.dot {
+    width: 8px;
+    height: 8px;
+
+    border-radius: 50%;
+
+    background-color: blue;
+
+    position: absolute;
+
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+}

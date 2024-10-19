@@ -71,6 +71,75 @@ character.equipped_gun_manager.events.on_bullet_shooted.add_listener(function(_a
 	}
 })
 
+function draw_inventory() {
+	
+	var _gui_width = display_get_gui_width()
+	var _slot_count = character.backpack.max_guns
+	var _slot_width = (_gui_width * .25) / _slot_count
+	var _inventory_width = _slot_width * _slot_count
+	var _selected_slot = character.backpack.get_gun_slot(character.equipped_gun_manager.gun_information)
+	var _slot_scale = _slot_width / 32
+	var _slot_alpha = 1
+	
+	if _slot_count == 1 {
+		draw_sprite_ext(
+			spr_slot_center,
+			_selected_slot == 0 ? 1 : 0,
+			x - _inventory_width * .5,
+			0,
+			_slot_scale,
+			_slot_scale,
+			0,
+			c_white,
+			_slot_alpha
+		)
+	} else {
+		for(var _drawing_slot_index = 0; _drawing_slot_index < character.backpack.max_guns; _drawing_slot_index++) {
+			
+			var _sprite_index = spr_slot_center
+			var _selected = _selected_slot == _drawing_slot_index
+			
+			if _drawing_slot_index == 0 {
+				_sprite_index = spr_slot_left
+			} else if _drawing_slot_index == character.backpack.max_guns - 1 {
+				_sprite_index = spr_slot_right
+			}
+			
+			var _x  = _gui_width * .5 - _inventory_width * .5 + (_drawing_slot_index * _slot_width)
+			
+			draw_sprite_ext(
+				_sprite_index,
+				_selected,
+				_x,
+				0,
+				_slot_scale,
+				_slot_scale,
+				0,
+				c_white,
+				_slot_alpha
+			)
+			
+			var _gun_information = character.backpack.get_gun(_drawing_slot_index)
+			
+			if _gun_information != noone {
+				draw_sprite_ext(
+					_gun_information.sprite,
+					0,
+					_x + (_slot_width*.5) - sprite_get_width(_gun_information.sprite) * .5,
+					_slot_width * .5,
+					1,
+					1,
+					_selected ? 25 : 0,
+					c_white,
+					_selected ? 1 : 0.5
+				)
+			}
+		
+		}
+	}
+	
+}
+
 function get_virtual_joystick_normalized(_round = false) {
 	var _joystick_radius = global.input_options.touchscreen.virtual_joystick_radius
 	

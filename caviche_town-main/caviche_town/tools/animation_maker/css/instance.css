@@ -1,0 +1,68 @@
+
+:root {
+    --selection-ui-color:rgba(119, 98, 255, 0.645);
+}
+
+.instance {
+    position: absolute;
+    margin: 0;
+    padding: 0;
+
+    filter: brightness(1);
+    outline: 1px solid transparent;
+
+    transition: filter 200ms ease;
+    transition-property: outline, filter;
+}
+
+.instance:hover {
+    filter: brightness(1.1);
+    outline: 3px solid rgba(255, 255, 255, 0.403);
+}
+
+.instance.selected {
+    filter: brightness(1.15);
+    outline: 3px solid var(--selection-ui-color);
+}
+
+img.instance {
+    -moz-user-select: none;
+    -webkit-user-drag: none;
+    user-select: none;
+    -webkit-user-select: none;
+
+    image-rendering: pixelated;
+}
+
+.anchor-dot {
+    width: 16px;
+    height: 16px;
+
+    box-sizing: border-box;
+
+    position: absolute;
+
+    border-radius: 50%;
+    background-color: var(--selection-ui-color);
+
+    transform: translate(-50%, -50%);
+}
+
+
+.selection_square {
+    position: absolute;
+    background-color: var(--selection-ui-color);
+    opacity: 0.5;
+    scale: 1;
+
+    transition: scale 200ms ease;
+    transition-property: opacity, scale;
+
+    pointer-events: none;
+}
+
+.selection_square.eliminated {
+    scale: 0.95;
+    opacity: 0;
+    transform-origin: 50% 50%;
+}

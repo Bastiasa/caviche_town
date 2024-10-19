@@ -6,12 +6,14 @@ function CharacterBackpackManager(_character = noone) constructor {
 	big_jocks = 0
 	shells = 0
 	rockets = 0
+	grenades = 0
 	
 	max_lil_guys = 500
 	max_medium_bullets = 500
 	max_big_jocks = 500
 	max_shells = 500
 	max_rockets = 12
+	max_grenades = 3
 	
 	max_guns = 3
 	guns = array_create(max_guns, noone)
@@ -115,6 +117,9 @@ function CharacterBackpackManager(_character = noone) constructor {
 			case BULLET_TYPE.ROCKET: return rockets
 			break
 			
+			case BULLET_TYPE.GRENADES: return grenades
+			break
+			
 			default: return noone
 			break
 		}
@@ -137,6 +142,9 @@ function CharacterBackpackManager(_character = noone) constructor {
 			case BULLET_TYPE.SHELL: return max_shells
 			break
 			
+			case BULLET_TYPE.GRENADES: return max_grenades
+			break
+			
 			default: return noone
 			break
 		}
@@ -149,6 +157,7 @@ function CharacterBackpackManager(_character = noone) constructor {
 			case BULLET_TYPE.BIG_JOCK: big_jocks = clamp(_new_ammo, 0, max_big_jocks); break
 			case BULLET_TYPE.SHELL: shells = clamp(_new_ammo, 0, max_shells); break
 			case BULLET_TYPE.ROCKET: rockets = clamp(_new_ammo, 0, max_rockets); break
+			case BULLET_TYPE.GRENADES: grenades = clamp(_new_ammo, 0, max_grenades); break
 			default: return false; break
 		}
 		

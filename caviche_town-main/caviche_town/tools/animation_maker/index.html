@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animation Maker</title>
+    <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+
+    <main id="content">
+        <div id="top_panel" class="h_layout">
+            <img src="icons/download.svg" class="button" id="download_animations_button">
+            <img src="icons/upload.svg" class="button" id="upload_animations_button">
+        </div>
+
+        <div id="viewport_container">
+            <div id="viewport"></div>
+        </div>
+
+        <div id="bottom_panel" class="h_layout">
+            <div id="nodes_panel" class="container v_layout">
+
+            </div>
+
+            <form id="selection_properties_panel" class="container disabled v_layout">
+
+            </form>
+
+            <div id="animation_panel" class="container v_layout">
+
+                <div id="animation_info" class="h_layout">
+                    <span id="animation_selector_container" class="joined_elements_container">
+                        <select value="" id="animation_selector">
+                            <option disabled value="" selected class>Ninguno</option>
+                        </select>
+                        
+                        <span id="rename_animation_button" tabindex="0" class="button disabled"><img src="icons/pencil.svg" alt=""></span>
+                        <span id="delete_animation_button" tabindex="0" class="button disabled"><img src="icons/trash.svg" alt=""></span>
+                        <span id="create_animation_button" tabindex="0" class="button"><img src="icons/plus.svg" alt=""></span>
+                    </span>
+
+                    <span class="joined_elements_container">
+                        <span>Frame</span>
+                        <input type="number" id="current_frame_input" class="disabled" value="0" min="0">
+                    </span>
+
+                    <span class="joined_elements_container">
+                        <span>Duración</span>
+                        <input type="number" id="end_frame_input" class="disabled" value="0" min="0">
+                    </span>
+
+                    <span title="Frames por segundo" class="joined_elements_container">
+                        <span>FPS</span>
+                        <input type="number" id="fps_input" class="disabled" value="0" min="0">
+                    </span>
+
+                    <span class="joined_elements_container">
+                        <span>Bucle</span>
+                        <span><input type="checkbox"  id="animation_loop_checkbox"></span>
+                    </span>
+                </div>
+
+                <div id="animation_controls" class="h_layout">
+                    <span class="button" id="previous_frame"><img src="icons/skip_previous.svg" alt=""></span>
+                    <span class="button" id="play_button"><img src="icons/play.svg" alt=""></span>
+                    <span class="button" id="next_frame"><img src="icons/skip_next.svg" alt=""></span>
+                </div>
+
+                <div id="timeline_container">
+                    <div id="timeline">
+
+                        <div id="timeline_overlay">
+                            <div id="timeline_cursor">
+                                <span class="top_part"></span>
+                            </div>
+
+                            <div id="timeline_keyframes">
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div id="timeline_scroller_container">
+                    <span id="timeline_scroller"></span>
+                </div>
+
+            </div>
+        </div>
+    </main>
+    
+    <!-- Context menus when is for viewport only -->
+
+    <div class="context_menus">
+        <div class="context_menu hidden" id="cm_0"> 
+            <span class="button" onclick="contextMenu.createImageFromUpload()">Crear imagen <img src="icons/add_image.svg" alt="" class="icon"></span>
+            <span class="button" onclick="contextMenu.createLine()">Crear línea <img src="icons/line.svg" alt="" class="icon"></span>
+            <span class="button go_to_center" onclick="contextMenu.goToCenter()">Ir al centro <img src="icons/centered_position.svg" alt="" class="icon"></span>
+
+            <span class="button select_all" onclick="contextMenu.viewportSelectAll()">Seleccionar todos...</span>
+        </div>
+
+        <div class="context_menu hidden" id="cm_1"> 
+            <span class="button add_keyframe" onclick="timeline.createKeyframe(contextMenu.targetInstance)">Añadir keyframe <img src="icons/keyframe.svg" alt="" class="icon"></span>
+            <span class="button go_to_center" onclick="contextMenu.goToCenter()">Ir al centro <img src="icons/centered_position.svg" alt="" class="icon"></span>
+            <span class="button" onclick="contextMenu.startPositionSetAction()">Mover <img src="icons/move.svg" alt="" class="icon"></span>
+            <span class="button" onclick="contextMenu.startScaleSetAction()">Escalar <img src="icons/scale.svg" alt="" class="icon"></span>
+            <span class="button" onclick="contextMenu.startRotationSetAction()">Rotar <img src="icons/rotate.svg" alt="" class="icon"></span>
+            <span class="button send_to_screen_center" onclick="contextMenu.sendToScreenCenter()">Enviar al centro de la pantalla <img src="icons/centered_position.svg" alt="" class="icon"></span>
+            <span class="button send_to_viewport_center" onclick="contextMenu.sendToViewportCenter()">Enviar al centro <img src="icons/plus.svg" alt="" class="icon"></span>
+            <span class="button reset_rotation" onclick="contextMenu.resetRotation()">Reiniciar rotación <img src="icons/reset.svg" alt="" class="icon"></span>
+            <span class="button reset_scale" onclick="contextMenu.resetScale()">Reiniciar escala <img src="icons/reset.svg" alt="" class="icon"></span>
+            <span class="button" onclick="contextMenu.deleteFromContextMenu()">Eliminar <img src="icons/trash.svg" alt="" class="icon"></span>
+        </div>
+
+        <div class="context_menu hidden" id="cm_2"> 
+            <span class="button" onclick="contextMenu.startPositionSetAction()">Mover <img src="icons/move.svg" alt="" class="icon"></span>
+            <span class="button add_keyframe" onclick="timeline.createKeyframe()">Añadir keyframe <img src="icons/keyframe.svg" alt="" class="icon"></span>
+            <span class="button" onclick="contextMenu.deleteFromContextMenu()">Eliminar <img src="icons/trash.svg" alt="" class="icon"></span>
+        </div>
+    </div>
+
+    <div class="instance_properties_templates">
+        <div class="m0">
+            <div class="row text_input">
+                <span class="name">Nombre</span>
+                <input name="name" type="text" class="content">
+            </div>
+
+
+            <div class="row vector_input">
+                <span class="name">Posición</span> 
+                <input name="position_x" type="number" placeholder="X" class="x_axis">
+                <input name="position_y" type="number" placeholder="Y" class="y_axis">
+            </div>
+
+            <div class="row vector_input">
+                <span class="name">Pivote</span>
+                <input name="anchor_point_x" step="0.01" type="number" placeholder="X" class="x_axis">
+                <input name="anchor_point_y" step="0.01" type="number" placeholder="Y" class="y_axis">
+            </div>
+
+            <div class="row number_input">
+                <span class="name">Escala</span>
+                <input name="scale" type="number" min="0" class="content">
+            </div>
+
+            <div class="row number_input">
+                <span class="name">Rotación</span>
+                <input name="rotation" type="number" min="0" max="360" class="content">
+            </div>
+
+            <div class="row number_input">
+                <span class="name">Index Z</span>
+                <input name="z_index" type="number" step="1" class="content">
+            </div>
+        </div>
+
+        <div class="m1">
+            <div class="row text_input">
+                <span class="name">Nombre</span>
+                <input name="name" type="text" class="content">
+            </div>
+
+
+            <div class="row vector_input">
+                <span class="name">Posición</span> 
+                <input name="position_x" type="number" placeholder="X" class="x_axis">
+                <input name="position_y" type="number" placeholder="Y" class="y_axis">
+            </div>
+
+            <div class="row vector_input">
+                <span class="name">Pivote</span>
+                <input name="anchor_point_x" step="0.01" type="number" placeholder="X" class="x_axis">
+                <input name="anchor_point_y" step="0.01" type="number" placeholder="Y" class="y_axis">
+            </div>
+
+            <div class="row number_input">
+                <span class="name">Escala</span>
+                <input name="scale" type="number" min="0" class="content">
+            </div>
+
+            <div class="row number_input">
+                <span class="name">Rotación</span>
+                <input name="rotation" type="number" min="0" max="360" class="content">
+            </div>
+
+            <div class="row number_input">
+                <span class="name">Index Z</span>
+                <input name="z_index" type="number" step="1" class="content">
+            </div>
+
+            <div class="color_input">
+                <span class="name">Color</span>
+                <input name="color" type="color" class="content">
+            </div>
+
+            <div class="number_input">
+                <span class="name">Longitud</span>
+                <input name="length" type="number" min="0" class="content">
+            </div>
+
+            <div class="number_input">
+                <span class="name">Grosor</span>
+                <input name="thickness" type="number" min="0" class="content">
+            </div>
+        </div>
+    </div>
+
+    <div id="download_popup_container" class="hidden">
+        <form id="download_popup">
+
+            <h2>Opciones de descarga</h2>
+
+            <div class="h_layout">
+                <div class="joined_elements_container" title="Si se activa esta opción, el contenido de las imágenes quedarán en el archivo de exportación, aumentando su tamaño.">
+                    <span>Mantener contenido de imágenes</span>
+                    <span><input type="checkbox" name="keep_images_content"></span>
+                </div>
+
+                <div class="joined_elements_container" title="Si se desactiva, se exportarán incluso los elementos que no han sido animados.">
+                    <span>Solo exportar instancias animadas</span>
+                    <span><input type="checkbox" checked name="only_animated"></span>
+                </div>
+            </div>
+
+            <h2>Exportar estas animaciones</h2>
+
+            <div id="animation_export_whitelist" class="v_layout">
+
+            </div>
+
+
+            <div class="h_layout action_buttons_container" >
+                <button type="submit">Aceptar</button>
+                <button type="button" id="cancel_download_button">Cancelar</button>
+            </div>
+        </form>
+    </div>
+
+
+    <script src="js/classes.js"></script>
+    <script src="js/global.js"></script>
+    <script src="js/resizable_bottom_panel.js"></script>
+    <script src="js/context_menu_actions.js"></script>
+    <script src="js/nodes_and_property_panel.js"></script>
+    <script src="js/animation_panel.js"></script>
+    <script src="js/download_popup.js"></script>
+    <script src="js/main_process.js"></script>
+
+</body>
+</html>

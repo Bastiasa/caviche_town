@@ -133,6 +133,11 @@ function create_dropped_ammo(_type, _amount) {
 		case BULLET_TYPE.MEDIUM:
 		_dropped_ammo.sprite_index = spr_medium_bullets_box
 		break
+		
+		case BULLET_TYPE.GRENADES:
+		_dropped_ammo.sprite_index = spr_grenade
+		break
+		
 	}
 	
 	return _dropped_ammo

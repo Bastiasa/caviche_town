@@ -65,6 +65,7 @@ draw_set_alpha(1)
 draw_set_halign(fa_left)
 
 draw_aim()
+draw_inventory()
 
 /*var _muzzle_position = character.equipped_gun_manager.get_muzzle_position()
 
@@ -77,6 +78,7 @@ if _muzzle_position != noone {
 		character.y + _muzzle_position.y
 	)
 }*/
+
 
 for (var _blood_spot_index = 0; _blood_spot_index < array_length(blood_spots); _blood_spot_index++) {
 	var _blood_spot_data = blood_spots[_blood_spot_index]

@@ -7,12 +7,12 @@ function get_pistol_information() {
 		name:"pistol",
 		sprite: spr_pistol,
 		sprite_unloaded: spr_pistol_unloaded,
-		scale:2,
+		scale:0.3,
 		bullet_type: BULLET_TYPE.LIL_GUY,
 		cooldown: 1/ 6.75,
 		movement_weight: 0.3,
 		distance: 16,
-		muzzle_offset: new Vector(1, 1/6*2),
+		muzzle_offset: new Vector(57/58, 6/41),
 		dispersion:4,
 		
 		damage:24,
@@ -22,9 +22,8 @@ function get_pistol_information() {
 		dropped_particle_offset: new Vector(5/9, 2/6),
 		dropped_particle_scale: 0.35,
 		
-		//loaded_ammo:12,
-		loaded_ammo:12,
-		max_ammo:12,
+		loaded_ammo:10,
+		max_ammo:10,
 		
 		reload_ammo: 12,
 		reload_time:1.5,
@@ -69,7 +68,7 @@ function get_m16_information() {
 		sprite_unloaded: spr_m16_unloaded,
 
 		scale:1,
-		damage:30,
+		damage: 30,
 		bullet_type: BULLET_TYPE.MEDIUM,
 		cooldown: 1/5.5,
 		movement_weight: 0.13,
@@ -91,3 +90,32 @@ function get_m16_information() {
 		reload_time: 2.5
 	}	
 }
+
+function get_rpg7_information() {
+	return {
+		name:"rpg7",
+		sprite: spr_rpg7,
+		sprite_unloaded: spr_rpg7_unloaded,
+
+		scale:1,
+		damage: 100,
+		bullet_type: BULLET_TYPE.ROCKET,
+		cooldown: 3,
+		movement_weight: 0.05,
+		distance: 2,
+		muzzle_offset: new Vector(49/62, 8/16),
+		dispersion:0,
+		
+		drops_particle: false,
+
+		is_auto: true,
+		
+		//loaded_ammo:30,
+		loaded_ammo:1,
+		max_ammo:1,
+		
+		reload_ammo: 1,
+		reload_time: 4
+	}	
+}
+
