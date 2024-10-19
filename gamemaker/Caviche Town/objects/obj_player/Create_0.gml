@@ -9,8 +9,7 @@ camera_shakeness_decrease = 36
 camera_distance = 400
 _camera_distance = 400
 
-sniper_camera_distance = 800
-normal_camera_distance = 500
+normal_camera_distance = 400
 
 camera = new CameraView(view_camera[0])
 character = instance_create_layer(x,y, layer, obj_character)

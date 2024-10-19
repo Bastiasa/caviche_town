@@ -5,17 +5,12 @@ var _virtual_joystick_movement = get_virtual_joystick_normalized(true)
 var _equipped_gun = character.equipped_gun_manager.gun_information
 
 if _equipped_gun != noone {
-	
-	if _equipped_gun.name == "sniper" {
-		camera_distance = sniper_camera_distance
-	} else {
-		camera_distance = normal_camera_distance
-	}
+	camera_distance = get_from_struct(_equipped_gun, "view_distance", normal_camera_distance)
 } else {
 	camera_distance = normal_camera_distance
 }
 
-_camera_distance = lerp(_camera_distance, camera_distance, 0.2)
+_camera_distance = lerp(_camera_distance, camera_distance, 1)
 
 reset_camera_size()
 

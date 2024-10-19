@@ -12,7 +12,7 @@ function get_pistol_information() {
 		cooldown: 1/ 6.75,
 		movement_weight: 0.3,
 		distance: 16,
-		muzzle_offset: new Vector(57/58, 6/41),
+		muzzle_offset: new Vector(1, 6/41),
 		dispersion:4,
 		
 		damage:24,
@@ -66,6 +66,8 @@ function get_m16_information() {
 		name:"m16",
 		sprite: spr_m16,
 		sprite_unloaded: spr_m16_unloaded,
+		
+		view_distance: 520,
 
 		scale:1,
 		damage: 30,
@@ -113,12 +115,51 @@ function get_rpg7_information() {
 
 		is_auto: true,
 		
+		view_distance: 470,
+		
 		//loaded_ammo:30,
 		loaded_ammo:1,
 		max_ammo:1,
 		
 		reload_ammo: 1,
 		reload_time: 3
+	}	
+}
+
+function get_hitman_bestfriend_information() {
+	return {
+		name:"hitman_bf",
+		sprite: spr_hitman_bestfriend,
+		sprite_unloaded: spr_hitman_bestfriend_unloaded,
+		
+		distance_damage_decrease: 900,
+
+		scale:.3,
+		damage: 50,
+		bullet_type: BULLET_TYPE.LIL_GUY,
+		cooldown: 1,
+		movement_weight: 1,
+		distance: 10,
+		muzzle_offset: new Vector(1, 6/41),
+		dispersion:0,
+		
+		view_distance: 580,
+		
+		player_camera_shake: true,
+		player_camera_shake_amount: 2,
+		
+		drops_particle: true,
+		dropped_particle_sprite: spr_empty_cannon_particle,
+		dropped_particle_scale: 0.37,
+		dropped_particle_offset:  new Vector(5/9, 2/6),
+
+		is_auto: true,
+		
+		loaded_ammo:10,
+		max_ammo:10,
+		
+		reload_ammo: 10,
+		reload_time: 2
 	}	
 }
 
@@ -129,6 +170,8 @@ function get_sniper_information() {
 		sprite_unloaded: spr_sniper_unloaded,
 		
 		distance_damage_decrease: 300,
+		
+		view_distance: 800,
 
 		scale:1,
 		damage: 150,
