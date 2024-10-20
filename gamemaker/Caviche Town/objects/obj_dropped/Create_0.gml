@@ -12,14 +12,14 @@ angular_speed = 0
 
 image_speed = 0
 
-function spawn_action_particle() {
+function spawn_action_particle(_x = x, _y = y) {
 	if global.particle_manager != noone {
 	
 		var _color = c_blue
 	
 		global.particle_manager.create_particle(spr_dropped_object_grabbed_particle, {
 		
-			position: new Vector(x,y),
+			position: new Vector(_x,_y),
 		
 			min_scale: .5,
 			max_scale: .5,

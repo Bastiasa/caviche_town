@@ -54,37 +54,45 @@ function init() {
 		)
 	}
 	
-		with obj_character {
+	with obj_grenade {
+	
+		var _distance = point_distance(x,y,other.x, other.y)
+		
+		if _distance <= other.radius {
+			explode()
+		}
+	}
+	
+	with obj_character {
 			
-			if other.cause != noone && other.cause.team == team && other.cause != self {
-				continue
-			}
+		if other.cause != noone && other.cause.team == team && other.cause != self {
+			continue
+		}
 			
-			if current_state == CHARACTER_STATE.DASHING {
-				continue
-			}
+		if current_state == CHARACTER_STATE.DASHING {
+			continue
+		}
 			
-			if died {
-				continue
-			}
+		if died {
+			continue
+		}
 			
 
 			
-			var _sprite_size = get_sprite_size().abs()
-			var _sprite_length = _sprite_size.multiply(.5).magnitude()
-			var _distance = point_distance(x,y, other.x, other.y) - _sprite_length
-			var _distance_damage = other.max_damage * _distance / other.radius
+		var _sprite_size = get_sprite_size().abs()
+		var _sprite_length = _sprite_size.multiply(.5).magnitude()
+		var _distance = point_distance(x,y, other.x, other.y) - _sprite_length
+		var _distance_damage = other.max_damage * _distance / other.radius
 			
-			if is_player(self) {
-				controller.camera_shakeness += (other.player_shakeness*(1 - _distance/other.radius)) + 25 
-				show_debug_message("Shakeness")
-			}
-			
-			if _distance <= other.radius * other.max_damage_range {
-				other.character_gotten_by_explosion(self, other.max_damage)
-			} else if _distance > other.radius * other.max_damage_range && _distance <= other.radius {
-				other.character_gotten_by_explosion(self, _distance_damage)
-			}
-			
+		if is_player(self) {
+			controller.camera_shakeness += (other.player_shakeness*(1 - _distance/(other.radius*2))) + 25 
 		}
+			
+		if _distance <= other.radius * other.max_damage_range {
+			other.character_gotten_by_explosion(self, other.max_damage)
+		} else if _distance > other.radius * other.max_damage_range && _distance <= other.radius {
+			other.character_gotten_by_explosion(self, _distance_damage)
+		}
+			
+	}
 }

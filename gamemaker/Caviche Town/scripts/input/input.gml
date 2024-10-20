@@ -52,6 +52,7 @@ keyboard_input_keys = {
 	player_do_dash: vk_shift,
 	player_do_reload: ord("R"),
 	player_do_throw_gun: ord("Q"),
+	player_do_throw_grenade: ord("G"),
 	
 	player_do_equip_slot_1: ord("1"),
 	player_do_equip_slot_2: ord("2"),
@@ -78,6 +79,7 @@ gamepad_input_keys = {
 	player_do_dash: gp_face2,
 	player_do_reload: gp_face3,
 	player_do_throw_gun: gp_face4,
+	player_do_throw_grenade: gp_shoulderlb,
 	
 	player_do_shoot: gp_shoulderrb,
 	
@@ -147,6 +149,7 @@ function load_input_settings() {
 	}
 }
 
+save_input_settings()
 
 if load_input_settings() {
 	 show_debug_message("Input settings have been loaded successfully.")

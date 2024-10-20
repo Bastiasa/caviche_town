@@ -116,10 +116,6 @@ function init() {
 			lifetime = 1
 		break
 	}
-	
-	speed = _speed * delta_time / MILLION * 100
-	direction = rotation
-	
 	//position = position.add(new Vector(lengthdir_x(speed, direction), lengthdir_y(speed, direction)))
 	
 	x = position.x

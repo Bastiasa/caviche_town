@@ -84,6 +84,29 @@ max_hp = 100
 image_yscale = _scale
 image_xscale = _scale
 
+function throw_grenade() {
+	var _current_grenade_ammo = backpack.get_ammo(BULLET_TYPE.GRENADES)
+	
+	if _current_grenade_ammo <= 0 {
+		return
+	}
+	
+	var _grenade = instance_create_layer(x,y,layer,obj_grenade)
+	_grenade.owner = self
+	
+	var _horizontal_difference = equipped_gun_manager.target_position.x - x
+	var _vertical_difference = equipped_gun_manager.target_position.y - y
+	var _distance = point_distance(x,y,equipped_gun_manager.target_position.x, equipped_gun_manager.target_position.y)
+	var _angle = point_direction(x,y,equipped_gun_manager.target_position.x, equipped_gun_manager.target_position.y)
+	
+	_grenade.phy_linear_velocity_x = lengthdir_x(_distance, _angle) * 2
+	_grenade.phy_linear_velocity_y = lengthdir_y(_distance, _angle) * 3
+	_grenade.phy_angular_velocity = 100
+	
+	backpack.set_ammo(BULLET_TYPE.GRENADES, _current_grenade_ammo - 1)
+	return _grenade
+}
+
 function is_character_teammate(_other) {
 	return is_teammate(_other, team)
 }
@@ -98,14 +121,16 @@ function create_dropped_gun(_gun_information) {
 
 	var _dropped_gun = instance_create_layer(x,y-_sprite_size.y*.5, layer, obj_dropped_gun)
 			
+	_dropped_gun.set_information(_gun_information)		
+	
 	_dropped_gun.sprite_index = _gun_information.sprite
 	_dropped_gun.gun_information = _gun_information
-	_dropped_gun.vertical_speed = -3
-	_dropped_gun.horizontal_speed = sign(random_range(-1, 1)) * 3
-	_dropped_gun.x_scale = _gun_information.scale
-	_dropped_gun.y_scale = _gun_information.scale
+	_dropped_gun.phy_speed_y = -3
+	_dropped_gun.phy_speed_x= sign(random_range(-1, 1)) * 3
+	_dropped_gun.image_xscale = _gun_information.scale
+	_dropped_gun.image_yscale= _gun_information.scale
 			
-	_dropped_gun.y -= sprite_get_width(_dropped_gun.sprite_index) * _gun_information.scale
+	_dropped_gun.phy_position_y -= sprite_get_width(_dropped_gun.sprite_index) * _gun_information.scale
 	
 	return _dropped_gun
 }
@@ -207,9 +232,8 @@ function spawn_dust_particle(_x,_y, _min_scale,_max_scale,_min_lifetime,_max_lif
 	}
 }
 
-function _position_free(_x,_y) {
-	var _result = position_empty(_x,_y)
-	return _result || position_meeting(_x,_y, obj_character)
+function _collision_point(_x,_y, _object_index, _prec, _notme) {
+	return collision_point(_x,_y,_object_index, _prec, _notme)
 }
 
 function _collision_line_list(_x1,_y1,_x2,_y2,_obj,_prec,_notme,_list,_ordered) {

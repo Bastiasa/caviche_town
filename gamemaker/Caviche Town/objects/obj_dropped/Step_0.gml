@@ -2,7 +2,9 @@
 // Puede escribir su código en este editor
 //return
 
-
+if y > room_height + 1000 {
+	instance_destroy(id)
+}
 
 var _is_on_floor = place_meeting(x,y,obj_collider)
 var _delta = delta_time / MILLION

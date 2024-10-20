@@ -28,7 +28,7 @@ if global.debugging && global.debugging_options.show_bullets_trayectory {
 }
 
 
-var _direction = new Vector(lengthdir_x(speed,direction), lengthdir_y(speed,direction))
+var _direction = new Vector(lengthdir_x(_speed,rotation), lengthdir_y(_speed,rotation))
 var _position = new Vector(x,y)
 var _next_position = _position.add(_direction)
 
@@ -57,7 +57,7 @@ if particle_manager != noone {
 		_last_position.y,
 		_position.x,
 		_position.y,
-		speed * .2,
+		_speed * .2,
 		type != BULLET_TYPE.ROCKET ? spr_bullet_particle : spr_dust_1
 	)
 	

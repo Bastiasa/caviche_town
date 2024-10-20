@@ -105,7 +105,13 @@ function EquippedGunManager(_character = noone) constructor {
 			return
 		}
 		
+		/*
 		if !character._position_free(character.x + _bullet_position.x, character.y + _bullet_position.y) {
+			return
+		}
+		*/
+		
+		if character._collision_point(_bullet_position.x, _bullet_position.y, obj_collider, false, false) != noone {
 			return
 		}
 		

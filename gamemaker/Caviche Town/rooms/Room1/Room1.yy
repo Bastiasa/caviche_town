@@ -397,18 +397,18 @@
   "parentRoom":null,
   "physicsSettings":{
     "inheritPhysicsSettings":false,
-    "PhysicsWorld":false,
+    "PhysicsWorld":true,
     "PhysicsWorldGravityX":0.0,
-    "PhysicsWorldGravityY":10.0,
+    "PhysicsWorldGravityY":98.1,
     "PhysicsWorldPixToMetres":0.1,
   },
   "resourceType":"GMRoom",
   "resourceVersion":"2.0",
   "roomSettings":{
-    "Height":500,
+    "Height":1000,
     "inheritRoomSettings":false,
     "persistent":false,
-    "Width":800,
+    "Width":900,
   },
   "sequenceId":null,
   "views":[

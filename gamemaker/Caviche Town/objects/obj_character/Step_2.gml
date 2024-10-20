@@ -7,6 +7,10 @@ move_and_collide(
 	obj_collider
 )
 
+if y >= room_height + 1000 {
+	instance_destroy()
+}
+
 was_on_floor = is_on_floor
 
 if current_state != CHARACTER_STATE.DASHING && (current_state != CHARACTER_STATE.LANDING || jump_coldown_timer == 0) {

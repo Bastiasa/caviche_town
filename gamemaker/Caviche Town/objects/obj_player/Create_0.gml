@@ -1,6 +1,8 @@
 /// @description Inserte aquí la descripción
 // Puede escribir su código en este editor
 
+death_timer = 0
+
 timer = 0
 
 camera_shakeness = 0

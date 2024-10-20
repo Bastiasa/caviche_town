@@ -28,7 +28,7 @@ function load_sprite() {
 		break
 		
 		case BULLET_TYPE.ROCKET:
-		sprite_index = spr_rocket_bullet
+		sprite_index = spr_rockets_dropped_ammo
 		break
 		
 		case BULLET_TYPE.GRENADES:

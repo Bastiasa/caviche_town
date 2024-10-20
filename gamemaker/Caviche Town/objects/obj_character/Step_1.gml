@@ -2,6 +2,12 @@
 // Puede escribir su código en este editor
 
 
+if y > room_height + 100 && !died {
+	apply_damage(max_hp)
+	show_debug_message(room_height)
+}
+
+
 position.x = x
 position.y = y
 

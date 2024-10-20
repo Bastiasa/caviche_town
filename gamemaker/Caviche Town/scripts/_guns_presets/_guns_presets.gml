@@ -27,6 +27,18 @@ function get_pistol_information() {
 		
 		reload_ammo: 12,
 		reload_time:1.5,
+		
+		physics: {
+			restitution: 0,
+			linear_damping: 0.04,
+			angular_damping: 0.1,
+			friction: 1,
+			density: 0.6,
+			box_x:6,
+			box_y:2,
+			box_width:58 - 6,
+			box_height:41 - 2
+		}
 	}
 }
 
@@ -58,6 +70,18 @@ function get_pump_information() {
 		
 		reload_ammo: 1,
 		reload_time:1.02,
+		
+		physics: {
+			restitution: 0.02,
+			linear_damping: 0.04,
+			angular_damping: 0.1,
+			friction: 1,
+			density: 0.6,
+			box_x:0,
+			box_y:0,
+			box_width:47,
+			box_height:13
+		}
 	}
 }
 
@@ -89,7 +113,19 @@ function get_m16_information() {
 		max_ammo:20,
 		
 		reload_ammo: 20,
-		reload_time: 2.5
+		reload_time: 2.5,
+		
+		physics: {
+			restitution: 0.1,
+			linear_damping: 0.2,
+			angular_damping: 0.1,
+			friction: 2,
+			density: 0.5,
+			box_x:0,
+			box_y:0,
+			box_width:47,
+			box_height:14
+		}
 	}	
 }
 
@@ -122,7 +158,19 @@ function get_rpg7_information() {
 		max_ammo:1,
 		
 		reload_ammo: 1,
-		reload_time: 3
+		reload_time: 3,
+		
+		physics: {
+			restitution: 0,
+			linear_damping: 0.1,
+			angular_damping: 0.1,
+			friction: 1000,
+			density: 1,
+			box_x:0,
+			box_y:0,
+			box_width: sprite_get_width(spr_rpg7),
+			box_height: sprite_get_height(spr_rpg7)
+		}
 	}	
 }
 
@@ -159,7 +207,19 @@ function get_hitman_bestfriend_information() {
 		max_ammo:10,
 		
 		reload_ammo: 10,
-		reload_time: 2
+		reload_time: 2,
+		
+		physics: {
+			restitution: 0.02,
+			linear_damping: 0.2,
+			angular_damping: 0.2,
+			friction: 0.9,
+			density: 1.8,
+			box_x:6,
+			box_y:2,
+			box_width: sprite_get_width(spr_hitman_bestfriend) - 6,
+			box_height: sprite_get_height(spr_hitman_bestfriend) - 2
+		}
 	}	
 }
 
@@ -196,6 +256,18 @@ function get_sniper_information() {
 		max_ammo:1,
 		
 		reload_ammo: 1,
-		reload_time: 2.8
+		reload_time: 2.8,
+		
+		physics: {
+			restitution: 0.02,
+			linear_damping: 0.04,
+			angular_damping: 0.1,
+			friction: 1,
+			density: 0.6,
+			box_x:0,
+			box_y:0,
+			box_width:63,
+			box_height:16
+		}
 	}	
 }

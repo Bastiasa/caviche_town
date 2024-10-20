@@ -2,7 +2,7 @@
 // https://help.yoyogames.com/hc/en-us/articles/360005277377 para más información
 
 
-global.debugging = false
+global.debugging = true
 
 global.debugging_options = {
 	show_enemies_raycast: false,

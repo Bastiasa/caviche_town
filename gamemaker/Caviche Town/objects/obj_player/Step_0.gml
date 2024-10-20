@@ -122,30 +122,72 @@ if check_if_pressed("player_do_throw_gun") {
 		
 		var _dropped_gun = character.create_dropped_gun(_gun_information)
 		var _camera_size = camera.get_size()
+		var _rotation = character.equipped_gun_manager._rotation
+		var _direction = character.equipped_gun_manager.get_direction()
+		var _target_distance = point_distance(character.x, character.y, character.equipped_gun_manager.target_position.x, character.equipped_gun_manager.target_position.y)
 		
-		_dropped_gun.x = _dropped_position.x + character.x
-		_dropped_gun.y = _dropped_position.y + character.y
 		
-		_dropped_gun.x += _dropped_position.normalize().x * sprite_get_width(_gun_information.sprite) * _gun_information.scale
-		_dropped_gun.y += _dropped_position.normalize().y * sprite_get_height(_gun_information.sprite) * _gun_information.scale
+		var _width = sprite_get_width(_gun_information.sprite) * _gun_information.scale
+		var _height = sprite_get_height(_gun_information.sprite) * _gun_information.scale
+		
+		_dropped_gun.phy_position_x = _dropped_position.x + character.x
+		_dropped_gun.phy_position_y = _dropped_position.y + character.y
+		
+		
+		_dropped_gun.phy_position_x += lengthdir_x(_width*.5, _rotation) + lengthdir_x(_height*.5, _rotation - 90)
+		_dropped_gun.phy_position_y += lengthdir_y(_width*.5, _rotation) + lengthdir_y(_height*.5, _rotation - 90)
+		
+		_dropped_gun.phy_linear_velocity_x = lengthdir_x(_target_distance, _rotation) + character.velocity.x
+		_dropped_gun.phy_linear_velocity_y = lengthdir_y(_target_distance, _rotation) * 2 + character.velocity.y
+		_dropped_gun.phy_angular_velocity = _direction * 360 * 2
+		
+		
+		//_dropped_gun.phy_position_x += _dropped_position.normalize().x * sprite_get_width(_gun_information.sprite) * _gun_information.scale
+		//_dropped_gun.phy_position_y += _dropped_position.normalize().y * sprite_get_height(_gun_information.sprite) * _gun_information.scale
+		
+		_dropped_gun.image_xscale= _gun_information.scale
+		_dropped_gun.image_yscale = character.equipped_gun_manager.get_direction() * _gun_information.scale
+		_dropped_gun.phy_rotation = -_rotation
+		
+		
+		if abs(_rotation) > 90 && abs(_rotation) < 270 {
+			var _height = sprite_get_height(_gun_information.sprite) * _gun_information.scale
+			_dropped_gun.phy_position_x += lengthdir_x(_height, _rotation + 90)
+			_dropped_gun.phy_position_y += lengthdir_y(_height, _rotation + 90)
+		}
 		
 		show_debug_message(character.equipped_gun_manager._rotation)
 		
-		_dropped_gun.x_scale = _gun_information.scale
-		_dropped_gun.y_scale = character.equipped_gun_manager.get_direction() * _gun_information.scale
-		_dropped_gun.image_angle = abs(character.equipped_gun_manager._rotation) 
+		//_dropped_gun.phy_speed_x = (character.equipped_gun_manager.target_position.y - character.y)/_camera_size.y * 10
+		//_dropped_gun.phy_speed_y =  (character.equipped_gun_manager.target_position.x - character.x)/_camera_size.x * 10
+		//_dropped_gun.phy_angular_velocity = 500 * character.equipped_gun_manager.get_direction()
 		
-		_dropped_gun.vertical_speed = (character.equipped_gun_manager.target_position.y - character.y)/_camera_size.y * 10
-		_dropped_gun.horizontal_speed = (character.equipped_gun_manager.target_position.x - character.x)/_camera_size.x * 10
-		_dropped_gun.angular_speed = 10 * character.equipped_gun_manager.get_direction()
-		
-		_dropped_gun.vertical_speed = clamp(_dropped_gun.vertical_speed, -5, 5)
-		_dropped_gun.horizontal_speed = clamp(_dropped_gun.horizontal_speed, -5, 5)
+		//_dropped_gun.phy_speed_x = clamp(-_dropped_gun.phy_speed_x, -1000, 1000)
+		//_dropped_gun.phy_speed_y = clamp(-_dropped_gun.phy_speed_y, -1000, 1000)
 		
 		character.equipped_gun_manager.set_gun(noone)
 	}
 }
 
+
+if check_if_pressed("player_do_throw_grenade") {
+	var _grenade = character.throw_grenade()
+	
+	if _grenade != undefined {
+		_grenade.events.on_exploded.add_listener(function(_args) {
+			var _explosion = _args[0]
+		
+			_explosion.events.on_character_hitted.add_listener(function(_args) {
+				var _character = _args[0]
+				var _damage = _args[1]
+			
+				create_hit_particle(_character, _damage)
+			})
+		})
+	}
+	
+
+}
 
 var _buttons_direction = check_input("player_move_right") - check_input("player_move_left")
 

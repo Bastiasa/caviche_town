@@ -4,10 +4,20 @@
 if character.died {
 	create_blood_spot()
 	camera_shakeness = 30
+	
+	death_timer += get_delta()
+	
+	if death_timer >= 3 {
+		room_restart()
+	}
+	
+} else {
+	camera.update_position()
 }
 
-camera.update_position()
+
 camera_shakeness = max(0, camera_shakeness - camera_shakeness_decrease * get_delta())
+camera_shakeness = min(camera_shakeness, 50)
 
 last_aim_gamepad_movement = get_gamepad_direction(
 	global.gamepad_axis_input_keys.aim_x_movement,

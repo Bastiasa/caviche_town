@@ -14,11 +14,14 @@ var _collision_circle_result = noone
 
 
 with obj_character {
+	
+	var _center_position = [other.x, other.y]
+	
 	var _sprite_size = get_sprite_size().multiply(.5)
-	var _distance = point_distance(x,y, other.x, other.y)
+	var _distance = point_distance(_center_position[0],_center_position[1], x, y)
 	var _sprite_length = point_distance(0,0, _sprite_size.x, _sprite_size.y)
 	
-	if _distance <= other.collision_circle_radius + _sprite_length {
+	if _distance <= other.collision_circle_radius* other.gun_information.scale + _sprite_length {
 		_collision_circle_result = self
 	}
 }
