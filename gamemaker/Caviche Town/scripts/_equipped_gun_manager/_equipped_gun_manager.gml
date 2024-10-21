@@ -84,6 +84,7 @@ function EquippedGunManager(_character = noone) constructor {
 		
 		if gun_information.loaded_ammo <= 0 {
 			gun_information.loaded_ammo = 0
+			reload()
 			return
 		}
 		

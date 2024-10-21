@@ -7,7 +7,7 @@ move_and_collide(
 	obj_collider
 )
 
-if y >= room_height + 1000 {
+if y >= room_height + 1000 && destroy_on_outside {
 	instance_destroy()
 }
 

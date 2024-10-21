@@ -1,5 +1,13 @@
 
 #macro MILLION 1000000
+#macro ASCII_CHARS " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~ ¡¢£¤¥¦§¨©ª«¬­®¯°±²³´µ¶·¸¹º»¼½¾¿ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõö÷øùúûüýþÿ"
+#macro DIGITS "1234567890"
+#macro NUMERIC_CHARS DIGITS + ".-"
+#macro NO_ACCENT_LETTERS "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+#macro USERNAME_ALLOWED_CHARS NO_ACCENT_LETTERS + "._" + DIGITS
+#macro SPECIAL_CHARS "!\"#$%&'()*+,-./0123456789:;<=>?@"
+#macro UDP_BROADCASTING_PORT 8888
+
 
 function Vector(_x = 0, _y = 0) constructor {
 	x = _x

@@ -2,7 +2,7 @@
 // Puede escribir su código en este editor
 
 
-if y > room_height + 100 && !died {
+if y > vertical_position_kill_limit && !died {
 	apply_damage(max_hp)
 	show_debug_message(room_height)
 }

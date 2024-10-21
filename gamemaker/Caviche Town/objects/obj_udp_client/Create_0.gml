@@ -3,6 +3,8 @@
 
 event_inherited()
 
+show_ping = false
+
 client_id = -1
 
 server_address = noone
@@ -10,6 +12,7 @@ server_timeout = 20
 
 connecting_start = -1
 connecting_timeout = 10
+connected_clients = []
 
 ping = 0
 send_ping_time = 3
@@ -21,9 +24,26 @@ state = UDP_CLIENT_STATE.DISCONNECTED
 client_events = {
 	on_disconnected: new Event(),
 	on_connected: new Event(),
-	on_connection_denied: new Event()
+	on_connection_denied: new Event(),
+	on_connection_failed: new Event(),
+	
+	on_server_discovered: new Event()
 }
 
+broadcasting_socket = noone
+
+function search_servers_start() {
+	broadcasting_socket = network_create_socket_ext(network_socket_udp, UDP_BROADCASTING_PORT)
+	return broadcasting_socket >= 0
+}
+
+function stop_servers_searching() {
+	if broadcasting_socket != noone {
+		network_destroy(broadcasting_socket)
+		broadcasting_socket = noone
+	}
+
+}
 
 function disconnect_from_server() {
 	state = UDP_CLIENT_STATE.DISCONNECTED
@@ -34,6 +54,7 @@ function disconnect_from_server() {
 	network_destroy(socket)
 	socket = noone
 	
+	array_delete(connected_clients, 0, array_length(connected_clients))
 	client_events.on_disconnected.fire()
 }
 	
@@ -41,26 +62,20 @@ function connect_to_server(_url, _port, _password = "") {
 	
 	show_debug_message(string_concat("Trying to connect to ",_url,":",_port,"."))
 	
-	init()
+	stop_servers_searching()
 	
 	var _address = [string_lower(_url), _port]
-	var _connect_message = send_reliable_message("connection_request:"+_password, _address)
 	
-	if _connect_message < 1 {
-		show_debug_message(string_concat("Connection request failed: ", _connect_message))
-		disconnect_from_server()
-		return false
-	} else {
-		show_debug_message("Connection request sended. Waiting for response.")
-		connecting_start = current_time
-		pong_received_on = current_time
-		server_address = _address
-		state = UDP_CLIENT_STATE.CONNECTING
-		return true
-	}
+	send_reliable_message("connection_request,"+_password, _address)
+
+	show_debug_message("Connection request sended. Waiting for response.")
 	
+	connecting_start = current_time
+	pong_received_on = current_time
 	
+	server_address = _address
 	
+	state = UDP_CLIENT_STATE.CONNECTING
 }
 
 function is_server(_address) {
@@ -87,51 +102,99 @@ function send_ping() {
 	}
 	
 	last_sent_ping = current_time
-	send_message("ping:"+string(current_time), server_address)
+	send_message("ping,"+string(current_time), server_address)
+}
+
+function check_possible_server_broadcast(_message, _emisor) {
+	
+	var _message_data = unpack_message(_message)
+	
+	var _content = _message_data[0]
+	var _arguments = _message_data[1]
+	var _command = _arguments[0]
+	
+	if _command == "cts" {
+		show_debug_message("New server discovered.")
+		client_events.on_server_discovered.fire([_content, _emisor])
+	}
 }
 
 function process_message(_message, _emisor) {
 	
+	var _message_data = unpack_message(_message)
+	
+	var _content = _message_data[0]
+	var _arguments = _message_data[1]
+	var _command = _arguments[0]
+	
 	var _is_server = is_server(_emisor)
 	
-	if _is_server {
-		show_debug_message("This message is from the server.")
-		show_debug_message(_message)
-		show_debug_message("")
-	}
+	switch _command {
+	
+		case "connection_stablished":
+			
+			var _id = number_from_string(array_pick(_arguments, 1))
+			
+			if is_real(_id) {
+				state = UDP_CLIENT_STATE.CONNECTED
+				client_id = _id
+				client_events.on_connected.fire()
+			} else {
+				state = UDP_CLIENT_STATE.DISCONNECTED
+				client_events.on_connection_failed.fire(["Invalid id from the server."])
+			}
+			
+		break
+		
+		case "connection_denied":
+			state =	UDP_CLIENT_STATE.DISCONNECTED
+			client_events.on_connection_denied.fire()
+		break
+		
+		case "client_connected":
+		
+		if !_is_server {
+			return
+		}
+		
+		var _client_id = number_from_string(array_pick(_arguments, 1))
+		
+		if is_real(_client_id) {
+			array_push(connected_clients, _client_id)
+		}
+		
+		break
+		
+		case "client_disconnected":
+		
+		if !_is_server {
+			return
+		}
+		
+		var _client_id = number_from_string(array_pick(_arguments, 1))
+		
+		if is_real(_client_id) {
+			var  _index = array_get_index(connected_clients, _client_id)
+			
+			if _index != -1 {
+				array_delete(connected_clients, _index, 1)
+			}
+		}
+		
+		break
+		
+		case "pong":
+			ping = current_time - last_sent_ping
+		break
+			
+		default:
+		
+		events.on_message_received.fire([_message, _emisor])
+		
+		break
+	
 
-	if _message == "connection_destroyed" && _is_server {
-	show_debug_message("Connection destroyed by the server.")
-		disconnect_from_server()
-	}
 	
-	
-	if string_starts_with(_message, "connection_stablished") && _is_server && state == UDP_CLIENT_STATE.CONNECTING {
-		var _id = string_delete(_message, 0, string_length("connection_stablished"))
-		_id = string_digits(_id)
-		_id = int64(_id)
-		
-		client_id = _id
-		
-		state = UDP_CLIENT_STATE.CONNECTED
-		client_events.on_connected.fire([_id])
-		
-		send_ping()
-	}
-	
-	if _message == "connection_denied" && _is_server && state == UDP_CLIENT_STATE.CONNECTING {
-		show_debug_message("Connection request denied by the server.")
-		disconnect_from_server()
-		client_events.on_connection_denied.fire()
-	}
-	
-	if string_starts_with(_message, "pong:") && _is_server && state == UDP_CLIENT_STATE.CONNECTED {
-		
-		var _pong_timestamp = string_delete(_message, 0, string_length("pong:"))
-		_pong_timestamp = int64(string_digits(_pong_timestamp))
-		
-		pong_received_on = current_time
-		ping = current_time - (_pong_timestamp)
 	}
 }
 

@@ -3,33 +3,38 @@
 
 // Inherit the parent event
 
-var _position_x = phy_position_x
-var _position_y = phy_position_y
-var _rotation = -phy_rotation
 
-var _width = sprite_get_width(sprite_index) * gun_information.scale
-var _height = sprite_get_height(sprite_index) * gun_information.scale
-
-_position_x -= lengthdir_x(_width*.5, _rotation) + lengthdir_x(_height*.5, _rotation - 90)
-_position_y -= lengthdir_y(_width*.5, _rotation) + lengthdir_y(_height*.5, _rotation - 90)
-
-if image_yscale < 0 {
+if sprite_index > 0 && sprite_exists(sprite_index) {
 	
-	_position_x += lengthdir_x(_height, _rotation - 90)
-	_position_y += lengthdir_y(_height, _rotation - 90)
+	var _position_x = phy_position_x
+	var _position_y = phy_position_y
+	var _rotation = -phy_rotation
+
+	var _width = sprite_get_width(sprite_index) * gun_information.scale
+	var _height = sprite_get_height(sprite_index) * gun_information.scale
+
+	_position_x -= lengthdir_x(_width*.5, _rotation) + lengthdir_x(_height*.5, _rotation - 90)
+	_position_y -= lengthdir_y(_width*.5, _rotation) + lengthdir_y(_height*.5, _rotation - 90)
+
+	if image_yscale < 0 {
+	
+		_position_x += lengthdir_x(_height, _rotation - 90)
+		_position_y += lengthdir_y(_height, _rotation - 90)
+	}
+
+	draw_sprite_ext(
+		sprite_index,
+		0,
+		_position_x,
+		_position_y,
+		image_xscale,
+		image_yscale, 
+		_rotation,
+		c_white,
+		1
+	)
 }
 
-draw_sprite_ext(
-	sprite_index,
-	0,
-	_position_x,
-	_position_y,
-	image_xscale,
-	image_yscale, 
-	_rotation,
-	c_white,
-	1
-)
 
 if global.debugging {
 	physics_draw_debug()

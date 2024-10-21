@@ -1,6 +1,7 @@
 /// @description Inserte aquí la descripción
 // Puede escribir su código en este editor
 
+
 if character.died {
 	create_blood_spot()
 	camera_shakeness = 30

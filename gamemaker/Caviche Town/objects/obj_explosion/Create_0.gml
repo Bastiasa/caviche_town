@@ -11,6 +11,8 @@ max_force = 30
 max_damage = 100
 max_damage_range = 0.5
 
+sprite_index = -1
+
 events = {
 	on_character_hitted: new Event()
 }
@@ -37,20 +39,22 @@ function init() {
 	
 	if global.particle_manager != noone {
 		global.particle_manager.create_particle(
-			spr_dust_1,
+			spr_radial_explosion,
 			{
 				position: new Vector(x,y),
 				
-				max_lifetime:2,
-				min_lifetime:2,
+				max_lifetime:0.5,
+				min_lifetime:0.5,
 				
-				max_scale: radius/32,
-				min_scale: radius/32,
+				max_scale: radius/sprite_get_width(spr_radial_explosion),
+				min_scale: radius/sprite_get_width(spr_radial_explosion),
 				
 				animation_params: {
-					fade_out:0.5
+					fade_out:.4
 				}
-			}
+			},
+			
+			noone
 		)
 	}
 	
@@ -95,4 +99,40 @@ function init() {
 		}
 			
 	}
+	
+	var _collisions = ds_list_create()
+	var _collision_circle_list = collision_circle_list(x,y, radius * 3, obj_dropped_gun, false, true, _collisions, false)
+	var _collision_count = ds_list_size(_collisions)
+	
+	if _collision_count > 0 {
+		for(var _index = 0; _index < _collision_count; _index++) {
+			var _collision_target = _collisions[|_index]
+			
+			if _collision_target != undefined && _collision_target != noone {
+				with _collision_target {
+					var _distance = point_distance(other.x, other.y, x, y)
+					
+					var _dir_x = x - other.x
+					var _dir_y = y - other.y
+					
+					var _force= _distance / other.radius * other.max_damage
+					
+					physics_apply_impulse(x,y, _dir_x * _force, _dir_y * _force)
+					physics_apply_angular_impulse(_force)
+					
+					if gun_information.bullet_type == BULLET_TYPE.ROCKET && gun_information.loaded_ammo > 0 {
+					
+						var _total_explosions = gun_information.loaded_ammo
+						gun_information.loaded_ammo = 0
+						
+						for(var _ammo = 0; _ammo < _total_explosions; _ammo++) {
+							create_and_init_explosion(x,y, layer, 64, 100, 0.6, other.cause)
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	instance_destroy(id)
 }

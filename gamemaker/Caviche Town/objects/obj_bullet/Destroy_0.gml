@@ -7,7 +7,7 @@ if type == BULLET_TYPE.ROCKET {
 		xprevious,
 		yprevious,
 		layer,
-		128,
+		169,
 		damage,
 		0.4,
 		shooter

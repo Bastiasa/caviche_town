@@ -24,6 +24,9 @@ function get_centre_position() {
 function set_information(_gun_information) {
 	gun_information = _gun_information
 	
+	image_xscale = _gun_information.scale
+	image_yscale = _gun_information.scale
+	
 	var _fixture = physics_fixture_create()
 	
 	var _box_width = gun_information.physics.box_width * gun_information.scale

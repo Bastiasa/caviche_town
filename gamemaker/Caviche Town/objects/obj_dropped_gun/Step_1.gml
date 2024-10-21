@@ -7,11 +7,16 @@ timer += _delta
 
 if gun_information != noone {
 	collision_circle_radius = sprite_get_height(gun_information.sprite)
+	
+	if gun_information.loaded_ammo <= 0 {
+		sprite_index = gun_information.sprite_unloaded
+	} else {
+		sprite_index = gun_information.sprite
+	}
 }
 
 var _closer_character = noone
 var _collision_circle_result = noone
-
 
 with obj_character {
 	

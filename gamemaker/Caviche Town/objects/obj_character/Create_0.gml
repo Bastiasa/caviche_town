@@ -3,6 +3,10 @@
 
 sprites = global.characters_sprite_set.default_man()
 
+
+vertical_position_kill_limit = room_height + 100
+destroy_on_outside = true
+
 team = ""
 particle_manager = global.particle_manager
 sprite_info = sprite_get_info(sprite_index)
@@ -123,14 +127,14 @@ function create_dropped_gun(_gun_information) {
 			
 	_dropped_gun.set_information(_gun_information)		
 	
-	_dropped_gun.sprite_index = _gun_information.sprite
+	_dropped_gun.sprite_index = -1
 	_dropped_gun.gun_information = _gun_information
 	_dropped_gun.phy_speed_y = -3
 	_dropped_gun.phy_speed_x= sign(random_range(-1, 1)) * 3
 	_dropped_gun.image_xscale = _gun_information.scale
 	_dropped_gun.image_yscale= _gun_information.scale
 			
-	_dropped_gun.phy_position_y -= sprite_get_width(_dropped_gun.sprite_index) * _gun_information.scale
+	_dropped_gun.phy_position_y -= sprite_get_width(_gun_information.sprite) * _gun_information.scale
 	
 	return _dropped_gun
 }

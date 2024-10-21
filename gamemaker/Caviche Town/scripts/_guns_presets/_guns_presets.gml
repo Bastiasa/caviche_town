@@ -7,6 +7,8 @@ function get_pistol_information() {
 		name:"pistol",
 		sprite: spr_pistol,
 		sprite_unloaded: spr_pistol_unloaded,
+		sprite_inventory: spr_pistol_inventory,
+		
 		scale:0.3,
 		bullet_type: BULLET_TYPE.LIL_GUY,
 		cooldown: 1/ 6.75,
@@ -28,6 +30,8 @@ function get_pistol_information() {
 		reload_ammo: 12,
 		reload_time:1.5,
 		
+		is_auto: false,
+		
 		physics: {
 			restitution: 0,
 			linear_damping: 0.04,
@@ -47,9 +51,11 @@ function get_pump_information() {
 		name:"pump",
 		sprite: spr_pump,
 		sprite_unloaded: spr_pump_unloaded,
+		sprite_inventory: spr_pump_inventory,
+		
 		scale:1,
 		bullet_type: BULLET_TYPE.SHELL,
-		cooldown: 0.5,
+		cooldown: 0.7,
 		movement_weight: 0.06,
 		distance: 24,
 		muzzle_offset: new Vector(1, 3/13),
@@ -71,6 +77,8 @@ function get_pump_information() {
 		reload_ammo: 1,
 		reload_time:1.02,
 		
+		is_auto: false,
+		
 		physics: {
 			restitution: 0.02,
 			linear_damping: 0.04,
@@ -90,6 +98,7 @@ function get_m16_information() {
 		name:"m16",
 		sprite: spr_m16,
 		sprite_unloaded: spr_m16_unloaded,
+		sprite_inventory: spr_m16_inventory,
 		
 		view_distance: 520,
 
@@ -113,7 +122,7 @@ function get_m16_information() {
 		max_ammo:20,
 		
 		reload_ammo: 20,
-		reload_time: 2.5,
+		reload_time: 3.6,
 		
 		physics: {
 			restitution: 0.1,
@@ -134,6 +143,7 @@ function get_rpg7_information() {
 		name:"rpg7",
 		sprite: spr_rpg7,
 		sprite_unloaded: spr_rpg7_unloaded,
+		sprite_inventory: spr_rpg7_inventory,
 
 		scale:1,
 		damage: 100,
@@ -149,7 +159,7 @@ function get_rpg7_information() {
 		
 		drops_particle: false,
 
-		is_auto: true,
+		is_auto: false,
 		
 		view_distance: 470,
 		
@@ -158,7 +168,7 @@ function get_rpg7_information() {
 		max_ammo:1,
 		
 		reload_ammo: 1,
-		reload_time: 3,
+		reload_time: 4.68,
 		
 		physics: {
 			restitution: 0,
@@ -177,8 +187,10 @@ function get_rpg7_information() {
 function get_hitman_bestfriend_information() {
 	return {
 		name:"hitman_bf",
+		
 		sprite: spr_hitman_bestfriend,
 		sprite_unloaded: spr_hitman_bestfriend_unloaded,
+		sprite_inventory: spr_hitman_bestfriend_inventory,
 		
 		distance_damage_decrease: 900,
 
@@ -201,7 +213,7 @@ function get_hitman_bestfriend_information() {
 		dropped_particle_scale: 0.37,
 		dropped_particle_offset:  new Vector(5/9, 2/6),
 
-		is_auto: true,
+		is_auto: false,
 		
 		loaded_ammo:10,
 		max_ammo:10,
@@ -228,6 +240,7 @@ function get_sniper_information() {
 		name:"sniper",
 		sprite: spr_sniper,
 		sprite_unloaded: spr_sniper_unloaded,
+		sprite_inventory: spr_sniper_inventory,
 		
 		distance_damage_decrease: 300,
 		
@@ -236,7 +249,7 @@ function get_sniper_information() {
 		scale:1,
 		damage: 150,
 		bullet_type: BULLET_TYPE.BIG_JOCK,
-		cooldown: 0,
+		cooldown: 2,
 		movement_weight: 0.05,
 		distance: 2,
 		muzzle_offset: new Vector(1, 7/16),
@@ -250,12 +263,12 @@ function get_sniper_information() {
 		dropped_particle_scale: 0.37,
 		dropped_particle_offset: new Vector(19/63, 8/16),
 
-		is_auto: true,
+		is_auto: false,
 		
-		loaded_ammo:1,
-		max_ammo:1,
+		loaded_ammo:7,
+		max_ammo:7,
 		
-		reload_ammo: 1,
+		reload_ammo: 7,
 		reload_time: 2.8,
 		
 		physics: {

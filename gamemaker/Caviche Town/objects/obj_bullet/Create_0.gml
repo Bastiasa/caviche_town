@@ -58,7 +58,7 @@ function init() {
 			sprite_index = spr_short_bullet
 			_speed = 20
 			
-			scale = 1
+			scale = 0.5
 			
 			break
 		

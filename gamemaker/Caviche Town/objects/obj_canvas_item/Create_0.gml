@@ -9,6 +9,9 @@ parent = noone
 position_x = x
 position_y = y
 
+relative_position_x = noone
+relative_position_y = noone
+
 scale_x = 1
 scale_y = 1
 
@@ -109,12 +112,12 @@ function reset_surface() {
 }
 
 function get_render_width() {
-	var _parent_width = parent == noone ? room_width : parent.get_render_width()
+	var _parent_width = parent == noone ? display_get_gui_width() : parent.get_render_width()
 	return relative_width == noone ? width*scale_x : _parent_width * relative_width * scale_x
 }
 
 function get_render_height() {
-	var _parent_height = parent == noone ? room_height : parent.get_render_height()
+	var _parent_height = parent == noone ? display_get_gui_height() : parent.get_render_height()
 	return relative_height == noone ? height*scale_y : _parent_height * relative_height * scale_y
 }
 

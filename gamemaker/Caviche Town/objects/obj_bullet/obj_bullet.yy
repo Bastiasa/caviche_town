@@ -38,7 +38,10 @@
   "resourceType":"GMObject",
   "resourceVersion":"2.0",
   "solid":false,
-  "spriteId":null,
+  "spriteId":{
+    "name":"spr_rocket_bullet",
+    "path":"sprites/spr_rocket_bullet/spr_rocket_bullet.yy",
+  },
   "spriteMaskId":null,
   "visible":true,
 }

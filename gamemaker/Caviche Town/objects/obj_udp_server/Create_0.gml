@@ -4,7 +4,13 @@
 
 event_inherited()
 
+server_name = "Sin nombre"
 password = ""
+
+broadcasting = true
+broadcast_duration = 2
+last_broadcast = 0
+
 
 client_timeout = 20
 connected_clients = []
@@ -12,7 +18,7 @@ connected_clients = []
 last_clients_ping = -1
 clients_ping_timeout = 24
 
-next_client_id = -1
+next_client_id = 0
 
 server_options = {
 	max_clients:32
@@ -29,7 +35,7 @@ function destroy() {
 	
 	for(var _client_index = 0; _client_index < array_length(connected_clients); _client_index++) {
 		var _client = connected_clients[_client_index]
-		send_reliable_message("connection_destroyed", _client)
+		send_message("connection_destroyed", _client)
 	}
 	
 	connected_clients = []
@@ -38,7 +44,7 @@ function destroy() {
 	socket = noone
 }
 
-function init(_port = 6060, _max_clients = 32) {
+/*function init(_port = 6060, _max_clients = 32) {
 	socket = network_create_socket_ext(network_socket_udp, _port)
 	
 	if socket < 0 {
@@ -46,9 +52,13 @@ function init(_port = 6060, _max_clients = 32) {
 		last_clients_ping = -1
 	} else {
 		server_options.max_clients = _max_clients
-		last_clients_ping = current_time
 		show_debug_message(string_concat("UDP server created successfully. Running on port ",_port, " and maximum clients of ", _max_clients))
 	}
+}*/
+
+function init() {
+	socket = network_create_socket(network_socket_udp)
+	return socket >= 0
 }
 
 function get_client_index_by_address(_address) {
@@ -56,8 +66,9 @@ function get_client_index_by_address(_address) {
 	
 	for(var _client_index = 0; _client_index < array_length(connected_clients); _client_index++) {
 		var _client = connected_clients[_client_index]
+		var _client_address = _client[0]
 		
-		if _client[0][0] == _address[0] && _client[0][1] == _address[1] {
+		if _client_address[0] == _address[0] && _client_address[1] == _address[1] {
 			_result = _client_index
 			break
 		}
@@ -66,7 +77,23 @@ function get_client_index_by_address(_address) {
 	return _result
 }
 
-function connect_client(_address) {
+function get_client_index_by_id(_id) {
+	var _result = -1
+	
+	for(var _client_index = 0; _client_index < array_length(connected_clients); _client_index++) {
+		var _client = connected_clients[_client]
+		var _client_id = _client[2]
+		
+		if _client_id == _id {
+			_result = _client_id
+			break
+		}
+	}
+	
+	return _result
+}
+
+function stablish_client_connection(_address) {
 	
 	if array_length(_address) < 2 || !is_string(_address[0]) || !is_numeric(_address[1]) {
 		return
@@ -74,12 +101,16 @@ function connect_client(_address) {
 	
 	next_client_id++
 	
-	var _client = [_address, current_time, next_client_id]
+	
+	var _client_id = next_client_id
+	var _client = [_address, current_time, _client_id]
 	array_push(connected_clients, _client)
 	server_events.on_client_connected.fire([_client])
 	
-	send_reliable_message("connection_stablished#"+string(_client[2]), _address)
-	send_to_all_clients("client_connected:"+string_concat(_address[0],":",_address[1]), "server")
+	var _other_clients_advice = "client_connected,"+string(_client_id)
+	
+	send_reliable_message("connection_stablished,"+string(_client_id), _address)
+	send_reliable_to_all_clients(_other_clients_advice, [_client])
 }
 
 function disconnect_client(_index) {
@@ -88,52 +119,73 @@ function disconnect_client(_index) {
 		return
 	}
 	
-	var _client = connected_clients[_index]
+	var _client = array_pick(connected_clients, _index)
 	
 	if _client != undefined {
+		
+		
 		array_delete(connected_clients, _index, 1)
 		server_events.on_client_disconnected.fire([_client])
-		send_reliable_message("connection_destroyed", _client[0])
-		send_to_all_clients("client_disconnected:"+string_concat(_client[0],":",_client[1]), "server")
+		
+		var _client_address = _client[0]
+		var _client_id = _client[2]
+		
+		send_reliable_message("connection_destroyed", _client_address)
+		send_reliable_to_all_clients("client_disconnected,"+string_concat(_client_id), [_client])
 	}
 }
 
+function send_reliable_to_all_clients(_message, _except = []) {
 
-function send_to_all_clients(_message, _address) {
-	
-	var _client_index = -1
-	
-	if is_array(_address) {
-		_client_index = get_client_index_by_address(_address)
-	} else if is_string(_address) && _address == "server" {
-		_client_index = 9999
-	}
-	
-	if _client_index == -1 {
-		return false
-	}
 	
 	if !is_string(_message) {
 		return false
 	}
 	
-	if socket < 0 {
+	if socket == noone || socket < 0 {
 		return false
 	}
 	
-	var _string_address = is_string(_address) ? _address : address_to_string(_address)
+	for(var _client_index = 0; _client_index < array_length(connected_clients); _client_index++) {
+		
+		var _client = connected_clients[_client_index]
+		
+		if array_contains(_except, _client) {
+			continue
+		}
+		
+		var _client_address = _client[0]
+		send_reliable_message(_message) //network_send_udp_raw(server, _client[0][0], _client[0][1], _buffer, _message_length)
+	}
+}
+
+function send_to_all_clients(_message, _except = []) {
+
 	
-	var _message_result = "resent,"+_string_address+":"+_message 
-	var _message_length = string_length(_message_result)
+	if !is_string(_message) {
+		return false
+	}
+	
+	if socket == noone || socket < 0 {
+		return false
+	}
+	
+	var _message_length = string_length(_message)
 	var _buffer = buffer_create(_message_length, buffer_grow, 1)
-	buffer_write(_buffer, buffer_string, _message_result)
+	buffer_write(_buffer, buffer_text, _message)
 	
 	var _failures = []
 	
 	for(var _client_index = 0; _client_index < array_length(connected_clients); _client_index++) {
 		var _client = connected_clients[_client_index]
 		
-		var _send_result = send_buffer(_buffer, _client, false) //network_send_udp_raw(server, _client[0][0], _client[0][1], _buffer, _message_length)
+		if array_contains(_except, _client) {
+			continue
+		}
+		
+		var _client_address = _client[0]
+		
+		var _send_result = send_buffer(_buffer, _client_address, false) //network_send_udp_raw(server, _client[0][0], _client[0][1], _buffer, _message_length)
 		
 		if !_send_result {
 			array_push(_failures, _client)
@@ -144,66 +196,116 @@ function send_to_all_clients(_message, _address) {
 	return _failures
 }
 
-
-function process_message(_message, _emisor) {
+function handle_message(_message, _emisor) {
 	
-	var _client_index = get_client_index_by_address(_emisor)
-
-	if _client_index >= 0 {
-		var _client = connected_clients[_client_index]
-		
-		if _client != undefined {
-			_client[1] = current_time
-		}
+	var _message_data = unpack_message(_message)
+	
+	var _content = _message_data[0]
+	var _arguments = _message_data[1]
+	var _command = _arguments[0]
+	
+	var _string_emisor = address_to_string(_emisor)
+	var _found_client_index = get_client_index_by_address(_emisor)
+	var _is_client = _found_client_index != -1
+	
+	if _is_client {
+		var _client = connected_clients[_found_client_index]
+		_client[1] = current_time
 	}
 	
-	var _connected_clients_count = array_length(connected_clients)
-	var _checking_commmand = ""
-	
-	
-	function remove_message_preffix(_message, _preffix) {
-		return string_delete(_message, 0, string_length(_preffix))
-	}
-	
-
-	_checking_commmand = "connection_request:"
-	if string_starts_with(_message, _checking_commmand) && _connected_clients_count < server_options.max_clients  {
-		var _password = remove_message_preffix(_message, _checking_commmand)
+	switch _command {
 		
-		if _password == password {	
-			connect_client(_emisor)
-			show_debug_message(string_concat("Client connected: ",address_to_string(_emisor)))
-		} else {
+		case "connection_request":
+			
+		var _given_password = array_pick(_arguments, 1)
+			
+		if _given_password != password {
 			send_reliable_message("connection_denied", _emisor)
-			show_debug_message("Incorrect password from "+address_to_string(_emisor))
+			return
 		}
-	} else if _connected_clients_count >= server_options.max_clients {
-		send_reliable_message("connection_denied", _emisor)
-	}
-	
-	_checking_commmand = "connection_destroy"
-	if _message == _checking_commmand  {
-		var _client_index = get_client_index_by_address(_emisor)
-		disconnect_client(_client_index)
+			
+		stablish_client_connection(_emisor);
+		break
 		
-		show_debug_message(string_concat("Client disconnected: ",address_to_string(_emisor)))
-	}
-	
-	
-	
-	_checking_commmand = "ping:"
-	if string_starts_with(_message, _checking_commmand) {
-		send_message("pong:"+remove_message_preffix(_message, _checking_commmand), _emisor)
-	}
-	
-	
-	_checking_commmand = "everyone:"
-	if string_starts_with(_message, _checking_commmand) {
-		var _to_send = remove_message_preffix(_message,_checking_commmand)
+		case "resend":
 		
-		if string_length(_to_send) > 0 {
-			send_to_all_clients(_to_send, _emisor)
+		if !_is_client {
+			return
 		}
+		
+		var _destination = array_pick(_arguments, 1)
+		var _reliable = array_pick(_arguments, 2) == "1"
+		
+		if _resend_content == undefined {
+			return
+		}
+		
+		if _destination != "all" || string_length(_destination) == 0 {
+			return
+		} else if _destination != "all" {
+			_destination = number_from_string(_destination)
+			
+			if !is_real(_destination) {
+				return
+			}
+		}
+		
+		
+		
+		if is_real(_destination) {
+			
+			var _client_index = get_client_index_by_id(_destination)
+			var _client = array_pick(connected_clients, _client_index)
+			
+			if _client != undefined {
+				var _client_address = _client[0]
+				
+				if _reliable {
+					send_reliable_message(_content, _client_address)
+				}
+			} else if _destination == 0 {
+				process_message(_content, _emisor)
+			}
+			
+			
+		} else if _destination == "all" {
+			if _reliable {
+				send_reliable_to_all_clients(_content)
+			} else {
+				send_to_all_clients(_content)
+			}
+			
+			process_message(_content, _emisor)
+		}
+		
+		
+		break
+		
+		case "connection_destroy":
+		
+		if _is_client {
+			var _client = array_pick(connected_clients, _found_client_index)
+				
+			if _client != undefined {
+				disconnect_client(_client)
+			}
+		}
+			
+		break
+		
+		case "ping":
+		
+		var _current_time_ = array_pick(_arguments, 1)
+		send_message(string_concat("pong,", _current_time_), _emisor)
+		
+		break
+		
+		default:
+		
+		events.on_message_received.fire([_message, _arguments])
+		
+		break
 	}
+
 }
 

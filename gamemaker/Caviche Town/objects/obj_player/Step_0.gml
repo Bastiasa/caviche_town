@@ -253,7 +253,16 @@ if last_aim_gamepad_movement.magnitude() > global.input_options.gamepad.aim_deat
 }
 
 
-if is_shooting() && !touchscreen_mode {
-	character.equipped_gun_manager.shoot()
+if character.equipped_gun_manager.gun_information != noone {
+
+	var _is_auto = get_from_struct(character.equipped_gun_manager.gun_information, "is_auto", true)
+	
+	if is_shooting() && !touchscreen_mode && _is_auto {
+		character.equipped_gun_manager.shoot()
+	}
+	
+	if shoot_pressed() && !touchscreen_mode && !_is_auto {
+		character.equipped_gun_manager.shoot()
+	}
 }
 

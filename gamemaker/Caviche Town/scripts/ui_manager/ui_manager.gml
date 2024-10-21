@@ -12,42 +12,44 @@ function UIManager() constructor {
 	
 	virtual_keyboard_text_result = ""
 	
+	vkb_text_input = instance_create_depth(0,0, -3000, obj_text_input)
+	
 	function on_virtual_keyboard_status(_status, _height) {
 		virtual_keyboard_status = _status
 		virtual_keyboard_last_height = _height
-		
-		show_debug_message("Virtual keyboard status changed.")
 	}
 	
-	function draw_gui() {
-		
-		if virtual_keyboard_status == "showing" || virtual_keyboard_status == "visible" {
-			
-			draw_set_color(c_black)
-			draw_rectangle(0, 0, room_width, room_height - virtual_keyboard_last_height, false)
-			
+	function draw_gui() {		
+		with vkb_text_input {
+			width = display_get_gui_width()
+			height = display_get_height()
 		}
 		
 		virtual_keyboard_last_height = keyboard_virtual_height()
 	}
 	
 	function set_mouse_keeper(_canvas_item) {
-		if mouse_keeper == noone && argument0 != noone {
-			mouse_keeper = argument0
-			//show_debug_message(string_concat("New mouse keeper: ", object_get_name(_canvas_item.object_index)))
-			return
-		}
 		
-		if argument0 == noone || argument0 == undefined {
-			mouse_keeper = noone
-			//show_debug_message("Mouse keeper is noone. Given value was "+string(argument0))
-			return
-		}
+		try {
+			if mouse_keeper == noone && argument0 != noone {
+				mouse_keeper = argument0
+				show_debug_message(string_concat("New mouse keeper: ", object_get_name(_canvas_item.object_index)))
+				return
+			}
 		
-		if mouse_keeper.depth >= argument0.depth {
-			mouse_keeper = argument0
-			//show_debug_message(string_concat("New mouse keeper: ", object_get_name(_canvas_item.object_index)))
-			return
+			if argument0 == noone || argument0 == undefined {
+				mouse_keeper = noone
+				show_debug_message("Mouse keeper is noone. Given value was "+string(argument0))
+				return
+			}
+		
+			if mouse_keeper.depth >= argument0.depth {
+				mouse_keeper = argument0
+				show_debug_message(string_concat("New mouse keeper: ", object_get_name(_canvas_item.object_index)))
+				return
+			}
+		} catch(_err) {
+		
 		}
 	}
 	
@@ -76,7 +78,7 @@ function UIManager() constructor {
 			set_mouse_keeper(noone)
 		}
 		
-		delete _mouse_collision_list
+		ds_list_destroy(_mouse_collision_list)
 	}
 	
 	function step_event() {

@@ -73,3 +73,49 @@ function draw_progress_circle(_x,_y,_progress, _scale = 1, _alpha = 0.4) {
 	)*/
 }
 
+
+function array_choose(_array) {
+	randomize()
+	return array_get(_array, irandom(array_length(_array) - 1))
+}
+
+
+function array_pick(_array, _index) {
+	var _result = undefined
+	
+	try {
+		_result = array_get(_array, _index)
+	}
+	
+	return _result
+}
+
+function number_from_string(_str) {
+	var _result = NaN
+	
+	try {
+		_str = string_digits(_str)
+		_result = real(_str)
+	}
+	
+	return _result
+}
+
+
+function string_char_pos_on_width(_str, _width) {
+	var _result = 0
+	var _current_width = 0
+	var _total_width = string_width(_str)
+	
+	for(var _index = 0; _index < string_length(_str) + 1; _index ++) {
+		if _current_width >= min(_width, _total_width){
+			_result = _index
+			break
+		}
+		
+		_current_width += string_width(string_char_at(_str, _index))
+	}
+	
+	return _result
+}
+

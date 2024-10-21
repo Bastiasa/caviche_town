@@ -6,6 +6,8 @@ if _event_type == network_type_data && _id == socket {
     var _ip_address = async_load[? "ip"]
     var _port = async_load[? "port"]
     var _buffer = async_load[? "buffer"]
+	
+	var _emisor = [_ip_address, _port]
 	 
 	if !buffer_exists(_buffer) {
 		return
@@ -16,26 +18,14 @@ if _event_type == network_type_data && _id == socket {
 	show_debug_message(string_concat("Incoming message from ", _ip_address,":",_port,"."))
 	show_debug_message(string_concat(_message, "\n"))
 	
-	if is_array(_ip_address) {
-		for(var _index = 0; _index < array_length(_ip_address); _index++) {
-			var _ip = _ip_address[_index]
-			
-			if !is_string(_ip) {
-				continue
-			}
-			
-			if string_starts_with(_ip, "192.168.") {
-				_ip_address = _ip
-				break
-			}
-		}
-	}
-	
 	if  !is_string(_ip_address) {
 		return
 	}
 	
-	events.on_message_received.fire([_message, [_ip_address, _port]])
-
+	if !is_real(_port) {
+		return
+	}
+	
+	process_message(_message, _emisor)
     buffer_delete(_buffer);
 }

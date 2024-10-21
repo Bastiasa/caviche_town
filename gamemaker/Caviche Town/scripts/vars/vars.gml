@@ -4,7 +4,6 @@
 
 rooms = {
 	main_menu: {
-		url:"",
-		url_input: noone
+		draw_banner: true
 	}
 }

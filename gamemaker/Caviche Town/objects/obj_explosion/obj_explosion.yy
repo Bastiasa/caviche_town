@@ -29,7 +29,13 @@
   "resourceType":"GMObject",
   "resourceVersion":"2.0",
   "solid":false,
-  "spriteId":null,
-  "spriteMaskId":null,
+  "spriteId":{
+    "name":"spr_radial_explosion",
+    "path":"sprites/spr_radial_explosion/spr_radial_explosion.yy",
+  },
+  "spriteMaskId":{
+    "name":"spr_radial_explosion",
+    "path":"sprites/spr_radial_explosion/spr_radial_explosion.yy",
+  },
   "visible":true,
 }
