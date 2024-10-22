@@ -32,6 +32,9 @@ function get_pistol_information() {
 		
 		is_auto: false,
 		
+		shoot_sound: snd_pistol_shoot,
+		reload_sound: snd_pistol_reload,
+		
 		physics: {
 			restitution: 0,
 			linear_damping: 0.04,
@@ -79,6 +82,9 @@ function get_pump_information() {
 		
 		is_auto: false,
 		
+		reload_sound: snd_shotgun_reload,
+		shoot_sound: snd_shotgun_shoot,
+		
 		physics: {
 			restitution: 0.02,
 			linear_damping: 0.04,
@@ -123,8 +129,11 @@ function get_m16_information() {
 		loaded_ammo:20,
 		max_ammo:20,
 		
+		shoot_sound: snd_m16_shoot,
+		reload_sound: snd_m16_reload,
+		
 		reload_ammo: 20,
-		reload_time: 3.6,
+		reload_time: 2.2,
 		
 		physics: {
 			restitution: 0.1,
@@ -169,8 +178,11 @@ function get_rpg7_information() {
 		loaded_ammo:1,
 		max_ammo:1,
 		
+		shoot_sound: snd_rpg7_shoot,
+		reload_sound: snd_rpg7_reload,
+		
 		reload_ammo: 1,
-		reload_time: 4.68,
+		reload_time: 2.69,
 		
 		physics: {
 			restitution: 0,
@@ -270,6 +282,9 @@ function get_sniper_information() {
 		loaded_ammo:5,
 		max_ammo:5,
 		
+		shoot_sound: snd_sniper_shoot,
+		reload_sound: snd_sniper_reload,
+		
 		reload_ammo: 5,
 		reload_time: 2.8,
 		
@@ -299,7 +314,7 @@ function get_uzi_information() {
 		view_distance: 500,
 
 		scale:.7,
-		damage: 14,
+		damage: 17,
 		bullet_type: BULLET_TYPE.LIL_GUY,
 		cooldown: 0.07,
 		movement_weight: 0.2,
@@ -320,8 +335,11 @@ function get_uzi_information() {
 		loaded_ammo:32,
 		max_ammo:32,
 		
+		shoot_sound: snd_uzi_shoot,
+		reload_sound: snd_uzi_reload,
+		
 		reload_ammo: 32,
-		reload_time: 1,
+		reload_time: 2.5,
 		
 		physics: {
 			restitution: 0.02,

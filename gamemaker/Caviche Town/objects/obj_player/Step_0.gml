@@ -1,6 +1,9 @@
 /// @description Inserte aquí la descripción
 // Puede escribir su código en este editor
 
+audio_listener_position(character.x, character.y, 0)
+audio_listener_velocity(character.velocity.x,character.velocity.y,0)
+
 var _virtual_joystick_movement = get_virtual_joystick_normalized(true)
 var _equipped_gun = character.equipped_gun_manager.gun_information
 
@@ -226,8 +229,8 @@ if aiming_with_gamepad && global.input_options.gamepad.auto_aim && last_aim_game
 	var _found_character = instance_nearest(_aim_position.x, _aim_position.y, obj_character)
 	
 	if !_found_character.died && character.position.distance_to(_found_character.position) <= _camera_size.x*.5 && _found_character.position.distance_to(_aim_position) <= 256 && _found_character != character {
-		_aim_position.x = lerp(_aim_position.x, _found_character.x, 0.15)
-		_aim_position.y = lerp(_aim_position.y, _found_character.y, 0.15)
+		_aim_position.x = lerp(_aim_position.x, _found_character.x, 0.3)
+		_aim_position.y = lerp(_aim_position.y, _found_character.y, 0.3)
 		
 		show_debug_message("Auto aiming to: "+string(_found_character))
 	}

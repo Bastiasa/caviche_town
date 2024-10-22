@@ -1,0 +1,25 @@
+{
+  "$GMSound":"",
+  "%Name":"snd_m16_shoot",
+  "audioGroupId":{
+    "name":"audiogroup_default",
+    "path":"audiogroups/audiogroup_default",
+  },
+  "bitDepth":1,
+  "bitRate":128,
+  "compression":0,
+  "conversionMode":0,
+  "duration":0.914286,
+  "name":"snd_m16_shoot",
+  "parent":{
+    "name":"m16_sounds",
+    "path":"folders/Sonidos/guns/m16_sounds.yy",
+  },
+  "preload":false,
+  "resourceType":"GMSound",
+  "resourceVersion":"2.0",
+  "sampleRate":44100,
+  "soundFile":"snd_m16_shoot.mp3",
+  "type":0,
+  "volume":1.0,
+}

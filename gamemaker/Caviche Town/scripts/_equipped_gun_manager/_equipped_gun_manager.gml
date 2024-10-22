@@ -11,6 +11,8 @@ function EquippedGunManager(_character = noone) constructor {
 	
 	character = _character
 	
+	audio_emitter = audio_emitter_create()
+	
 	timer = 0
 	
 	shooting = false
@@ -66,6 +68,13 @@ function EquippedGunManager(_character = noone) constructor {
 		}
 		
 		show_debug_message("Reload started")
+		
+		var _reload_sound = get_from_struct(gun_information, "reload_sound", undefined)
+		
+		if _reload_sound != undefined {
+			audio_play_sound_on(audio_emitter, _reload_sound, false, 1)
+			
+		}
 		
 		timer = 0
 		reloading = true
@@ -147,6 +156,13 @@ function EquippedGunManager(_character = noone) constructor {
 			}, PARTICLE_ANIMATION.PHYSICS)
 		}
 		
+		var _shoot_sound = get_from_struct(gun_information, "shoot_sound", undefined)
+		
+		if _shoot_sound != undefined {
+			audio_play_sound_on(audio_emitter, _shoot_sound, false, 1)
+			
+		}
+		
 		gun_information.loaded_ammo--
 		
 		shooting = true
@@ -204,6 +220,8 @@ function EquippedGunManager(_character = noone) constructor {
 	}
 	
 	static _draw = function() {
+		
+		audio_emitter_position(audio_emitter, character.x, character.y, 0)
 		
 		var _centered_position = new Vector(
 			target_position.x - character.x,
@@ -317,10 +335,19 @@ function EquippedGunManager(_character = noone) constructor {
 				
 				if gun_information.loaded_ammo < gun_information.max_ammo && character.backpack.get_ammo(gun_information.bullet_type) > 0 {
 					timer = 0
+					
+					var _reload_sound = get_from_struct(gun_information, "reload_sound", undefined)
+		
+					if _reload_sound != undefined {
+						audio_play_sound_on(audio_emitter, _reload_sound, false, 1)
+			
+					}
+					
 				} else {
 					reloading = false
 					can_shoot = true
 				}
+
 
 				
 				show_debug_message("Reloaded: "+string(gun_information.loaded_ammo))

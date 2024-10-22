@@ -1,6 +1,7 @@
 /// @description Inserte aquí la descripción
 // Puede escribir su código en este editor
 
+explosion_sound = snd_explosion
 
 cause = noone
 radius = 128
@@ -36,6 +37,8 @@ function character_gotten_by_explosion(_character, _damage) {
 }
 
 function init() {
+	
+	audio_play_sound_at(explosion_sound, x, y, 0, radius, radius * 3, 0, false, 1)
 	
 	if global.particle_manager != noone {
 		global.particle_manager.create_particle(
