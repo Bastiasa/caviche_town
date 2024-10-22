@@ -20,9 +20,7 @@ clients_ping_timeout = 24
 
 next_client_id = 0
 
-server_options = {
-	max_clients:32
-}
+max_clients = 4
 
 server_events = {
 	on_message_received: new Event(),
@@ -155,7 +153,7 @@ function send_reliable_to_all_clients(_message, _except = []) {
 		}
 		
 		var _client_address = _client[0]
-		send_reliable_message(_message) //network_send_udp_raw(server, _client[0][0], _client[0][1], _buffer, _message_length)
+		send_reliable_message(_message, _client_address) //network_send_udp_raw(server, _client[0][0], _client[0][1], _buffer, _message_length)
 	}
 }
 
@@ -219,7 +217,7 @@ function handle_message(_message, _emisor) {
 			
 		var _given_password = array_pick(_arguments, 1)
 			
-		if _given_password != password {
+		if _given_password != password || array_length(connected_clients) >= max_clients {
 			send_reliable_message("connection_denied", _emisor)
 			return
 		}

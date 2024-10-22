@@ -11,7 +11,10 @@
     "name":"main_menu_settings",
     "path":"folders/Objetos/specifics/main_menu_objects/main_menu_settings.yy",
   },
-  "parentObjectId":null,
+  "parentObjectId":{
+    "name":"obj_room_ui_spawner",
+    "path":"objects/obj_room_ui_spawner/obj_room_ui_spawner.yy",
+  },
   "persistent":false,
   "physicsAngularDamping":0.1,
   "physicsDensity":0.5,

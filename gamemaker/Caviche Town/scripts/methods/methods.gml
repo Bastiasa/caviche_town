@@ -85,6 +85,8 @@ function array_pick(_array, _index) {
 	
 	try {
 		_result = array_get(_array, _index)
+	} catch(_err) {
+	
 	}
 	
 	return _result
@@ -96,6 +98,8 @@ function number_from_string(_str) {
 	try {
 		_str = string_digits(_str)
 		_result = real(_str)
+	} catch(_err) {
+	
 	}
 	
 	return _result

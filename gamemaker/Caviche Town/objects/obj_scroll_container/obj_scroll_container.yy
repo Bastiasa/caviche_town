@@ -17,8 +17,8 @@
     "path":"folders/Objetos/ui.yy",
   },
   "parentObjectId":{
-    "name":"obj_rectangle",
-    "path":"objects/obj_rectangle/obj_rectangle.yy",
+    "name":"obj_container",
+    "path":"objects/obj_container/obj_container.yy",
   },
   "persistent":false,
   "physicsAngularDamping":0.1,

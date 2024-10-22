@@ -18,7 +18,7 @@ input_options = {
 		auto_aim: true,
 		
 		aim_sensitivity:0.4,
-		aim_death_zone:0.7,
+		aim_death_zone:0.8,
 		movement_death_zone:0,
 		
 		invert_gamepad_aim_x_axis: false,
@@ -149,14 +149,15 @@ function load_input_settings() {
 	}
 }
 
-save_input_settings()
-
+/*
+  
 if load_input_settings() {
 	 show_debug_message("Input settings have been loaded successfully.")
 } else {
 	show_debug_message("Input settings have not been loaded correctly. Saving default settings.")
 	save_input_settings()
 }
+*/
 
 function get_keyboard_input_direction(_left, _right, _up, _down) {
 	return new Vector(

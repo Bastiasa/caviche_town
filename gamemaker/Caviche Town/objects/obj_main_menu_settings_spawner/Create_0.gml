@@ -1,6 +1,7 @@
 /// @description Inserte aquí la descripción
 // Puede escribir su código en este editor
 
+event_inherited()
 
 general_settings_button = create_canvas_button_with_rel_size(
 	"General",

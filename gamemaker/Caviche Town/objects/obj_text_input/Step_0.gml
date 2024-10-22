@@ -47,6 +47,7 @@ if focused {
 	
 			if cursor_position >= 0 {
 				typed_text = string_delete(typed_text, cursor_position + 1, 1)
+				input_events.on_text_changed.fire()
 			}
 			break
 		
@@ -83,12 +84,30 @@ if focused {
 		if max_length > 0 {
 			typed_text = string_copy(typed_text, 0, max_length)
 		}
+		
+		if virtual_keyboard.type == kbv_type_numbers {
+			var _number_result = number_from_string(typed_text)
+			
+			if !is_nan(_number_result) && is_real(_number_result) {
+				
+				if is_real(max_number) {
+					_number_result = min(max_number, _number_result)
+				}
+				
+				if is_real(min_number) {
+					_number_result = max(min_number, _number_result)
+				}
+				
+				typed_text = string(_number_result)
+			}
+		}
 	
 		var _current_length = string_length(typed_text)
 	
 		cursor_position += _current_length - _last_length
 		
 		keyboard_string = ""
+		input_events.on_text_changed.fire([])
 	}
 	
 	_bg_color = focused_bg_color

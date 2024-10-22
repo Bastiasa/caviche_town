@@ -4,6 +4,9 @@
 event_inherited()
 
 max_length = -1
+max_number = -1
+min_number = -1
+
 text = ""
 
 text_color = c_black
@@ -58,6 +61,10 @@ cooldown = 0.5
 
 allowed_characters = ASCII_CHARS
 
+input_events = {
+	on_text_changed : new Event()
+}
+
 events.on_mouse_click.add_listener(function() {
 	if focused {
 		keyboard_virtual_show(virtual_keyboard.type, virtual_keyboard.return_type, virtual_keyboard.autocapitalize, virtual_keyboard.predictivie_text_enabled)
@@ -70,6 +77,11 @@ events.on_mouse_click.add_listener(function() {
 events.on_blur.add_listener(function() {
 	keyboard_virtual_hide()
 })
+
+function set_text(_new_text = "") {
+	typed_text = _new_text
+	cursor_position = string_length(_new_text)
+}
 
 function get_allowed_chars(_str) {
 	var _result = ""

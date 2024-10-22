@@ -35,7 +35,7 @@ function append_child(_canvas_item) {
 
 function get_min_and_max_position() {
     if array_length(children) <= 0 {
-        return array_create(2, 0);
+        return array_create(2, array_create(2, 0));
     }
     
     var _min_x = children[0].x;

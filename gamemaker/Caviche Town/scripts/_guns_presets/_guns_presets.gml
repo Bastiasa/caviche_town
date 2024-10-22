@@ -100,6 +100,8 @@ function get_m16_information() {
 		sprite_unloaded: spr_m16_unloaded,
 		sprite_inventory: spr_m16_inventory,
 		
+		distance_damage_decrease: 400,
+		
 		view_distance: 520,
 
 		scale:1,
@@ -265,11 +267,61 @@ function get_sniper_information() {
 
 		is_auto: false,
 		
-		loaded_ammo:7,
-		max_ammo:7,
+		loaded_ammo:5,
+		max_ammo:5,
 		
-		reload_ammo: 7,
+		reload_ammo: 5,
 		reload_time: 2.8,
+		
+		physics: {
+			restitution: 0.02,
+			linear_damping: 0.04,
+			angular_damping: 0.1,
+			friction: 1,
+			density: 0.6,
+			box_x:0,
+			box_y:0,
+			box_width:63,
+			box_height:16
+		}
+	}	
+}
+
+function get_uzi_information() {
+	return {
+		name:"uzi",
+		sprite: spr_uzi,
+		sprite_unloaded: spr_uzi_unloaded,
+		sprite_inventory: spr_uzi_inventory,
+		
+		distance_damage_decrease: 200,
+		
+		view_distance: 500,
+
+		scale:.7,
+		damage: 14,
+		bullet_type: BULLET_TYPE.LIL_GUY,
+		cooldown: 0.07,
+		movement_weight: 0.2,
+		distance: 18,
+		muzzle_offset: new Vector(1, 6/27),
+		dispersion:10,
+		
+		player_camera_shake: false,
+		player_camera_shake_amount: 0,
+		
+		drops_particle: true,
+		dropped_particle_sprite: spr_empty_cannon_particle,
+		dropped_particle_scale: 0.37,
+		dropped_particle_offset: new Vector(14/41, 4/27),
+
+		is_auto: true,
+		
+		loaded_ammo:32,
+		max_ammo:32,
+		
+		reload_ammo: 32,
+		reload_time: 1,
 		
 		physics: {
 			restitution: 0.02,

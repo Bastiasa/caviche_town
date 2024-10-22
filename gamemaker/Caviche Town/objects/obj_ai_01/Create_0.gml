@@ -207,9 +207,6 @@ function look_at(_direction, _view_range = 3, _spacing = 5) {
 		if global.debugging {
 			array_push(debugging_lines, [character.x,character.y,_x2,_y2])
 		}
-		
-		ds_list_destroy(_list)
-	
 	}
 	
 	return _result

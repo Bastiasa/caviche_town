@@ -8,7 +8,7 @@ event_inherited()
 if current_time - last_broadcast >= broadcast_duration*1000 && socket != noone && socket >= 0 && broadcasting { 
 	last_broadcast = current_time
 	
-	var _broadcast_content = "cts:"+server_name
+	var _broadcast_content = string_concat("cts,",max_clients,",",array_length(connected_clients),",",string_length(password),":",server_name)
 	var _broadcast_content_length = string_length(_broadcast_content)
 	
 	var _buffer = buffer_create(_broadcast_content_length, buffer_grow, 1)
