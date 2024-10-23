@@ -12,8 +12,8 @@
   "duration":0.384,
   "name":"snd_shoot_body_impact_1",
   "parent":{
-    "name":"bullet_impact",
-    "path":"folders/Sonidos/effects/bullet_impact.yy",
+    "name":"character",
+    "path":"folders/Sonidos/effects/bullet_impact/character.yy",
   },
   "preload":false,
   "resourceType":"GMSound",

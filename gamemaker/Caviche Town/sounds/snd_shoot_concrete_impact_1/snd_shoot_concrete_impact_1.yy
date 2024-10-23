@@ -12,8 +12,8 @@
   "duration":0.432,
   "name":"snd_shoot_concrete_impact_1",
   "parent":{
-    "name":"bullet_impact",
-    "path":"folders/Sonidos/effects/bullet_impact.yy",
+    "name":"concrete",
+    "path":"folders/Sonidos/effects/bullet_impact/concrete.yy",
   },
   "preload":false,
   "resourceType":"GMSound",

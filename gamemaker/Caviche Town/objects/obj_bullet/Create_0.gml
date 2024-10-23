@@ -48,8 +48,26 @@ function play_shoot_sound(_collision_target) {
 		])
 	} else { // if _collision_target.object_index == obj_collider {
 		_sound = array_choose([
-			snd_shoot_concrete_impact_0,
-			snd_shoot_concrete_impact_1
+			snd_shoot_impact_01,
+			snd_shoot_impact_02,
+			snd_shoot_impact_03,
+			snd_shoot_impact_04,
+			snd_shoot_impact_05,
+			snd_shoot_impact_06,
+			snd_shoot_impact_07,
+			snd_shoot_impact_08,
+			snd_shoot_impact_09,
+			snd_shoot_impact_10,
+			snd_shoot_impact_11,
+			snd_shoot_impact_12,
+			snd_shoot_impact_13,
+			snd_shoot_impact_14,
+			snd_shoot_impact_15,
+			snd_shoot_impact_16,
+			snd_shoot_impact_17,
+			snd_shoot_impact_18,
+			snd_shoot_impact_19,
+			snd_shoot_impact_20
 		])
 	}
 	
