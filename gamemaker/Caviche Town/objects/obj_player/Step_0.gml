@@ -119,16 +119,17 @@ if check_if_pressed("player_do_throw_gun") {
 		var _gun_information = character.equipped_gun_manager.gun_information
 		var _backpack_index = array_get_index(character.backpack.guns, _gun_information)
 		
-		if _backpack_index != -1 {
-			character.backpack.remove_gun(_backpack_index)
-		}
-		
 		var _dropped_gun = character.create_dropped_gun(_gun_information)
 		var _camera_size = camera.get_size()
 		var _rotation = character.equipped_gun_manager._rotation
 		var _direction = character.equipped_gun_manager.get_direction()
 		var _target_distance = point_distance(character.x, character.y, character.equipped_gun_manager.target_position.x, character.equipped_gun_manager.target_position.y)
 		
+		if _backpack_index != -1 {
+			character.backpack.remove_gun(_backpack_index)
+		}
+		
+		character.equipped_gun_manager.set_gun(noone)
 		
 		var _width = sprite_get_width(_gun_information.sprite) * _gun_information.scale
 		var _height = sprite_get_height(_gun_information.sprite) * _gun_information.scale
@@ -167,8 +168,6 @@ if check_if_pressed("player_do_throw_gun") {
 		
 		//_dropped_gun.phy_speed_x = clamp(-_dropped_gun.phy_speed_x, -1000, 1000)
 		//_dropped_gun.phy_speed_y = clamp(-_dropped_gun.phy_speed_y, -1000, 1000)
-		
-		character.equipped_gun_manager.set_gun(noone)
 	}
 }
 

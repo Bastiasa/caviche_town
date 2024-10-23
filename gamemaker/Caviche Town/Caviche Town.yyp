@@ -125,8 +125,10 @@
     {"id":{"name":"obj_udp_client","path":"objects/obj_udp_client/obj_udp_client.yy",},},
     {"id":{"name":"obj_udp_server","path":"objects/obj_udp_server/obj_udp_server.yy",},},
     {"id":{"name":"obj_udp_socket","path":"objects/obj_udp_socket/obj_udp_socket.yy",},},
+    {"id":{"name":"obj_vertical_list","path":"objects/obj_vertical_list/obj_vertical_list.yy",},},
     {"id":{"name":"rm_main_menu","path":"rooms/rm_main_menu/rm_main_menu.yy",},},
     {"id":{"name":"rm_sandbox","path":"rooms/rm_sandbox/rm_sandbox.yy",},},
+    {"id":{"name":"rm_sndbox","path":"rooms/rm_sndbox/rm_sndbox.yy",},},
     {"id":{"name":"Room1","path":"rooms/Room1/Room1.yy",},},
     {"id":{"name":"_character_backpack_manager","path":"scripts/_character_backpack_manager/_character_backpack_manager.yy",},},
     {"id":{"name":"_characters_presets","path":"scripts/_characters_presets/_characters_presets.yy",},},
@@ -279,6 +281,7 @@
     {"roomId":{"name":"rm_main_menu","path":"rooms/rm_main_menu/rm_main_menu.yy",},},
     {"roomId":{"name":"Room1","path":"rooms/Room1/Room1.yy",},},
     {"roomId":{"name":"rm_sandbox","path":"rooms/rm_sandbox/rm_sandbox.yy",},},
+    {"roomId":{"name":"rm_sndbox","path":"rooms/rm_sndbox/rm_sndbox.yy",},},
   ],
   "templateType":"game",
   "TextureGroups":[
