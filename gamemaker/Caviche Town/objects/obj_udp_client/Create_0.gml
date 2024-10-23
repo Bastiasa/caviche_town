@@ -122,8 +122,18 @@ function check_possible_server_broadcast(_message, _emisor) {
 	var _command = _arguments[0]
 	
 	if _command == "cts" {
+		
+		
+		var _max_clients = number_from_string(array_pick(_arguments, 1))
+		var _connected_clients_count = number_from_string(array_pick(_arguments, 2))
+		var _password_length = number_from_string(array_pick(_arguments, 3))
+		
+		if is_nan(_max_clients) || is_nan(_connected_clients_count) || is_nan(_password_length) {
+			return
+		}
+		
 		show_debug_message("New server discovered.")
-		client_events.on_server_discovered.fire([_content, _emisor])
+		client_events.on_server_discovered.fire([_content, _emisor, _max_clients, _connected_clients_count, _password_length])
 	}
 }
 

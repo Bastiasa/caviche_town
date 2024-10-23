@@ -60,8 +60,8 @@
     {"name":"sniper","order":4,"path":"folders/Sprites/props/guns/sniper.yy",},
     {"name":"uzi","order":6,"path":"folders/Sprites/props/guns/uzi.yy",},
     {"name":"ui","order":4,"path":"folders/Sprites/ui.yy",},
-    {"name":"damage_blood","order":3,"path":"folders/Sprites/ui/damage_blood.yy",},
     {"name":"android_buttons","order":7,"path":"folders/Sprites/ui/android_buttons.yy",},
+    {"name":"damage_blood","order":3,"path":"folders/Sprites/ui/damage_blood.yy",},
     {"name":"inventory","order":6,"path":"folders/Sprites/ui/inventory.yy",},
   ],
   "ResourceOrderSettings":[
@@ -83,6 +83,7 @@
     {"name":"obj_main_menu_multiplayer_client","order":2,"path":"objects/obj_main_menu_multiplayer_client/obj_main_menu_multiplayer_client.yy",},
     {"name":"obj_main_menu_multiplayer_server","order":1,"path":"objects/obj_main_menu_multiplayer_server/obj_main_menu_multiplayer_server.yy",},
     {"name":"obj_main_menu_multiplayer_username","order":4,"path":"objects/obj_main_menu_multiplayer_username/obj_main_menu_multiplayer_username.yy",},
+    {"name":"obj_multiplayer_found_servers_list","order":5,"path":"objects/obj_multiplayer_found_servers_list/obj_multiplayer_found_servers_list.yy",},
     {"name":"obj_multiplayer_server_clients_viewer","order":3,"path":"objects/obj_multiplayer_server_clients_viewer/obj_multiplayer_server_clients_viewer.yy",},
     {"name":"obj_rectangle","order":3,"path":"objects/obj_rectangle/obj_rectangle.yy",},
     {"name":"obj_resizer","order":8,"path":"objects/obj_resizer/obj_resizer.yy",},

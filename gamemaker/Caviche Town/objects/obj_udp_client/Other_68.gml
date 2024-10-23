@@ -25,7 +25,7 @@ if _type == network_type_data {
 		buffer_delete(_buffer)
 
 	}
-} else if _type == "udp_broadcast_received" {
+}/* else if _type == "udp_broadcast_received" {
 	var _ip = async_load[?"ip"]
 	var _port = async_load[?"port"]
 	var _message = async_load[?"message"]

@@ -79,6 +79,23 @@ function array_choose(_array) {
 	return array_get(_array, irandom(array_length(_array) - 1))
 }
 
+function addres_compare(_addr1, _addr2) {
+	var _result = false
+	
+	if _addr1 == noone || _addr2 == noone || !is_array(_addr1) || !is_array(_addr2) {
+		return false
+	}
+	
+	if _addr1[0] == "localhost" {
+		_addr1[0] = "127.0.0.1"
+	}
+	
+	if _addr2[0] == "localhost" {
+		_addr2[0] = "127.0.0.1"
+	}
+	return  _addr1[0] == _addr2[0] && _addr1[1] == _addr2[1]
+}
+}
 
 function array_pick(_array, _index) {
 	var _result = undefined
