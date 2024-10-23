@@ -43,8 +43,8 @@ function init() {
 	x,
 	y,
 	0, 
-	radius, 
-	radius * 3, radius*2, false, 1)
+	radius * 3, 
+	radius * 10, 1, false, 1)
 	
 	if global.particle_manager != noone {
 		global.particle_manager.create_particle(

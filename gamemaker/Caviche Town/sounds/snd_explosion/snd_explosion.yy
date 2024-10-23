@@ -9,7 +9,7 @@
   "bitRate":128,
   "compression":0,
   "conversionMode":0,
-  "duration":4.728163,
+  "duration":2.272653,
   "name":"snd_explosion",
   "parent":{
     "name":"effects",

@@ -1,6 +1,9 @@
 /// @description Inserte aquí la descripción
 // Puede escribir su código en este editor
 
+audio_falloff_set_model(audio_falloff_linear_distance)
+audio_listener_orientation(0, 1, 0, 0, 0, 1)
+
 death_timer = 0
 
 timer = 0

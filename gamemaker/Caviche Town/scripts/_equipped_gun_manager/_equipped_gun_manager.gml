@@ -29,7 +29,44 @@ function EquippedGunManager(_character = noone) constructor {
 	events = {
 		on_bullet_shooted: new Event()
 	}
+	
+	playing_shoot_sound = noone
+	playing_reload_sound = noone
 
+	function play_sound(_sound_id, _fallof_ref_distance, _fallof_max_distance, _fallof_factor = 1) {
+		
+		
+		if !audio_emitter_exists(audio_emitter) {
+			return
+		}
+		
+		audio_emitter_falloff(audio_emitter, _fallof_ref_distance, _fallof_max_distance, _fallof_factor)
+		
+		return audio_play_sound_on(
+			audio_emitter,
+			_sound_id,
+			false,
+			2
+		)
+	}
+
+	function stop_sound_instance(_instance_id) {
+		if _instance_id != noone {
+			if audio_is_playing(_instance_id) {
+				audio_stop_sound(_instance_id)
+			}
+		}
+	}
+	
+	function stop_shoot_sound() {
+		stop_sound_instance(playing_shoot_sound)
+		playing_shoot_sound = noone
+	}
+	
+	function stop_reload_sound() {
+		stop_sound_instance(playing_reload_sound)
+		playing_reload_sound = noone
+	}
 	
 	function set_gun(_information) {
 
@@ -38,9 +75,7 @@ function EquippedGunManager(_character = noone) constructor {
 			return
 		}
 		
-		if gun_information != noone {
-			audio_stop_sound(gun_information.reload_sound)
-		}
+		stop_reload_sound()
 		
 		gun_information = _information
 		reloading = false
@@ -76,8 +111,7 @@ function EquippedGunManager(_character = noone) constructor {
 		var _reload_sound = get_from_struct(gun_information, "reload_sound", undefined)
 		
 		if _reload_sound != undefined {
-			audio_play_sound_on(audio_emitter, _reload_sound, false, 1)
-			
+			playing_reload_sound = play_sound(_reload_sound, 2000, 5000, 1)
 		}
 		
 		timer = 0
@@ -135,7 +169,7 @@ function EquippedGunManager(_character = noone) constructor {
 		
 		reloading = false
 		
-		audio_stop_sound(gun_information.reload_sound)
+		stop_reload_sound()
 		
 		if gun_information.drops_particle && global.particle_manager != noone {
 			
@@ -165,7 +199,7 @@ function EquippedGunManager(_character = noone) constructor {
 		var _shoot_sound = get_from_struct(gun_information, "shoot_sound", undefined)
 		
 		if _shoot_sound != undefined {
-			audio_play_sound_on(audio_emitter, _shoot_sound, false, 1)
+			play_sound(_shoot_sound, 100, 1000, 1)
 			
 		}
 		
