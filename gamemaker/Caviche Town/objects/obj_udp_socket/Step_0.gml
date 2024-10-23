@@ -21,7 +21,7 @@
 
 */
 
-if reliable_engine.current != undefined {
+if is_struct(reliable_engine.current) {
 	
 	if !reliable_engine.current.done {
 		send_message(reliable_engine.current.reliable_check_message, reliable_engine.current.address)
@@ -41,7 +41,7 @@ if reliable_engine.current != undefined {
 }
 
 
-if reliable_engine.current == undefined {
+if !is_struct(reliable_engine.current) {
 	var _next_message_data = array_shift(reliable_engine.queue)
 	
 	if is_array(_next_message_data) {

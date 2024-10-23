@@ -9,8 +9,8 @@
   "name":"obj_multiplayer_found_servers_list",
   "overriddenProperties":[],
   "parent":{
-    "name":"main_menu_multiplayer",
-    "path":"folders/Objetos/specifics/main_menu_objects/main_menu_multiplayer.yy",
+    "name":"multiplayer_lists",
+    "path":"folders/Objetos/specifics/main_menu_objects/main_menu_multiplayer/multiplayer_lists.yy",
   },
   "parentObjectId":{
     "name":"obj_vertical_list",

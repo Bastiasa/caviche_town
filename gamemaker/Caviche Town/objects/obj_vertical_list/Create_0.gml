@@ -22,7 +22,7 @@ padding_y = 0
 dragging = false
 dragging_ended_on = -1
 
-content_surface = create_surface()
+content_surface = -1
 content_height = 0
 
 events.on_element_clicked = new Event()

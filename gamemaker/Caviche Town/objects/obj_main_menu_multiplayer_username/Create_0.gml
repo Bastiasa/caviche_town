@@ -2,6 +2,8 @@
 // Puede escribir su código en este editor
 event_inherited()
 
+client_socket = instance_find(obj_udp_client, 0)
+
 next_spawner = noone
 prev_spawner = noone
 
@@ -40,6 +42,7 @@ next_button.offset_x = 1.1
 next_button.events.on_mouse_click.add_listener(function() {
 	if next_spawner != noone {
 		change_to_spawner(next_spawner[0], next_spawner[1])
+		client_socket.username = global.username
 	}
 })
 

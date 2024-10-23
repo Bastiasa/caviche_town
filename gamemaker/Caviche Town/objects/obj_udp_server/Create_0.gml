@@ -222,7 +222,7 @@ function handle_message(_message, _emisor) {
 			return
 		}
 			
-		if !is_string(_username) && _content != password {
+		if !is_string(_username) || _content != password {
 			send_reliable_message("connection_denied", _emisor)
 			return
 		}

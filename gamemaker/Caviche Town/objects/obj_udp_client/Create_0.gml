@@ -58,11 +58,13 @@ function disconnect_from_server() {
 	client_id = -1
 	server_address = noone
 	
-	network_destroy(socket)
-	socket = noone
+	if socket != noone {
+		network_destroy(socket)
+		socket = noone
+	}
+
 	
 	array_delete(connected_clients, 0, array_length(connected_clients))
-	client_events.on_disconnected.fire()
 }
 	
 function connect_to_server(_url, _port, _password = "") {
@@ -87,7 +89,6 @@ function connect_to_server(_url, _port, _password = "") {
 	pong_received_on = current_time
 	
 	server_address = _address
-	
 	state = UDP_CLIENT_STATE.CONNECTING
 }
 
@@ -153,28 +154,31 @@ function process_message(_message, _emisor) {
 	var _is_server = is_server(_emisor)
 	
 	switch _command {
-	
+		
 		case "connection_stablished":
 			
 			var _id = number_from_string(array_pick(_arguments, 1))
 			
-			if is_real(_id) {
-				state = UDP_CLIENT_STATE.CONNECTED
-				client_id = _id
-				client_events.on_connected.fire()
-			} else {
-				state = UDP_CLIENT_STATE.DISCONNECTED
-				client_events.on_connection_failed.fire(["Invalid id from the server."])
+			if _is_server {
+				if is_real(_id) {
+					state = UDP_CLIENT_STATE.CONNECTED
+					client_id = _id
+					client_events.on_connected.fire()
+				} else {
+					disconnect_from_server()
+					client_events.on_connection_failed.fire(["Invalid id from the server."])
+				}
 			}
+			
+
 			
 		break
 		
 		case "connection_denied":
 		
 		if _is_server {
-			state =	UDP_CLIENT_STATE.DISCONNECTED
+			disconnect_from_server()
 			client_events.on_connection_denied.fire()
-			server_address = noone
 		}
 
 		break
@@ -182,9 +186,8 @@ function process_message(_message, _emisor) {
 		case "connection_failed":
 		
 		if _is_server {
-			state = UDP_CLIENT_STATE.DISCONNECTED
+			disconnect_from_server()
 			client_events.on_connection_failed.fire()
-			server_address = noone
 		}
 		
 		break

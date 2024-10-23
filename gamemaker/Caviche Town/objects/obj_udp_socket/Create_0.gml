@@ -136,9 +136,10 @@ function create_reliable_message(_message, _address, _on_received = noone, _on_c
 	var _content = string_concat("r,",_id,":",_message)
 
 	var _info = {
-		address:_address,
-		content:_content,
-		id:_id,
+		address: _address,
+		content: _content,
+		
+		id: _id,
 		
 		start_time: current_time,
 		
