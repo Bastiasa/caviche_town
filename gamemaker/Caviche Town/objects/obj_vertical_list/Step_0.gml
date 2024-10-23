@@ -12,3 +12,6 @@ if !surface_exists(content_surface) {
 } else {
 	surface_resize(content_surface, _render_width - padding_x, _render_height - padding_y)
 }
+
+scroll = clamp(scroll, _render_height - content_height + padding_y * .5, 0)
+_scroll = lerp(_scroll, scroll, 0.13)
