@@ -1,10 +1,16 @@
 /// @description Inserte aquí la descripción
 // Puede escribir su código en este editor
 
-function change_to_spawner(_object_index, _layer) {
-	instance_create_layer(0,0, _layer, _object_index)
-	layer_destroy_instances(layer)
-	instance_destroy(id)
+function change_to_spawner(_object_index, _layer, _autodelete = true) {
+	var _result = instance_create_layer(0,0, _layer, _object_index)
+	
+	if _autodelete {
+		layer_destroy_instances(layer)
+		instance_destroy(id)
+	}
+	
+	
+	return _result
 }
 
 function set_items_offset(_items_array, _offset_x, _offset_y) {

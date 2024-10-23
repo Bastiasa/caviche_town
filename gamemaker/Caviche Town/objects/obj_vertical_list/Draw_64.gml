@@ -40,12 +40,14 @@ for(var _index = 0; _index < ds_list_size(elements); _index++) {
 			var _rel_mouse_x = mouse_x - x - padding_x * .5
 			var _rel_mouse_y = mouse_y - y - padding_y * .5
 			
-			var _clicking = mouse_check_button_pressed(mb_left)
+			var _clicked = mouse_check_button_released(mb_left)
+			var _dragging_end_difference = current_time - dragging_ended_on
+			var _delta = delta_time / MILLION * 2
 			
-			if _rel_mouse_y >= _y && _rel_mouse_y < _last_element_bottom {				
+			if _dragging_end_difference >=  _delta * 1000 &&  _rel_mouse_y >= _y && _rel_mouse_y < _last_element_bottom && !dragging {				
 				events.on_element_mouse_move.fire([_element, _index, _rel_mouse_x, _rel_mouse_y])
 				
-				if _clicking {
+				if _clicked {
 					events.on_element_clicked.fire([_element, _index])
 				}
 			}

@@ -10,7 +10,15 @@ create_server_button = create_canvas_button_with_rel_size(
 	"multiplayer"
 )
 
-create_server_button.events.on_mouse_click.add_listener(function() {change_to_spawner(obj_main_menu_multiplayer_server, "multiplayer_client")})
+create_server_button.events.on_mouse_click.add_listener(function() {
+	var _nickname_spawner = change_to_spawner(obj_main_menu_multiplayer_username, "multiplayer_username", false)
+	
+	_nickname_spawner.next_spawner = [obj_main_menu_multiplayer_server, "multiplayer_server"]
+	_nickname_spawner.prev_spawner = [obj_main_menu_multiplayer_menu, "multiplayer"]
+	
+	instance_destroy(id)
+	layer_destroy_instances(layer)
+})
 
 search_server_button = create_canvas_button_with_rel_size(
 	"Unirse a servidor",
@@ -21,7 +29,17 @@ search_server_button = create_canvas_button_with_rel_size(
 	"multiplayer"
 )
 
-search_server_button.events.on_mouse_click.add_listener(function() {change_to_spawner(obj_main_menu_multiplayer_client, "multiplayer_client")})
+search_server_button.events.on_mouse_click.add_listener(function() {
+	
+	var _nickname_spawner = change_to_spawner(obj_main_menu_multiplayer_username, "multiplayer_username", false)
+	
+	_nickname_spawner.next_spawner = [obj_main_menu_multiplayer_client, "multiplayer_client"]
+	_nickname_spawner.prev_spawner = [obj_main_menu_multiplayer_menu, "multiplayer"]
+	
+	instance_destroy(id)
+	layer_destroy_instances(layer)
+	
+})
 
 get_back_button = create_canvas_button_with_rel_size("Volver",  0.5, 0.6, 0.3, .1, layer)
 

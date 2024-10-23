@@ -1,19 +1,20 @@
 {
   "$GMObject":"",
-  "%Name":"obj_multiplayer_clients_viewer",
+  "%Name":"obj_main_menu_multiplayer_username",
   "eventList":[
     {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":0,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
+    {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":12,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
   ],
   "managed":true,
-  "name":"obj_multiplayer_clients_viewer",
+  "name":"obj_main_menu_multiplayer_username",
   "overriddenProperties":[],
   "parent":{
     "name":"main_menu_multiplayer",
     "path":"folders/Objetos/specifics/main_menu_objects/main_menu_multiplayer.yy",
   },
   "parentObjectId":{
-    "name":"obj_vertical_list",
-    "path":"objects/obj_vertical_list/obj_vertical_list.yy",
+    "name":"obj_room_ui_spawner",
+    "path":"objects/obj_room_ui_spawner/obj_room_ui_spawner.yy",
   },
   "persistent":false,
   "physicsAngularDamping":0.1,

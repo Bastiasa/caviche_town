@@ -76,25 +76,27 @@ server_max_players_input.input_events.on_text_changed.add_listener(function() {
 	}
 })
 
-bg_rectangle = instance_create_layer(0,0, layer, obj_rectangle)
+clients_viewer = instance_create_layer(0,0, layer, obj_multiplayer_server_clients_viewer)
 
-bg_rectangle.color = c_black
-bg_rectangle.background_alpha = .3
-bg_rectangle.relative_position_x  = .1
-bg_rectangle.relative_position_y  = .4
-bg_rectangle.relative_width = .8
-bg_rectangle.relative_height = .35
+clients_viewer.bg_color = c_black
+clients_viewer.bg_alpha = .3
+clients_viewer.relative_position_x  = .1
+clients_viewer.relative_position_y  = .4
+clients_viewer.relative_width = .8
+clients_viewer.relative_height = .35
 
-connected_peers_container = instance_create_layer(0,0, layer, obj_scroll_container)
-
-connected_peers_container.relative_position_x  = bg_rectangle.relative_position_x
-connected_peers_container.relative_position_y  = bg_rectangle.relative_position_y
-connected_peers_container.relative_width = bg_rectangle.relative_width
-connected_peers_container.relative_height = bg_rectangle.relative_height
-
+clients_viewer.set_socket(server_socket)
 
 back_button = create_canvas_button_with_rel_size("Volver", 0.1, .8, .1, .1)
 
-back_button.events.on_mouse_click.add_listener(function(){change_to_spawner(obj_main_menu_multiplayer_menu, "multiplayer")})
+back_button.events.on_mouse_click.add_listener(function(){
+	var _nickname_spawner = change_to_spawner(obj_main_menu_multiplayer_username, "multiplayer_username", false)
+	
+	_nickname_spawner.next_spawner = [obj_main_menu_multiplayer_server, "multiplayer_server"]
+	_nickname_spawner.prev_spawner = [obj_main_menu_multiplayer_menu, "multiplayer"]
+	
+	instance_destroy(id)
+	layer_destroy_instances(layer)
+})
 
 start_game_button = create_canvas_button_with_rel_size("Iniciar", 0.25, 0.8, 0.65, 0.1)

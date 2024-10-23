@@ -10,6 +10,8 @@ client_id = -1
 server_address = noone
 server_timeout = 20
 
+username = ""
+
 connecting_start = -1
 connecting_timeout = 10
 connected_clients = []
@@ -65,8 +67,14 @@ function connect_to_server(_url, _port, _password = "") {
 	stop_servers_searching()
 	
 	var _address = [string_lower(_url), _port]
+	var _username = string_length(username) > 0 ? username : "$annonymous$"
 	
-	send_reliable_message("connection_request,"+_password, _address)
+	send_reliable_message(string_concat(
+		"connection_request,",
+		_username,
+		":",
+		_password
+	), _address)
 
 	show_debug_message("Connection request sended. Waiting for response.")
 	
@@ -160,7 +168,7 @@ function process_message(_message, _emisor) {
 		var _client_id = number_from_string(array_pick(_arguments, 1))
 		
 		if is_real(_client_id) {
-			array_push(connected_clients, _client_id)
+			array_push(connected_clients, {id:_client_id, username: _content})
 		}
 		
 		break

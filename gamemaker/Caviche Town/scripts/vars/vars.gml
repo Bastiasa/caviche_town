@@ -7,3 +7,5 @@ rooms = {
 		draw_banner: true
 	}
 }
+
+username = ""

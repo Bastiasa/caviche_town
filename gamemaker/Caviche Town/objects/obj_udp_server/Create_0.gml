@@ -91,7 +91,7 @@ function get_client_index_by_id(_id) {
 	return _result
 }
 
-function stablish_client_connection(_address) {
+function stablish_client_connection(_address, _username) {
 	
 	if array_length(_address) < 2 || !is_string(_address[0]) || !is_numeric(_address[1]) {
 		return
@@ -101,7 +101,7 @@ function stablish_client_connection(_address) {
 	
 	
 	var _client_id = next_client_id
-	var _client = [_address, current_time, _client_id]
+	var _client = [_address, current_time, _client_id, _username]
 	array_push(connected_clients, _client)
 	server_events.on_client_connected.fire([_client])
 	
@@ -214,15 +214,15 @@ function handle_message(_message, _emisor) {
 	switch _command {
 		
 		case "connection_request":
+		
+		var _username = array_pick(_arguments, 1)
 			
-		var _given_password = array_pick(_arguments, 1)
-			
-		if _given_password != password || array_length(connected_clients) >= max_clients {
+		if !is_string(_username) && _content != password || array_length(connected_clients) >= max_clients {
 			send_reliable_message("connection_denied", _emisor)
 			return
 		}
 			
-		stablish_client_connection(_emisor);
+		stablish_client_connection(_emisor, _username);
 		break
 		
 		case "resend":

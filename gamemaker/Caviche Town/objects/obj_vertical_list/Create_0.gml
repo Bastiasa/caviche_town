@@ -20,6 +20,7 @@ padding_x = 0
 padding_y = 0
 
 dragging = false
+dragging_ended_on = -1
 
 content_surface = create_surface()
 content_height = 0
