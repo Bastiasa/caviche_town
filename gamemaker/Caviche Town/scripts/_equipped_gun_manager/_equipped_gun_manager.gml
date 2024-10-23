@@ -38,6 +38,10 @@ function EquippedGunManager(_character = noone) constructor {
 			return
 		}
 		
+		if gun_information != noone {
+			audio_stop_sound(gun_information.reload_sound)
+		}
+		
 		gun_information = _information
 		reloading = false
 		timer = 0
@@ -121,7 +125,7 @@ function EquippedGunManager(_character = noone) constructor {
 		}
 		*/
 		
-		if character._collision_point(_bullet_position.x, _bullet_position.y, obj_collider, false, false) != noone {
+		if character._collision_point(character.x + _bullet_position.x, character.y + _bullet_position.y, obj_collider, false, false) != noone {
 			return
 		}
 		
@@ -130,6 +134,8 @@ function EquippedGunManager(_character = noone) constructor {
 		}
 		
 		reloading = false
+		
+		audio_stop_sound(gun_information.reload_sound)
 		
 		if gun_information.drops_particle && global.particle_manager != noone {
 			

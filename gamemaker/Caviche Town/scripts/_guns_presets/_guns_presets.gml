@@ -345,12 +345,12 @@ function get_uzi_information() {
 			restitution: 0.02,
 			linear_damping: 0.04,
 			angular_damping: 0.1,
-			friction: 1,
+			friction: .3,
 			density: 0.6,
 			box_x:0,
 			box_y:0,
-			box_width:63,
-			box_height:16
+			box_width:27,
+			box_height:27
 		}
 	}	
 }

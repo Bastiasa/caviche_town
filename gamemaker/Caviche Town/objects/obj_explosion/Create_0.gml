@@ -38,7 +38,13 @@ function character_gotten_by_explosion(_character, _damage) {
 
 function init() {
 	
-	audio_play_sound_at(explosion_sound, x, y, 0, radius, radius * 3, 0, false, 1)
+	audio_play_sound_at(
+	explosion_sound,
+	x,
+	y,
+	0, 
+	radius, 
+	radius * 3, radius*2, false, 1)
 	
 	if global.particle_manager != noone {
 		global.particle_manager.create_particle(

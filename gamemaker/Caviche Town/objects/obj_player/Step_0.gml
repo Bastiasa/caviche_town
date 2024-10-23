@@ -2,7 +2,6 @@
 // Puede escribir su código en este editor
 
 audio_listener_position(character.x, character.y, 0)
-audio_listener_velocity(character.velocity.x,character.velocity.y,0)
 
 var _virtual_joystick_movement = get_virtual_joystick_normalized(true)
 var _equipped_gun = character.equipped_gun_manager.gun_information
