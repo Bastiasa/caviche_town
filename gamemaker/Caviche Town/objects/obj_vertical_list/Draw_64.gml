@@ -33,7 +33,24 @@ for(var _index = 0; _index < ds_list_size(elements); _index++) {
 	var _y =  _last_element_bottom + spacing
 	
 	try  {
-		_last_element_bottom = draw_element(_element, _y)
+		_last_element_bottom = _y + draw_element(_element, _y, _index)
+		
+		if is_mouse_keeper() {
+			
+			var _rel_mouse_x = mouse_x - x - padding_x * .5
+			var _rel_mouse_y = mouse_y - y - padding_y * .5
+			
+			var _clicking = mouse_check_button_pressed(mb_left)
+			
+			if _rel_mouse_y >= _y && _rel_mouse_y < _last_element_bottom {				
+				events.on_element_mouse_move.fire([_element, _index, _rel_mouse_x, _rel_mouse_y])
+				
+				if _clicking {
+					events.on_element_clicked.fire([_element, _index])
+				}
+			}
+		}
+		
 	} catch(_err) {
 		show_debug_message("Couldn't draw element from list.")
 	}

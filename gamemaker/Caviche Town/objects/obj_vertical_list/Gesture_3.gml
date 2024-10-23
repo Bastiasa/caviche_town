@@ -1,6 +1,5 @@
 /// @description Inserte aquí la descripción
 // Puede escribir su código en este editor
+var _diff_y = event_data[?"diffY"]
 
-if is_mouse_keeper() {
-	scroll += get_render_height() * -.5
-}
+scroll += _diff_y

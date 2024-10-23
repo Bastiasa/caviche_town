@@ -53,6 +53,10 @@ tmp = {
 }
 
 
+function is_mouse_keeper() {
+	return  global.ui_manager.mouse_keeper != noone && global.ui_manager.mouse_keeper.id == id 
+}
+
 function _mouse_entered() {
 	events.on_mouse_enter.fire()
 }
