@@ -35,7 +35,7 @@ if !to_destroy {
 		_raycast = _raycast_list[|0]
 	}
 	
-	ds_list_clear(_raycast_list)
+	ds_list_destroy(_raycast_list)
 	
 
 	if _raycast != noone {
@@ -53,6 +53,10 @@ if !to_destroy {
 			
 		} else if _raycast.object_index == obj_character && _raycast.current_state != CHARACTER_STATE.DASHING {
 			to_destroy = false
+		}
+		
+		if to_destroy {
+			play_shoot_sound(_raycast)
 		}
 	}
 }

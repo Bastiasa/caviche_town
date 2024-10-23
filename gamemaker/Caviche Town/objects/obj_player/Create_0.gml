@@ -80,6 +80,89 @@ character.equipped_gun_manager.events.on_bullet_shooted.add_listener(function(_a
 	}
 })
 
+function draw_blood_effect() {
+
+	for (var _blood_spot_index = 0; _blood_spot_index < array_length(blood_spots); _blood_spot_index++) {
+		var _blood_spot_data = blood_spots[_blood_spot_index]
+	
+		_blood_spot_data.lifetime -= get_delta()
+	
+		if _blood_spot_data.lifetime <= 0.3 && !character.died {
+			_blood_spot_data.alpha = _blood_spot_data._alpha * (_blood_spot_data.lifetime/0.3)
+		}
+		
+		var _gui_width = display_get_gui_width()
+		var _gui_height = display_get_gui_height()
+	
+		draw_sprite_ext(
+			spr_blood_spots,
+			_blood_spot_data.subimg,
+			_blood_spot_data.x * _gui_width,
+			_blood_spot_data.y * _gui_height,
+			_blood_spot_data.scale,
+			_blood_spot_data.scale,
+			0,
+			c_white,
+			_blood_spot_data.alpha
+		)
+	
+		if _blood_spot_data.lifetime <= 0 && !character.died {
+			array_delete(blood_spots, _blood_spot_index, 1)
+		}
+	}
+
+
+}
+
+function draw_static_blood_effect() {
+
+	on_low_health_blood_spot_timer += get_delta()
+
+	if character.hp < character.max_hp * .5 {
+		
+		var _gui_width = display_get_gui_width()
+		var _gui_height = display_get_gui_height()
+	
+		var _top_left_blood_scale = (_gui_width/4)/64
+		var _bottom_right_blood_scale = (_gui_width/4)/64
+	
+		var _alpha = abs(sin(timer*2.5))*.3+.3
+	
+		show_debug_message(_alpha)
+	
+		if on_low_health_blood_spot_timer >= 3 * character.hp / (character.max_hp * .5) + .7 {
+			create_blood_spot()
+			on_low_health_blood_spot_timer = 0
+		}
+	
+		draw_sprite_ext(
+			spr_top_left_blood,
+			0,
+			0,
+			0,
+			_top_left_blood_scale,
+			_top_left_blood_scale,
+			0,
+			c_white,
+			_alpha
+		)
+	
+		draw_sprite_ext(
+			spr_bottom_right_blood,
+			0,
+			_gui_width,
+			_gui_height,
+			_bottom_right_blood_scale,
+			_bottom_right_blood_scale,
+			0,
+			c_white,
+			_alpha
+		)
+	}
+
+
+}
+
 function draw_inventory() {
 	
 	var _gui_width = display_get_gui_width()

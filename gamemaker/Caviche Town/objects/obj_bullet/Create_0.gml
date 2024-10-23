@@ -33,6 +33,39 @@ vertical_speed = 0
 
 particle_manager = noone
 
+function play_shoot_sound(_collision_target) {
+	
+	if type == BULLET_TYPE.ROCKET {
+		return 
+	}
+	
+	var _sound = -1
+	
+	if _collision_target.object_index == obj_character {
+		_sound = array_choose([
+			snd_shoot_body_impact_0,
+			snd_shoot_body_impact_1
+		])
+	} else { // if _collision_target.object_index == obj_collider {
+		_sound = array_choose([
+			snd_shoot_concrete_impact_0,
+			snd_shoot_concrete_impact_1
+		])
+	}
+	
+	audio_play_sound_at(
+		_sound,
+		x,
+		y,
+		0,
+		
+		100,
+		2000,
+		1,
+		false,
+		2
+	)
+}
 
 function apply_damage_to_target(_target) {
 	

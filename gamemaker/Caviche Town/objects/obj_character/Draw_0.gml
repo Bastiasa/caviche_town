@@ -28,8 +28,9 @@ if current_sprite_timer*fps >= _sprite_info.frame_speed {
 }
 
 
-equipped_gun_manager.on_draw_event()
-
+if equipped_gun_manager != noone && !died {
+	equipped_gun_manager.on_draw_event()
+}
 if global.debugging && global.debugging_options.show_characters_aim_dot {
 	draw_set_color(c_red)
 	draw_circle(equipped_gun_manager.target_position.x, equipped_gun_manager.target_position.y, 2, true)

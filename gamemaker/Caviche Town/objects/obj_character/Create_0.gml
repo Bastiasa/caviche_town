@@ -211,6 +211,12 @@ function apply_damage(_damage, _from = noone) {
 		backpack.clear_guns()
 		backpack.clear_ammo()
 		
+		delete equipped_gun_manager
+		delete backpack
+		
+		equipped_gun_manager = noone
+		backpack = noone
+		
 		events.on_died.fire()
 	}
 }

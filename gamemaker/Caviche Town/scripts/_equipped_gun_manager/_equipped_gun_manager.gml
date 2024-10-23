@@ -46,7 +46,7 @@ function EquippedGunManager(_character = noone) constructor {
 			audio_emitter,
 			_sound_id,
 			false,
-			2
+			3
 		)
 	}
 
