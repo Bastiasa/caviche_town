@@ -66,7 +66,7 @@ def background_process():
     while True:
 
         message = input("Escriba que va a enviar: ")
-        send_message(message, ("127.0.0.1", 3030))
+        send_message(message, ("192.168.137.1", 58387))
 
         
 

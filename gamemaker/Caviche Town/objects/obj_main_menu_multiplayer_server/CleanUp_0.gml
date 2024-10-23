@@ -1,7 +1,7 @@
 /// @description Inserte aquí la descripción
 // Puede escribir su código en este editor
 
-server_socket.destroy()
+server_socket.broadcasting = false
 
 var _last_server_data = {
 	max_clients: server_socket.max_clients,

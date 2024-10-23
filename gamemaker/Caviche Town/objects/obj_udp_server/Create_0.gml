@@ -54,6 +54,10 @@ function destroy() {
 	}
 }*/
 
+show_debug_message(
+	"Multicast enabling: "+string(network_set_config(network_config_enable_multicast, true))
+)
+
 function init() {
 	socket = network_create_socket(network_socket_udp)
 	return socket >= 0

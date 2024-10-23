@@ -123,6 +123,7 @@
     {"id":{"name":"obj_rigid_body","path":"objects/obj_rigid_body/obj_rigid_body.yy",},},
     {"id":{"name":"obj_room_ui_spawner","path":"objects/obj_room_ui_spawner/obj_room_ui_spawner.yy",},},
     {"id":{"name":"obj_scroll_container","path":"objects/obj_scroll_container/obj_scroll_container.yy",},},
+    {"id":{"name":"obj_server","path":"objects/obj_server/obj_server.yy",},},
     {"id":{"name":"obj_singletons","path":"objects/obj_singletons/obj_singletons.yy",},},
     {"id":{"name":"obj_static_body","path":"objects/obj_static_body/obj_static_body.yy",},},
     {"id":{"name":"obj_text_input","path":"objects/obj_text_input/obj_text_input.yy",},},

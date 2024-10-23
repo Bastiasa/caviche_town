@@ -62,6 +62,8 @@ function disconnect_from_server() {
 		network_destroy(socket)
 		socket = noone
 	}
+	
+	network_set_config(network_config_enable_multicast, true)
 
 	
 	array_delete(connected_clients, 0, array_length(connected_clients))

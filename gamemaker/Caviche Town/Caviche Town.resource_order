@@ -91,6 +91,7 @@
     {"name":"obj_resizer","order":8,"path":"objects/obj_resizer/obj_resizer.yy",},
     {"name":"obj_room_ui_spawner","order":8,"path":"objects/obj_room_ui_spawner/obj_room_ui_spawner.yy",},
     {"name":"obj_scroll_container","order":5,"path":"objects/obj_scroll_container/obj_scroll_container.yy",},
+    {"name":"obj_server","order":3,"path":"objects/obj_server/obj_server.yy",},
     {"name":"obj_singletons","order":2,"path":"objects/obj_singletons/obj_singletons.yy",},
     {"name":"obj_static_body","order":1,"path":"objects/obj_static_body/obj_static_body.yy",},
     {"name":"obj_text_label","order":4,"path":"objects/obj_text_label/obj_text_label.yy",},
