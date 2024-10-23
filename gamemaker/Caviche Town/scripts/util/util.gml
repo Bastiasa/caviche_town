@@ -207,7 +207,7 @@ function Event() constructor {
 		}
 		
 		next_listener_id++
-		variable_struct_set(listeners, next_listener_id, string(_listener))
+		variable_struct_set(listeners, string(next_listener_id), _listener)
 		return next_listener_id
 	}
 	
@@ -221,7 +221,9 @@ function Event() constructor {
 	
 	
 	static remove_listener = function(_listener_id) {
-		variable_struct_set(listeners, string(_listener_id), undefined)
+		if variable_struct_exists(listeners, string(_listener_id)) {
+			variable_struct_remove(listeners, string(_listener_id))
+		}
 	}
 	
 	
