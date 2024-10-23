@@ -5,7 +5,7 @@
 event_inherited();
 
 modal = true
-elements = ds_list_create()
+elements = []
 
 bg_color = c_black
 bg_alpha = 0.3

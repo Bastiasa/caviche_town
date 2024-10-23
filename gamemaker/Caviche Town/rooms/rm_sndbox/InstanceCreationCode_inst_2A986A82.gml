@@ -8,8 +8,8 @@ height = 300
 bg_color = c_white
 bg_alpha = 1
 
-padding_x = 30
-padding_y = 30
+padding_x = 90
+padding_y = 90
 
 spacing = 0
 

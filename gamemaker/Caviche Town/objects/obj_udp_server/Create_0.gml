@@ -216,8 +216,13 @@ function handle_message(_message, _emisor) {
 		case "connection_request":
 		
 		var _username = array_pick(_arguments, 1)
+		
+		if array_length(connected_clients) >= max_clients {
+			send_reliable_message("connection_failed", _emisor)
+			return
+		}
 			
-		if !is_string(_username) && _content != password || array_length(connected_clients) >= max_clients {
+		if !is_string(_username) && _content != password {
 			send_reliable_message("connection_denied", _emisor)
 			return
 		}

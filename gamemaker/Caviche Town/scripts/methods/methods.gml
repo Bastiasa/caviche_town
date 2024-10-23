@@ -95,7 +95,7 @@ function addres_compare(_addr1, _addr2) {
 	}
 	return  _addr1[0] == _addr2[0] && _addr1[1] == _addr2[1]
 }
-}
+
 
 function array_pick(_array, _index) {
 	var _result = undefined

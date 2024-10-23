@@ -6,6 +6,7 @@ event_inherited();
 
 server_socket = instance_find(obj_udp_server, 0)
 server_socket.init()
+server_socket.broadcasting = true
 
 function create_client_element(_client_id) {
 	var _hlayout = instance_create_layer(0,0, layer, obj_container)
@@ -21,7 +22,7 @@ function create_client_element(_client_id) {
 
 server_name_input = create_text_input("Nombre del servidor", .1, .1, 0,0, .8, .1)
 server_password_input = create_text_input("Contraseña", .1, .25, 0,0, .5, .1)
-server_max_players_input = create_text_input("Jugadores máximos (4)", .65, .25, 0,0, .25, .1)
+server_max_players_input = create_text_input("Jugadores máximos", .65, .25, 0,0, .25, .1)
 
 var _last_server_data = load_value("server_creation_last_data", undefined)
 
@@ -59,7 +60,7 @@ server_max_players_input.allowed_characters = DIGITS
 server_max_players_input.max_length = 2
 server_max_players_input.virtual_keyboard.type = kbv_type_numbers
 
-server_max_players_input.max_number = 32
+server_max_players_input.max_number = 5
 server_max_players_input.min_number = 1
 
 server_max_players_input.input_events.on_text_changed.add_listener(function() {

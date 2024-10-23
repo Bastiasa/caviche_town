@@ -80,6 +80,7 @@
     {"name":"obj_grenade","order":7,"path":"objects/obj_grenade/obj_grenade.yy",},
     {"name":"obj_main_menu_begin_animation","order":1,"path":"objects/obj_main_menu_begin_animation/obj_main_menu_begin_animation.yy",},
     {"name":"obj_main_menu_buttons_spawner","order":2,"path":"objects/obj_main_menu_buttons_spawner/obj_main_menu_buttons_spawner.yy",},
+    {"name":"obj_main_menu_client_connecting","order":6,"path":"objects/obj_main_menu_client_connecting/obj_main_menu_client_connecting.yy",},
     {"name":"obj_main_menu_multiplayer_client","order":2,"path":"objects/obj_main_menu_multiplayer_client/obj_main_menu_multiplayer_client.yy",},
     {"name":"obj_main_menu_multiplayer_server","order":1,"path":"objects/obj_main_menu_multiplayer_server/obj_main_menu_multiplayer_server.yy",},
     {"name":"obj_main_menu_multiplayer_username","order":4,"path":"objects/obj_main_menu_multiplayer_username/obj_main_menu_multiplayer_username.yy",},

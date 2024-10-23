@@ -54,7 +54,7 @@ tmp = {
 
 
 function is_mouse_keeper() {
-	return  global.ui_manager.mouse_keeper != noone && global.ui_manager.mouse_keeper.id == id 
+	return  global.ui_manager.mouse_keeper != noone && instance_exists(global.ui_manager.mouse_keeper) && global.ui_manager.mouse_keeper.id == id 
 }
 
 function _mouse_entered() {

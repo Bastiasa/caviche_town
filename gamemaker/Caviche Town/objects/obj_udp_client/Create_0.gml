@@ -165,8 +165,23 @@ function process_message(_message, _emisor) {
 		break
 		
 		case "connection_denied":
+		
+		if _is_server {
 			state =	UDP_CLIENT_STATE.DISCONNECTED
 			client_events.on_connection_denied.fire()
+			server_address = noone
+		}
+
+		break
+		
+		case "connection_failed":
+		
+		if _is_server {
+			state = UDP_CLIENT_STATE.DISCONNECTED
+			client_events.on_connection_failed.fire()
+			server_address = noone
+		}
+		
 		break
 		
 		case "client_connected":

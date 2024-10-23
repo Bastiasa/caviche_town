@@ -108,6 +108,7 @@
     {"id":{"name":"obj_main_menu_background","path":"objects/obj_main_menu_background/obj_main_menu_background.yy",},},
     {"id":{"name":"obj_main_menu_begin_animation","path":"objects/obj_main_menu_begin_animation/obj_main_menu_begin_animation.yy",},},
     {"id":{"name":"obj_main_menu_buttons_spawner","path":"objects/obj_main_menu_buttons_spawner/obj_main_menu_buttons_spawner.yy",},},
+    {"id":{"name":"obj_main_menu_client_connecting","path":"objects/obj_main_menu_client_connecting/obj_main_menu_client_connecting.yy",},},
     {"id":{"name":"obj_main_menu_multiplayer_client","path":"objects/obj_main_menu_multiplayer_client/obj_main_menu_multiplayer_client.yy",},},
     {"id":{"name":"obj_main_menu_multiplayer_menu","path":"objects/obj_main_menu_multiplayer_menu/obj_main_menu_multiplayer_menu.yy",},},
     {"id":{"name":"obj_main_menu_multiplayer_server","path":"objects/obj_main_menu_multiplayer_server/obj_main_menu_multiplayer_server.yy",},},
