@@ -88,6 +88,9 @@ max_hp = 100
 image_yscale = _scale
 image_xscale = _scale
 
+delete_classes_on_dead = true
+
+
 function throw_grenade() {
 	var _current_grenade_ammo = backpack.get_ammo(BULLET_TYPE.GRENADES)
 	
@@ -211,11 +214,15 @@ function apply_damage(_damage, _from = noone) {
 		backpack.clear_guns()
 		backpack.clear_ammo()
 		
-		delete equipped_gun_manager
-		delete backpack
+		if delete_classes_on_dead {
+			equipped_gun_manager.free_audio_emitter()
+			
+			delete equipped_gun_manager
+			delete backpack
 		
-		equipped_gun_manager = noone
-		backpack = noone
+			equipped_gun_manager = noone
+			backpack = noone
+		}
 		
 		events.on_died.fire()
 	}

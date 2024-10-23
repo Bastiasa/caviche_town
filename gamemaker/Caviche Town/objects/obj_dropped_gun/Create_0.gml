@@ -57,6 +57,10 @@ function set_information(_gun_information) {
 
 function on_touched_by_character(_character) {
 	
+	if _character.died {
+		return
+	}
+	
 	if timer < 0.5 {
 		return
 	}

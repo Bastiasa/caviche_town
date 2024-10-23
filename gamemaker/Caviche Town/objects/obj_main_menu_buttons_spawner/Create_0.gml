@@ -39,3 +39,7 @@ _settings_button.events.on_mouse_click.add_listener(function() {
 _multiplayer_button.events.on_mouse_click.add_listener(function() {
 	change_to_spawner(obj_main_menu_multiplayer_menu, "multiplayer")
 })
+
+_quick_game_button.events.on_mouse_click.add_listener(function() {
+	room_goto(Room1)
+})

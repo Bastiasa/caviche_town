@@ -19,6 +19,7 @@ normal_camera_distance = 400
 camera = new CameraView(view_camera[0])
 character = instance_create_layer(x,y, layer, obj_character)
 
+character.delete_classes_on_dead = false
 character.destroy_on_outside = false
 character.controller = self
 character.sprites = global.characters_sprite_set.hitman()

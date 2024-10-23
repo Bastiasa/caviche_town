@@ -32,6 +32,14 @@ function EquippedGunManager(_character = noone) constructor {
 	
 	playing_shoot_sound = noone
 	playing_reload_sound = noone
+	
+	function free_audio_emitter() {
+		if audio_emitter != noone && audio_emitter != undefined {
+			if audio_emitter_exists(audio_emitter) {
+				audio_emitter_free(audio_emitter)
+			}
+		}
+	}
 
 	function play_sound(_sound_id, _fallof_ref_distance, _fallof_max_distance, _fallof_factor = 1) {
 		
