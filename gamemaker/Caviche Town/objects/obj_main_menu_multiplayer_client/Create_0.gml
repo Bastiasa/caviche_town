@@ -9,29 +9,6 @@ client_socket.search_servers_start()
 
 discovered_servers = []
 
-on_server_discovered_listener_id = client_socket.client_events.on_server_discovered.add_listener(function(_args) {
-	var _server_name = _args[0]
-	var _server_address = _args[1]
-	
-	var _found = -1
-	
-	for(var _index = 0; _index < array_length(discovered_servers); _index++) { 
-		var _discovered_server = discovered_servers[_index]
-		var _discovered_server_address = _discovered_server[1]
-		
-		if client_socket.address_to_string(_discovered_server_address) == client_socket.address_to_string(_server_address) {
-			_found = _index
-			_discovered_server[0] = _server_name
-			break
-		}
-	}
-	
-	if _found == -1 {
-		array_push(discovered_servers, [_server_name, _server_address])
-		//show_message_async("New server discovered: "+_server_name)
-	}
-})
-
 found_servers_list = instance_create_layer(0,0, layer, obj_multiplayer_found_servers_list)
 
 found_servers_list.relative_width = .8
@@ -42,8 +19,9 @@ found_servers_list.padding_y = 30
 found_servers_list.set_socket(client_socket)
 
 var _count = 0
+var _test = false
 
-repeat 10 {
+repeat _test ? 10 : 0 {
 	
 	_count++
 	
@@ -63,6 +41,8 @@ repeat 10 {
 }
 
 found_servers_list.events.on_join_button_pressed.add_listener(function(_args) {
+	
+	client_socket.stop_servers_searching()
 	
 	var _spawner = change_to_spawner(obj_main_menu_client_connecting, "multiplayer_client_connecting", false)
 	

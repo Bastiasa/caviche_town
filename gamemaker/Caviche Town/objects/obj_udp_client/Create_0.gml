@@ -35,6 +35,11 @@ client_events = {
 broadcasting_socket = noone
 
 function search_servers_start() {
+	
+	if broadcasting_socket != noone {
+		return
+	}
+	
 	broadcasting_socket = network_create_socket_ext(network_socket_udp, UDP_BROADCASTING_PORT)
 	return broadcasting_socket >= 0
 }

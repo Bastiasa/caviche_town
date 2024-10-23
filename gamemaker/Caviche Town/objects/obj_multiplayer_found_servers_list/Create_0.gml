@@ -5,7 +5,6 @@ event_inherited()
 
 socket = noone
 
-
 on_server_discovered_id = -1
 
 padding_x = 200
@@ -16,8 +15,8 @@ function find_server_index_by_address(_address) {
 	
 	var _result = -1
 
-	for(var _index = 0; _index < ds_list_size(elements); _index = 0) {
-		var _found_server_information = ds_list_find_value(elements, _index)
+	for(var _index = 0; _index < array_length(elements); _index = 0) {
+		var _found_server_information = array_get(elements, _index)
 			
 		if addres_compare(_found_server_information.server_address, _address) {				
 			_result = _index
@@ -59,18 +58,22 @@ function set_socket(_socket) {
 		_connected_clients_count = _args[3]
 		_password_length = _args[4]
 		
+		show_debug_message("Cock "+string(struct_get_names(socket.client_events.on_server_discovered.listeners)))
+		
 		var _found_server_information_index = find_server_index_by_address(_server_address)
 		
 		if _found_server_information_index != -1 {
-			var _found_server_information = elements[|_found_server_information_index]
+			var _found_server_information = elements[_found_server_information_index]
 			
 			_found_server_information.server_name = _server_name
 			_found_server_information.max_clients = _max_clients
 			_found_server_information.clients = _connected_clients_count
 			_found_server_information.password_length = _password_length
-		}else {
-			ds_list_add(
+			
+		} else {
+			array_push(
 				elements,
+				
 				{
 					server_name:_server_name,
 					server_address: _server_address,
