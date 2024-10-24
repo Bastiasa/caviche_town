@@ -53,7 +53,7 @@ blood_spots = []
 
 on_low_health_blood_spot_timer = 0
 
-touchscreen_mode = true// os_type == os_android || os_type == os_ios || os_type == os_unknown
+touchscreen_mode = os_type == os_android || os_type == os_ios || os_type == os_unknown
 
 virtual_joystick = {
 	rel_x: .2,
@@ -131,22 +131,15 @@ character.equipped_gun_manager.events.on_bullet_shooted.add_listener(function(_a
 })
 
 function android_buttons_activity() {
+
+	var _last_android_pressed_action = android_action_pressed
+	var _touch = 0
 	
-	var _max_touches = 10
-	var _last_touch_index = 0
-	
-	for (var _index = 0; _index < _max_touches; _index++) {
-	    if (device_mouse_check_button_pressed(_index, mb_left)) {
-	        _last_touch_index = _index;
-	    } else {
-			break
-		}
+	if virtual_joystick.touch == _touch {
+		_touch = 1
 	}
 
-	
-	var _last_android_pressed_action = android_action_pressed
-
-	if touchscreen_mode && mouse_check_button_pressed(mb_left) {
+	if touchscreen_mode && device_mouse_check_button_pressed(_touch, mb_left) {
 	
 		var _gui_width = display_get_gui_width()
 		var _gui_height = display_get_gui_height()
@@ -159,14 +152,14 @@ function android_buttons_activity() {
 			var _radius = _button.rel_radius * _gui_width
 		
 			var _mouse_distance = point_distance(
-				device_mouse_x_to_gui(_last_touch_index),
-				device_mouse_y_to_gui(_last_touch_index),
+				device_mouse_x_to_gui(_touch),
+				device_mouse_y_to_gui(_touch),
 				_x,
 				_y
 			)
 		
 		
-			if _mouse_distance <= _radius && device_mouse_check_button(_last_touch_index, mb_left) {
+			if _mouse_distance <= _radius && device_mouse_check_button(_touch, mb_left) {
 				android_action_pressed = _button.action
 				break
 			}
@@ -174,7 +167,7 @@ function android_buttons_activity() {
 	
 	}
 
-	if mouse_check_button_released(mb_left) {
+	if device_mouse_check_button_released(_touch, mb_left) {
 		android_action_pressed = ""
 	}
 

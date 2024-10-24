@@ -138,7 +138,7 @@ with obj_player {
 			var _extra_looking = _this.look_at(_extra_looking_angle)
 	
 			_looking_front_result = array_concat(_extra_looking, _looking_front_result)
-	
+			
 		}
 		
 		_this.check_target_in(_looking_front_result)

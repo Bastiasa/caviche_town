@@ -9,7 +9,7 @@
    id="svg1"
    inkscape:version="1.3 (0e150ed6c4, 2023-07-21)"
    sodipodi:docname="dibujo.svg"
-   inkscape:export-filename="rocks\bg.png"
+   inkscape:export-filename="rocks\fg.png"
    inkscape:export-xdpi="32"
    inkscape:export-ydpi="32"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
@@ -98,7 +98,8 @@
     <g
        inkscape:groupmode="layer"
        id="layer3"
-       inkscape:label="bg_2">
+       inkscape:label="bg_2"
+       style="display:none">
       <rect
          style="opacity:1;fill:#a85749;fill-opacity:1;stroke-width:11.219;stroke-linecap:round;stroke-linejoin:round;stroke-dashoffset:1.2595;paint-order:markers stroke fill"
          id="rect14"
@@ -141,7 +142,7 @@
        inkscape:groupmode="layer"
        id="layer2"
        inkscape:label="bg"
-       style="display:inline">
+       style="display:none">
       <path
          style="opacity:1;fill:#28332f;fill-opacity:1;stroke-width:11.219;stroke-linecap:round;stroke-linejoin:round;stroke-dashoffset:1.2595;paint-order:markers stroke fill"
          d="m 150.22222,654.66667 21.33334,-71.55556 41.77777,-1.33333 17.77778,-40.44445 -21.77778,-23.55555 13.77778,-4 L 244,544 l -7.55556,71.55556 12.88889,27.55555 z"
@@ -167,7 +168,7 @@
        inkscape:label="fg"
        inkscape:groupmode="layer"
        id="layer1"
-       style="display:none">
+       style="display:inline">
       <path
          style="opacity:1;fill:#6d8c82;fill-opacity:1;stroke-width:11.219;stroke-linecap:round;stroke-linejoin:round;stroke-dashoffset:1.2595;paint-order:markers stroke fill"
          d="M 148,1161.7778 119.55556,975.11111 165.77778,793.77778 76.88889,639.11111 l 174.22222,-1.77778 23.11111,115.55556 -64,186.66667 L 249.33333,1160 Z"

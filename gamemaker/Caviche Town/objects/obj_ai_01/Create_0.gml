@@ -224,7 +224,7 @@ function check_target_in(_collision_line_list_array) {
 		var _first_instance = _instances_list[|_current_instance_index]
 	
 		if _found_enemy != noone {
-			delete _instances_list
+			ds_list_destroy(_instances_list)
 			continue
 		}
 	
@@ -236,11 +236,11 @@ function check_target_in(_collision_line_list_array) {
 			}
 			
 			if _first_instance == undefined {
-				delete _instances_list
+				ds_list_destroy(_instances_list)
 				continue
 			} else if _first_instance.object_index == obj_character && !character.is_character_teammate(_found_enemy) {
 				_found_enemy = _first_instance
-				delete _instances_list
+				ds_list_destroy(_instances_list)
 				continue
 			}
 			
@@ -251,7 +251,7 @@ function check_target_in(_collision_line_list_array) {
 			tell_to_others()
 		}
 	
-		delete _instances_list
+		ds_list_destroy(_instances_list)
 	}
 	
 	if _found_enemy != noone &&  _found_enemy.object_index == obj_character && !character.is_character_teammate(_found_enemy) {
