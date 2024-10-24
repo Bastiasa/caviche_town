@@ -3,9 +3,7 @@
 
 audio_listener_position(character.x, character.y, 0)
 
-if touchscreen_mode {
-	android_buttons_activity()
-}
+
 
 var _virtual_joystick_movement = get_virtual_joystick_normalized(true)
 var _equipped_gun = character.equipped_gun_manager.gun_information
