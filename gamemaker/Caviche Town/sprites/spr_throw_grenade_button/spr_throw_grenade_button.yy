@@ -1,10 +1,10 @@
 {
   "$GMSprite":"",
-  "%Name":"spr_shoot_button",
+  "%Name":"spr_throw_grenade_button",
   "bboxMode":0,
-  "bbox_bottom":48,
+  "bbox_bottom":42,
   "bbox_left":0,
-  "bbox_right":48,
+  "bbox_right":41,
   "bbox_top":0,
   "collisionKind":1,
   "collisionTolerance":0,
@@ -12,16 +12,16 @@
   "edgeFiltering":false,
   "For3D":false,
   "frames":[
-    {"$GMSpriteFrame":"","%Name":"e8a37fc0-41a7-40a9-b1ea-cd69c699e220","name":"e8a37fc0-41a7-40a9-b1ea-cd69c699e220","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
+    {"$GMSpriteFrame":"","%Name":"04487a1b-f460-4cb1-a020-5375966f7ba5","name":"04487a1b-f460-4cb1-a020-5375966f7ba5","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
   ],
   "gridX":0,
   "gridY":0,
-  "height":49,
+  "height":43,
   "HTile":false,
   "layers":[
-    {"$GMImageLayer":"","%Name":"e36e7623-ba19-4a45-89a8-14c3fd7fb267","blendMode":0,"displayName":"default","isLocked":false,"name":"e36e7623-ba19-4a45-89a8-14c3fd7fb267","opacity":100.0,"resourceType":"GMImageLayer","resourceVersion":"2.0","visible":true,},
+    {"$GMImageLayer":"","%Name":"29f80703-addc-40d4-b96a-15318facd201","blendMode":0,"displayName":"default","isLocked":false,"name":"29f80703-addc-40d4-b96a-15318facd201","opacity":100.0,"resourceType":"GMImageLayer","resourceVersion":"2.0","visible":true,},
   ],
-  "name":"spr_shoot_button",
+  "name":"spr_throw_grenade_button",
   "nineSlice":null,
   "origin":4,
   "parent":{
@@ -33,7 +33,7 @@
   "resourceVersion":"2.0",
   "sequence":{
     "$GMSequence":"",
-    "%Name":"spr_shoot_button",
+    "%Name":"spr_throw_grenade_button",
     "autoRecord":true,
     "backdropHeight":768,
     "backdropImageOpacity":0.5,
@@ -57,7 +57,7 @@
       "resourceType":"KeyframeStore<MomentsEventKeyframe>",
       "resourceVersion":"2.0",
     },
-    "name":"spr_shoot_button",
+    "name":"spr_throw_grenade_button",
     "playback":1,
     "playbackSpeed":30.0,
     "playbackSpeedType":0,
@@ -69,14 +69,14 @@
     "tracks":[
       {"$GMSpriteFramesTrack":"","builtinName":0,"events":[],"inheritsTrackColour":true,"interpolation":1,"isCreationTrack":false,"keyframes":{"$KeyframeStore<SpriteFrameKeyframe>":"","Keyframes":[
             {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{
-                "0":{"$SpriteFrameKeyframe":"","Id":{"name":"e8a37fc0-41a7-40a9-b1ea-cd69c699e220","path":"sprites/spr_shoot_button/spr_shoot_button.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},
-              },"Disabled":false,"id":"a1006712-a608-48da-86cc-ba9c72c5aa0c","IsCreationKey":false,"Key":0.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
+                "0":{"$SpriteFrameKeyframe":"","Id":{"name":"04487a1b-f460-4cb1-a020-5375966f7ba5","path":"sprites/spr_throw_grenade_button/spr_throw_grenade_button.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},
+              },"Disabled":false,"id":"b5f4c558-35b7-4aa2-b91a-3f46c21b5872","IsCreationKey":false,"Key":0.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
           ],"resourceType":"KeyframeStore<SpriteFrameKeyframe>","resourceVersion":"2.0",},"modifiers":[],"name":"frames","resourceType":"GMSpriteFramesTrack","resourceVersion":"2.0","spriteId":null,"trackColour":0,"tracks":[],"traits":0,},
     ],
     "visibleRange":null,
     "volume":1.0,
-    "xorigin":24,
-    "yorigin":24,
+    "xorigin":21,
+    "yorigin":21,
   },
   "swatchColours":null,
   "swfPrecision":0.5,
@@ -86,5 +86,5 @@
   },
   "type":0,
   "VTile":false,
-  "width":49,
+  "width":42,
 }

@@ -29,6 +29,7 @@ input_options = {
 		virtual_joystick_rel_x: .2,
 		virtual_joystick_rel_y: .7,
 		virtual_joystick_rel_radius: .1,
+		sensitivity: 1
 	}
 }
 

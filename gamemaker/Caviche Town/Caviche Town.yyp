@@ -328,6 +328,7 @@
     {"id":{"name":"spr_soldier02_landing","path":"sprites/spr_soldier02_landing/spr_soldier02_landing.yy",},},
     {"id":{"name":"spr_soldier02_walk","path":"sprites/spr_soldier02_walk/spr_soldier02_walk.yy",},},
     {"id":{"name":"spr_soldier02_wallslide","path":"sprites/spr_soldier02_wallslide/spr_soldier02_wallslide.yy",},},
+    {"id":{"name":"spr_throw_grenade_button","path":"sprites/spr_throw_grenade_button/spr_throw_grenade_button.yy",},},
     {"id":{"name":"spr_top_left_blood","path":"sprites/spr_top_left_blood/spr_top_left_blood.yy",},},
     {"id":{"name":"spr_uzi_inventory","path":"sprites/spr_uzi_inventory/spr_uzi_inventory.yy",},},
     {"id":{"name":"spr_uzi_unloaded","path":"sprites/spr_uzi_unloaded/spr_uzi_unloaded.yy",},},

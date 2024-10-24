@@ -23,6 +23,8 @@ character.delete_classes_on_dead = false
 character.destroy_on_outside = false
 character.controller = self
 character.sprites = global.characters_sprite_set.hitman()
+character.equipped_gun_manager.target_position.x = character.x
+character.equipped_gun_manager.target_position.y = character.y
 
 last_mouse_position = new Vector(mouse_x, mouse_y)
 last_aim_gamepad_movement = new Vector()
@@ -51,7 +53,7 @@ blood_spots = []
 
 on_low_health_blood_spot_timer = 0
 
-touchscreen_mode =true// os_type == os_android || os_type == os_ios || os_type == os_unknown
+touchscreen_mode = true// os_type == os_android || os_type == os_ios || os_type == os_unknown
 
 virtual_joystick = {
 	rel_x: .2,
@@ -67,18 +69,52 @@ virtual_joystick = {
 	touch: -1
 }
 
+android_action_pressed = ""
+android_dragging_aim_touch = -1
+
 android_buttons = [
 	{
-		rel_x:.8,
-		rel_y:.8,
-		rel_radius:.1,
+		action:"shoot",
+		rel_x:.84,
+		rel_y:.75,
+		rel_radius:.07,
 		sprite: spr_shoot_button
 	},
 	
 	{
-		rel_x:.8,
-		rel_y:.
+		action:"jump",
+		rel_x:.68,
+		rel_y:.85,
+		rel_radius:.04,
+		sprite: spr_jump_button
+	},
+	
+	{
+		action:"dash",
+		rel_x:.57,
+		rel_y:.85,
+		rel_radius:.04,
+		sprite: spr_dash_button
+	},
+	
+	{
+		action:"reload",
+		rel_x: .73,
+		rel_y: .54,
+		rel_radius: .045,
+		sprite: spr_reload_button
+	},
+	
+	{
+		action:"throw_grenade",
+		rel_x: .9,
+		rel_y: .5,
+		rel_radius: .05,
+		sprite: spr_throw_grenade_button
+	}
 ]
+
+
 
 character.equipped_gun_manager.events.on_bullet_shooted.add_listener(function(_args) {
 	
@@ -93,6 +129,100 @@ character.equipped_gun_manager.events.on_bullet_shooted.add_listener(function(_a
 		camera_shakeness += _camera_shake_amount
 	}
 })
+
+function android_buttons_activity() {
+	var _last_android_pressed_action = android_action_pressed
+
+	if touchscreen_mode && mouse_check_button_pressed(mb_left) {
+	
+		var _gui_width = display_get_gui_width()
+		var _gui_height = display_get_gui_height()
+	
+		for(var _index = 0; _index < array_length(android_buttons); _index++) {
+			var _button = android_buttons[_index]
+		
+			var _x = _button.rel_x * _gui_width
+			var _y = _button.rel_y * _gui_height
+			var _radius = _button.rel_radius * _gui_width
+		
+			var _mouse_distance = point_distance(
+				device_mouse_x_to_gui(0),
+				device_mouse_y_to_gui(0),
+				_x,
+				_y
+			)
+		
+		
+			if _mouse_distance <= _radius {
+				android_action_pressed = _button.action
+				break
+			}
+		}
+	
+	}
+
+	if mouse_check_button_released(mb_left) {
+		android_action_pressed = ""
+	}
+
+	if _last_android_pressed_action != android_action_pressed {
+		switch android_action_pressed {
+			case "reload":
+			character.equipped_gun_manager.reload()
+			break
+		
+			case "jump":
+			character.jump()
+			break
+		
+			case "throw_grenade":
+			character.throw_grenade()
+			break
+		
+			case "dash":
+		
+			var _joystick_input = get_virtual_joystick_normalized(true)
+			character.dash(new Vector(_joystick_input[0], _joystick_input[1]))
+		
+			break
+		}
+	}
+
+
+	if android_action_pressed == "shoot" && !character.died {
+		var _gun_information = character.equipped_gun_manager.gun_information
+	
+		if _gun_information != noone {
+			if (!_gun_information.is_auto && _last_android_pressed_action != "shoot") || (_gun_information.is_auto) {
+				character.equipped_gun_manager.shoot()
+			} 
+		}
+	}
+}
+
+function draw_android_buttons() {
+	
+	var _gui_width = display_get_gui_width()
+	var _gui_height = display_get_gui_height()
+	 
+	for(var _index = 0; _index < array_length(android_buttons); _index++) {
+		var _button_info = android_buttons[_index]
+		var _scale = (_gui_width * _button_info.rel_radius*2) / sprite_get_width(_button_info.sprite)
+		
+		draw_sprite_ext(
+			_button_info.sprite,
+			0,
+			
+			_gui_width * _button_info.rel_x,
+			_gui_height * _button_info.rel_y,
+			_scale,
+			_scale,
+			0,
+			c_white,
+			.5
+		)
+	}
+}
 
 function draw_blood_effect() {
 

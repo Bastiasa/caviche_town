@@ -9,11 +9,6 @@ var _ammo_text = ""
 var _text_x =_gui_width * .9
 var _text_y = _gui_height * .9
 
-
-if touchscreen_mode {
-	draw_virtual_joystick(_gui_width, _gui_height)
-}
-
 if character.equipped_gun_manager.gun_information != noone {
 	var _loaded_ammo = get_from_struct(character.equipped_gun_manager.gun_information, "loaded_ammo", 0)
 	var _bullet_type = get_from_struct(character.equipped_gun_manager.gun_information, "bullet_type", BULLET_TYPE.LIL_GUY)
@@ -66,6 +61,13 @@ draw_set_halign(fa_left)
 
 draw_aim()
 draw_inventory()
+
+
+
+if touchscreen_mode {
+	draw_virtual_joystick(_gui_width, _gui_height)
+	draw_android_buttons()
+}
 
 /*var _muzzle_position = character.equipped_gun_manager.get_muzzle_position()
 
