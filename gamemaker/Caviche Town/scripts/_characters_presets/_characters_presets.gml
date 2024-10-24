@@ -52,5 +52,45 @@ global.characters_sprite_set = {
 			jump: spr_char_soldier01_jumping,
 			death: spr_char_soldier01_death
 		}
+	},
+	
+	soldier02: function() {
+		return {
+			idle: spr_soldier02_idle,
+			running: spr_soldier02_walk,
+			falling: spr_soldier02_falling,
+			wallslide: spr_soldier02_wallslide,
+			landing: spr_soldier02_landing,
+			dash: spr_soldier02_dash,
+			jump: spr_soldier02_jumping,
+			death: spr_soldier02_death
+		}
+	},
+	
+	
+	mrjokes: function() {
+		return {
+			idle: spr_mrjokes_idle,
+			running: spr_mrjokes_walk,
+			falling: spr_mrjokes_falling,
+			wallslide: spr_mrjokes_wallslide,
+			landing: spr_mrjokes_landing,
+			dash: spr_mrjokes_dash,
+			jump: spr_mrjokes_jumping,
+			death: spr_mrjokes_death
+		}
+	},
+	
+	business_man: function() {
+		return {
+			idle: spr_business_man_idle,
+			running: spr_business_man_walk,
+			falling: spr_business_man_falling,
+			wallslide: spr_business_man_wallslide,
+			landing: spr_business_man_landing,
+			dash: spr_business_man_dash,
+			jump: spr_business_man_jumping,
+			death: spr_business_man_death
+		}
 	}
 }

@@ -51,7 +51,7 @@ blood_spots = []
 
 on_low_health_blood_spot_timer = 0
 
-touchscreen_mode = os_type == os_android || os_type == os_ios || os_type == os_unknown
+touchscreen_mode =true// os_type == os_android || os_type == os_ios || os_type == os_unknown
 
 virtual_joystick = {
 	rel_x: .2,

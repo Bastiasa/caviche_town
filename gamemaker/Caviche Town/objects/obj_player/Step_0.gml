@@ -216,7 +216,7 @@ var _mouse_motion = last_mouse_position.subtract(_current_mouse_position)
 var _camera_size = camera.get_size()
 
 
-if _mouse_motion.magnitude() > 0 || !aiming_with_gamepad {
+if _mouse_motion.magnitude() > 0 || !aiming_with_gamepad && !touchscreen_mode {
 	character.equipped_gun_manager.target_position.x = mouse_x
 	character.equipped_gun_manager.target_position.y = mouse_y
 	
