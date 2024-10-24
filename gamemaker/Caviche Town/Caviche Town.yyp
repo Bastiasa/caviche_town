@@ -60,6 +60,7 @@
     {"$GMFolder":"","%Name":"red_enemy","folderPath":"folders/Sprites/characters/red_enemy.yy","name":"red_enemy","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"soldiers","folderPath":"folders/Sprites/characters/soldiers.yy","name":"soldiers","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"soldier_01","folderPath":"folders/Sprites/characters/soldiers/soldier_01.yy","name":"soldier_01","resourceType":"GMFolder","resourceVersion":"2.0",},
+    {"$GMFolder":"","%Name":"structure","folderPath":"folders/Sprites/structure.yy","name":"structure","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"particles","folderPath":"folders/Sprites/particles.yy","name":"particles","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"dust","folderPath":"folders/Sprites/particles/dust.yy","name":"dust","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"props","folderPath":"folders/Sprites/props.yy","name":"props","resourceType":"GMFolder","resourceVersion":"2.0",},
@@ -135,6 +136,7 @@
     {"id":{"name":"obj_vertical_list","path":"objects/obj_vertical_list/obj_vertical_list.yy",},},
     {"id":{"name":"rm_client_server","path":"rooms/rm_client_server/rm_client_server.yy",},},
     {"id":{"name":"rm_main_menu","path":"rooms/rm_main_menu/rm_main_menu.yy",},},
+    {"id":{"name":"rm_online_map","path":"rooms/rm_online_map/rm_online_map.yy",},},
     {"id":{"name":"rm_sandbox","path":"rooms/rm_sandbox/rm_sandbox.yy",},},
     {"id":{"name":"rm_sndbox","path":"rooms/rm_sndbox/rm_sndbox.yy",},},
     {"id":{"name":"Room1","path":"rooms/Room1/Room1.yy",},},
@@ -295,6 +297,7 @@
     {"roomId":{"name":"rm_sandbox","path":"rooms/rm_sandbox/rm_sandbox.yy",},},
     {"roomId":{"name":"rm_sndbox","path":"rooms/rm_sndbox/rm_sndbox.yy",},},
     {"roomId":{"name":"rm_client_server","path":"rooms/rm_client_server/rm_client_server.yy",},},
+    {"roomId":{"name":"rm_online_map","path":"rooms/rm_online_map/rm_online_map.yy",},},
   ],
   "templateType":"game",
   "TextureGroups":[

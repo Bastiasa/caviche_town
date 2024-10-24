@@ -307,7 +307,7 @@ function handle_message(_message, _emisor) {
 			var _client = array_pick(connected_clients, _found_client_index)
 				
 			if _client != undefined {
-				disconnect_client(_client)
+				disconnect_client(_found_client_index)
 			}
 		}
 			

@@ -49,7 +49,6 @@ function add_socket_listeners() {
 	remove_socket_listeners()
 	
 	on_connected_to_server = client_socket.client_events.on_connected.add_listener(function() {
-		client_socket.disconnect_from_server()
 		change_to_spawner(obj_main_menu_multiplayer_waiting_for_start, "client_waiting_for_start")
 	})
 	
