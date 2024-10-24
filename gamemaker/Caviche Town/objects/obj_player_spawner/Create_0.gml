@@ -2,6 +2,8 @@
 // Puede escribir su código en este editor
 
 positions = []
+player = noone
+end_timer = 0
 
 function random_gun() {
 	return array_choose([
@@ -43,5 +45,6 @@ function init() {
 	_player.character.backpack.set_ammo(BULLET_TYPE.ROCKET, round(random_range(2, 5)))
 	_player.character.backpack.set_ammo(BULLET_TYPE.GRENADES, round(random_range(1, 3)))
 	
-	_player.character.team = "XDDD"
+	_player.character.team = "xdxd"
+	player = _player
 }

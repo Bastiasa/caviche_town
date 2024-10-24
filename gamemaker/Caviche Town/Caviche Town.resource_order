@@ -118,7 +118,7 @@
     {"name":"rm_clouds_level","order":2,"path":"rooms/rm_clouds_level/rm_clouds_level.yy",},
     {"name":"rm_main_menu","order":1,"path":"rooms/rm_main_menu/rm_main_menu.yy",},
     {"name":"rm_multiplayer","order":6,"path":"rooms/rm_multiplayer/rm_multiplayer.yy",},
-    {"name":"rm_rocks_level","order":5,"path":"rooms/rm_rocks_level/rm_rocks_level.yy",},
+    {"name":"rm_rocks_level","order":3,"path":"rooms/rm_rocks_level/rm_rocks_level.yy",},
     {"name":"rm_sandbox","order":2,"path":"rooms/rm_sandbox/rm_sandbox.yy",},
     {"name":"rm_sndbox","order":3,"path":"rooms/rm_sndbox/rm_sndbox.yy",},
     {"name":"_character_backpack_manager","order":5,"path":"scripts/_character_backpack_manager/_character_backpack_manager.yy",},

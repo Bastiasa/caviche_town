@@ -41,5 +41,5 @@ _multiplayer_button.events.on_mouse_click.add_listener(function() {
 })
 
 _quick_game_button.events.on_mouse_click.add_listener(function() {
-	room_goto(Room1)
+	room_goto(array_choose([rm_city_level, rm_rocks_level, rm_clouds_level]))
 })

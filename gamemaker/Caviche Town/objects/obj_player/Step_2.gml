@@ -9,11 +9,14 @@ if character.died {
 	death_timer += get_delta()
 	
 	if death_timer >= 3 {
-		room_restart()
+		room_goto(rm_main_menu)
 	}
 	
 } else {
 	camera.update_position()
+	
+	camera.position.x  = clamp(camera.position.x, 0, room_width - camera.size.x)
+	camera.position.y  = clamp(camera.position.y, 0, room_height - camera.size.y)
 }
 
 
