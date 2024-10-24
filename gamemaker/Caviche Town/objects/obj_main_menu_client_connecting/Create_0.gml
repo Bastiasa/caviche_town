@@ -49,8 +49,8 @@ function add_socket_listeners() {
 	remove_socket_listeners()
 	
 	on_connected_to_server = client_socket.client_events.on_connected.add_listener(function() {
-		change_to_spawner(obj_main_menu_multiplayer_waiting_for_start)
-		show_debug_message("XD")
+		client_socket.disconnect_from_server()
+		change_to_spawner(obj_main_menu_multiplayer_waiting_for_start, "client_waiting_for_start")
 	})
 	
 	on_connection_denied = client_socket.client_events.on_connection_denied.add_listener(function() {
@@ -107,8 +107,6 @@ function init() {
 	} else {
 		cancel_button.offset_x = .5
 		cancel_button.offset_y = 0
-		
-		alarm[0] = 1000
 	}
 
 }

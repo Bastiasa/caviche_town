@@ -6,9 +6,9 @@ var _text = ""
 if client_socket.state == UDP_CLIENT_STATE.CONNECTING {
 	_text = "Conectando..."
 } else if client_socket.state == UDP_CLIENT_STATE.CONNECTED {
-	_text = "Conectado."
+	//_text = "Conectado."
 } else if client_socket.state == UDP_CLIENT_STATE.DISCONNECTED {
-	_text = "Desconectado."
+	//_text = "Desconectado."
 }
 
 var _gui_width = display_get_gui_width()

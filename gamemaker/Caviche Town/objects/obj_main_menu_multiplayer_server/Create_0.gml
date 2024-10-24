@@ -91,6 +91,9 @@ clients_viewer.set_socket(server_socket)
 back_button = create_canvas_button_with_rel_size("Volver", 0.1, .8, .1, .1)
 
 back_button.events.on_mouse_click.add_listener(function(){
+	
+	server_socket.destroy()
+	
 	var _nickname_spawner = change_to_spawner(obj_main_menu_multiplayer_username, "multiplayer_username", false)
 	
 	_nickname_spawner.next_spawner = [obj_main_menu_multiplayer_server, "multiplayer_server"]

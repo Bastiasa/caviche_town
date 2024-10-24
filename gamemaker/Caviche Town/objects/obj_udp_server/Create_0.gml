@@ -233,6 +233,7 @@ function handle_message(_message, _emisor) {
 		
 		if array_length(connected_clients) >= max_clients {
 			send_reliable_message("connection_failed", _emisor)
+			show_debug_message("Connection failed with "+address_to_string(_emisor))
 			return
 		}
 			

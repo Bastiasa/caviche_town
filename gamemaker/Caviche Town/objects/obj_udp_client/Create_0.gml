@@ -111,6 +111,12 @@ function is_server(_address) {
 	return  server_address != noone && _address[0] == server_address[0] && _address[1] == server_address[1]
 }
 
+function send_disconnection_message() {
+	if state == UDP_CLIENT_STATE.CONNECTED {
+		send_message("connection_destroy", server_address)
+	}
+}
+
 function send_ping() {
 	
 	if server_address == noone {
@@ -145,7 +151,7 @@ function check_possible_server_broadcast(_message, _emisor) {
 	}
 }
 
-function process_message(_message, _emisor) {
+function handle_message(_message, _emisor) {
 	
 	var _message_data = unpack_message(_message)
 	

@@ -33,9 +33,12 @@ if is_struct(reliable_engine.current) {
 		
 		if is_callable(reliable_engine.current.on_cancelled) && _message_timeout {
 			reliable_engine.current.on_cancelled()
+			show_debug_message("Reliable message has timeout.")
+		} else {
+			show_debug_message("Reliable has been sent.")
 		}
 		
-		show_debug_message("Reliable message has timeout")
+		
 		reliable_engine.current = undefined
 	}
 }

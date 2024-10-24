@@ -234,7 +234,6 @@ function process_message(_message, _emisor) {
 		}
 
 		send_ack(_reliable_id, _emisor)
-		
 		handle_message(_content, _emisor)
 		
 		break
