@@ -167,7 +167,7 @@ function EquippedGunManager(_character = noone) constructor {
 		}
 		*/
 		
-		if character._collision_point(character.x + _bullet_position.x, character.y + _bullet_position.y, obj_collider, false, false) != noone {
+		if character._collision_point(character.x + _bullet_position.x, character.y + _bullet_position.y, obj_collider, true, false) != noone {
 			return
 		}
 		

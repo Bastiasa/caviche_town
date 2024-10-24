@@ -1,1 +1,1 @@
-room_goto(rm_city_level)
+room_goto(rm_clouds_level)

@@ -29,7 +29,7 @@ if !to_destroy {
 	var _raycast = noone
 	var _raycast_list = ds_list_create()
 	
-	collision_line_list(xprevious, yprevious, x,y, [obj_collider, obj_character], false, true, _raycast_list, true)
+	collision_line_list(xprevious, yprevious, x,y, [obj_collider, obj_character], true, true, _raycast_list, true)
 	
 	if ds_list_size(_raycast_list) > 0 {
 		_raycast = _raycast_list[|0]

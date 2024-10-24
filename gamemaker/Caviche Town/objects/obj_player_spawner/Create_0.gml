@@ -42,4 +42,6 @@ function init() {
 	_player.character.backpack.set_ammo(BULLET_TYPE.SHELL, round(random_range(40, 80)))
 	_player.character.backpack.set_ammo(BULLET_TYPE.ROCKET, round(random_range(2, 5)))
 	_player.character.backpack.set_ammo(BULLET_TYPE.GRENADES, round(random_range(1, 3)))
+	
+	_player.character.team = "XDDD"
 }
