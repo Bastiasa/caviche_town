@@ -28,7 +28,7 @@ input_options = {
 	touchscreen : {
 		virtual_joystick_rel_x: .2,
 		virtual_joystick_rel_y: .7,
-		virtual_joystick_radius: 78,
+		virtual_joystick_rel_radius: .1,
 	}
 }
 

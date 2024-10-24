@@ -67,6 +67,19 @@ virtual_joystick = {
 	touch: -1
 }
 
+android_buttons = [
+	{
+		rel_x:.8,
+		rel_y:.8,
+		rel_radius:.1,
+		sprite: spr_shoot_button
+	},
+	
+	{
+		rel_x:.8,
+		rel_y:.
+]
+
 character.equipped_gun_manager.events.on_bullet_shooted.add_listener(function(_args) {
 	
 	if character.equipped_gun_manager == noone {
@@ -223,10 +236,32 @@ function draw_inventory() {
 		
 	}
 	
+	
+	var _grenade_count = -1
+	var _grenade_width = _gui_width*.03
+	var _grenade_scale = _grenade_width/sprite_get_width(spr_grenade)
+	var _grenades_width = _grenade_width * character.backpack.max_grenades
+	
+	repeat character.backpack.grenades {
+		_grenade_count++
+		
+		draw_sprite_ext(
+			spr_grenade,
+			0,
+			_gui_width*.5 - _grenades_width * .5 + (_grenade_width*_grenade_count),
+			_slot_width + 20,
+			_grenade_scale,
+			_grenade_scale,
+			35,
+			c_white,
+			1
+		)
+	}
+	
 }
 
 function get_virtual_joystick_normalized(_round = false) {
-	var _joystick_radius = global.input_options.touchscreen.virtual_joystick_radius
+	var _joystick_radius = display_get_gui_width() * global.input_options.touchscreen.virtual_joystick_rel_radius
 	
 	var _result = [
 		virtual_joystick._fg_x / _joystick_radius,
@@ -243,7 +278,7 @@ function get_virtual_joystick_normalized(_round = false) {
 
 function set_virtual_joystick_position(_gui_x, _gui_y) {
 	
-	var _joystick_radius = global.input_options.touchscreen.virtual_joystick_radius
+	var _joystick_radius = display_get_gui_width() * global.input_options.touchscreen.virtual_joystick_rel_radius
 	
 	var _joystick_x = global.input_options.touchscreen.virtual_joystick_rel_x * display_get_gui_width()
 	var _joystick_y = global.input_options.touchscreen.virtual_joystick_rel_y * display_get_gui_height()
@@ -263,7 +298,7 @@ function draw_virtual_joystick(_gui_width, _gui_height) {
 	var _joystick_x = _gui_width * global.input_options.touchscreen.virtual_joystick_rel_x
 	var _joystick_y = _gui_height * global.input_options.touchscreen.virtual_joystick_rel_y
 	
-	var _joystick_radius = global.input_options.touchscreen.virtual_joystick_radius
+	var _joystick_radius =  _gui_width * global.input_options.touchscreen.virtual_joystick_rel_radius
 	
 	draw_set_circle_precision(_joystick_radius*.5)
 	draw_set_alpha(0.4)
@@ -481,7 +516,7 @@ function shoot_pressed() {
 }
 
 function draw_aim() {
-	if aiming_with_gamepad {
+	if aiming_with_gamepad || touchscreen_mode {
 		draw_sprite(
 			global.input_options.general.aim_sprite,
 			0,

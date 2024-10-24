@@ -92,6 +92,64 @@ image_xscale = _scale
 delete_classes_on_dead = true
 
 
+function throw_gun() {
+	if equipped_gun_manager.gun_information != noone && !equipped_gun_manager.reloading && !equipped_gun_manager.equipping {
+		
+		var _dropped_position = equipped_gun_manager.get_offset_position()
+		var _gun_information = equipped_gun_manager.gun_information
+		var _backpack_index = array_get_index(backpack.guns, _gun_information)
+		
+		var _dropped_gun = create_dropped_gun(_gun_information)
+		var _rotation = equipped_gun_manager._rotation
+		var _direction = equipped_gun_manager.get_direction()
+		var _target_distance = point_distance(x, y, equipped_gun_manager.target_position.x, equipped_gun_manager.target_position.y)
+		
+		if _backpack_index != -1 {
+			backpack.remove_gun(_backpack_index)
+		}
+		
+		equipped_gun_manager.set_gun(noone)
+		
+		var _width = sprite_get_width(_gun_information.sprite) * _gun_information.scale
+		var _height = sprite_get_height(_gun_information.sprite) * _gun_information.scale
+		
+		_dropped_gun.phy_position_x = _dropped_position.x + x
+		_dropped_gun.phy_position_y = _dropped_position.y + y
+		
+		
+		_dropped_gun.phy_position_x += lengthdir_x(_width*.5, _rotation) + lengthdir_x(_height*.5, _rotation - 90)
+		_dropped_gun.phy_position_y += lengthdir_y(_width*.5, _rotation) + lengthdir_y(_height*.5, _rotation - 90)
+		
+		_dropped_gun.phy_linear_velocity_x = lengthdir_x(_target_distance, _rotation) + velocity.x
+		_dropped_gun.phy_linear_velocity_y = lengthdir_y(_target_distance, _rotation) * 2 + velocity.y
+		_dropped_gun.phy_angular_velocity = _direction * 360 * 2
+		
+		
+		//_dropped_gun.phy_position_x += _dropped_position.normalize().x * sprite_get_width(_gun_information.sprite) * _gun_information.scale
+		//_dropped_gun.phy_position_y += _dropped_position.normalize().y * sprite_get_height(_gun_information.sprite) * _gun_information.scale
+		
+		_dropped_gun.image_xscale= _gun_information.scale
+		_dropped_gun.image_yscale = equipped_gun_manager.get_direction() * _gun_information.scale
+		_dropped_gun.phy_rotation = -_rotation
+		
+		
+		if abs(_rotation) > 90 && abs(_rotation) < 270 {
+			var _height = sprite_get_height(_gun_information.sprite) * _gun_information.scale
+			_dropped_gun.phy_position_x += lengthdir_x(_height, _rotation + 90)
+			_dropped_gun.phy_position_y += lengthdir_y(_height, _rotation + 90)
+		}
+		
+		show_debug_message(equipped_gun_manager._rotation)
+		
+		//_dropped_gun.phy_speed_x = (equipped_gun_manager.target_position.y - y)/_camera_size.y * 10
+		//_dropped_gun.phy_speed_y =  (equipped_gun_manager.target_position.x - x)/_camera_size.x * 10
+		//_dropped_gun.phy_angular_velocity = 500 * equipped_gun_manager.get_direction()
+		
+		//_dropped_gun.phy_speed_x = clamp(-_dropped_gun.phy_speed_x, -1000, 1000)
+		//_dropped_gun.phy_speed_y = clamp(-_dropped_gun.phy_speed_y, -1000, 1000)
+	}
+}
+
 function throw_grenade() {
 	var _current_grenade_ammo = backpack.get_ammo(BULLET_TYPE.GRENADES)
 	

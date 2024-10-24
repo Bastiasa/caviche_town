@@ -11,7 +11,7 @@ var _gui_y = event_data[?"guiposY"]
 var _joystick_x = global.input_options.touchscreen.virtual_joystick_rel_x * display_get_gui_width()
 var _joystick_y = global.input_options.touchscreen.virtual_joystick_rel_y * display_get_gui_height()
 	
-var _joystick_radius = global.input_options.touchscreen.virtual_joystick_radius
+var _joystick_radius = global.input_options.touchscreen.virtual_joystick_rel_radius * display_get_gui_width()
 
 var _distance = point_distance(_gui_x,_gui_y,_joystick_x,_joystick_y)
 	
