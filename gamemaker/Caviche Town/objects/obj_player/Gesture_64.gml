@@ -6,8 +6,6 @@ var _tap_x = event_data[?"guiposX"]
 var _tap_y= event_data[?"guiposY"]
 
 
-android_buttons_activity(_tap_x, _tap_y)
-
 var _gui_width = display_get_gui_width()
 var _slot_count = character.backpack.max_guns
 var _slot_width = (_gui_width * .25) / _slot_count

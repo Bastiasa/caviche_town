@@ -3,7 +3,9 @@
 
 audio_listener_position(character.x, character.y, 0)
 
-
+if touchscreen_mode {
+	android_buttons_activity()
+}
 
 var _virtual_joystick_movement = get_virtual_joystick_normalized(true)
 var _equipped_gun = character.equipped_gun_manager.gun_information
@@ -173,7 +175,7 @@ if (_mouse_motion.magnitude() > 0 || !aiming_with_gamepad) && !touchscreen_mode 
 	aiming_with_gamepad = false
 }
 
-if touchscreen_mode || aiming_with_gamepad && global.input_options.gamepad.auto_aim && last_aim_gamepad_movement.magnitude() <= 0.3 {
+if (touchscreen_mode || aiming_with_gamepad) && global.input_options.gamepad.auto_aim && last_aim_gamepad_movement.magnitude() <= 0.3 && android_dragging_aim_touch == -1 {
 	var _aim_position = character.equipped_gun_manager.target_position
 	var _found_character = instance_nearest(_aim_position.x, _aim_position.y, obj_character)
 	

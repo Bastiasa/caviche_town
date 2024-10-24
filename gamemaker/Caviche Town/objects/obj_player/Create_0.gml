@@ -130,10 +130,23 @@ character.equipped_gun_manager.events.on_bullet_shooted.add_listener(function(_a
 	}
 })
 
-function android_buttons_activity(_mouse_x, _mouse_y) {
+function android_buttons_activity() {
+	
+	var _max_touches = 10
+	var _last_touch_index = 0
+	
+	for (var _index = 0; _index < _max_touches; _index++) {
+	    if (device_mouse_check_button_pressed(_index, mb_left)) {
+	        _last_touch_index = _index;
+	    } else {
+			break
+		}
+	}
+
+	
 	var _last_android_pressed_action = android_action_pressed
 
-	if touchscreen_mode {
+	if touchscreen_mode && mouse_check_button_pressed(mb_left) {
 	
 		var _gui_width = display_get_gui_width()
 		var _gui_height = display_get_gui_height()
@@ -146,14 +159,14 @@ function android_buttons_activity(_mouse_x, _mouse_y) {
 			var _radius = _button.rel_radius * _gui_width
 		
 			var _mouse_distance = point_distance(
-				_mouse_x,
-				_mouse_y,
+				device_mouse_x_to_gui(_last_touch_index),
+				device_mouse_y_to_gui(_last_touch_index),
 				_x,
 				_y
 			)
 		
 		
-			if _mouse_distance <= _radius {
+			if _mouse_distance <= _radius && device_mouse_check_button(_last_touch_index, mb_left) {
 				android_action_pressed = _button.action
 				break
 			}
@@ -161,25 +174,31 @@ function android_buttons_activity(_mouse_x, _mouse_y) {
 	
 	}
 
-	switch android_action_pressed {
-		case "reload":
-		character.equipped_gun_manager.reload()
-		break
+	if mouse_check_button_released(mb_left) {
+		android_action_pressed = ""
+	}
+
+	if _last_android_pressed_action != android_action_pressed {
+		switch android_action_pressed {
+			case "reload":
+			character.equipped_gun_manager.reload()
+			break
 		
-		case "jump":
-		character.jump()
-		break
+			case "jump":
+			character.jump()
+			break
 		
-		case "throw_grenade":
-		character.throw_grenade()
-		break
+			case "throw_grenade":
+			character.throw_grenade()
+			break
 		
-		case "dash":
+			case "dash":
 		
-		var _joystick_input = get_virtual_joystick_normalized(true)
-		character.dash(new Vector(_joystick_input[0], _joystick_input[1]))
+			var _joystick_input = get_virtual_joystick_normalized(true)
+			character.dash(new Vector(_joystick_input[0], _joystick_input[1]))
 		
-		break
+			break
+		}
 	}
 
 
