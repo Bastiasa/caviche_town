@@ -78,6 +78,7 @@
   "ResourceOrderSettings":[
     {"name":"fnt_ui","order":1,"path":"fonts/fnt_ui/fnt_ui.yy",},
     {"name":"enemy_02","order":1,"path":"objects/enemy_02/enemy_02.yy",},
+    {"name":"enemy_03","order":2,"path":"objects/enemy_03/enemy_03.yy",},
     {"name":"obj_bullet","order":2,"path":"objects/obj_bullet/obj_bullet.yy",},
     {"name":"obj_button","order":1,"path":"objects/obj_button/obj_button.yy",},
     {"name":"obj_canvas_item","order":2,"path":"objects/obj_canvas_item/obj_canvas_item.yy",},

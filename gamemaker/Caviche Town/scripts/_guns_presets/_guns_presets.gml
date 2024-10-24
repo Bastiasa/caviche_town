@@ -11,7 +11,7 @@ function get_pistol_information() {
 		
 		scale:0.3,
 		bullet_type: BULLET_TYPE.LIL_GUY,
-		cooldown: 1/ 6.75,
+		cooldown: 0.07,
 		movement_weight: 0.3,
 		distance: 16,
 		muzzle_offset: new Vector(1, 6/41),
@@ -111,7 +111,7 @@ function get_m16_information() {
 		view_distance: 520,
 
 		scale:1,
-		damage: 30,
+		damage: 28,
 		bullet_type: BULLET_TYPE.MEDIUM,
 		cooldown: 1/5.5,
 		movement_weight: 0.13,

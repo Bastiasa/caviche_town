@@ -17,8 +17,8 @@ input_options = {
 		
 		auto_aim: true,
 		
-		aim_sensitivity:0.4,
-		aim_death_zone:0.8,
+		aim_sensitivity:0.8,
+		aim_death_zone:0.1,
 		movement_death_zone:0,
 		
 		invert_gamepad_aim_x_axis: false,
@@ -67,31 +67,31 @@ keyboard_input_keys = {
 
 gamepad_input_keys = {
 	
-	// Movement
+// Movement
 	
-	player_move_left: gp_padl,
-	player_move_right: gp_padr,
-	player_move_up: gp_padu,
-	player_move_down: gp_padd,
+player_move_left: gp_padl,
+player_move_right: gp_padr,
+player_move_up: gp_padu,
+player_move_down: gp_padd,
 	
-	// Actions
+// Actions
 	
-	player_do_jump: gp_face1,
-	player_do_dash: gp_face2,
-	player_do_reload: gp_face3,
-	player_do_throw_gun: gp_face4,
-	player_do_throw_grenade: gp_shoulderlb,
+player_do_jump: gp_face1,
+player_do_dash: gp_face2,
+player_do_reload: gp_face3,
+player_do_throw_gun: gp_face4,
+player_do_throw_grenade: gp_shoulderlb,
 	
-	player_do_shoot: gp_shoulderrb,
+player_do_shoot: gp_shoulderrb,
 	
-	player_do_equip_slot_1: noone,
-	player_do_equip_slot_2: noone,
-	player_do_equip_slot_3: noone,
+player_do_equip_slot_1: noone,
+player_do_equip_slot_2: noone,
+player_do_equip_slot_3: noone,
 	
-	player_do_next_slot: gp_shoulderr,
-	player_do_previous_slot: gp_shoulderl,
+player_do_next_slot: gp_shoulderr,
+player_do_previous_slot: gp_shoulderl,
 	
-	pause_menu: gp_start
+pause_menu: gp_start
 }
 
 gamepad_axis_input_keys = {

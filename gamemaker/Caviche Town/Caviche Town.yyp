@@ -104,6 +104,7 @@
     {"id":{"name":"fnt_ui","path":"fonts/fnt_ui/fnt_ui.yy",},},
     {"id":{"name":"enemy_01","path":"objects/enemy_01/enemy_01.yy",},},
     {"id":{"name":"enemy_02","path":"objects/enemy_02/enemy_02.yy",},},
+    {"id":{"name":"enemy_03","path":"objects/enemy_03/enemy_03.yy",},},
     {"id":{"name":"obj_ai_01","path":"objects/obj_ai_01/obj_ai_01.yy",},},
     {"id":{"name":"obj_bullet","path":"objects/obj_bullet/obj_bullet.yy",},},
     {"id":{"name":"obj_button","path":"objects/obj_button/obj_button.yy",},},

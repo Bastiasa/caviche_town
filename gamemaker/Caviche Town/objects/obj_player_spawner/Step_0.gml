@@ -10,7 +10,7 @@ with obj_character {
 }
 
 if _count == 0 && !player.character.died {
-	end_timer += deta_time / MILLION
+	end_timer += delta_time / MILLION
 }
 
 if end_timer >= 3 {
