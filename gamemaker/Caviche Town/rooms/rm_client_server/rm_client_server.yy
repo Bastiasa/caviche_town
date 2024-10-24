@@ -13,8 +13,8 @@
   ],
   "name":"rm_client_server",
   "parent":{
-    "name":"Salas",
-    "path":"folders/Salas.yy",
+    "name":"levels",
+    "path":"folders/Salas/levels.yy",
   },
   "parentRoom":null,
   "physicsSettings":{

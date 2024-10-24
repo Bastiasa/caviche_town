@@ -134,9 +134,14 @@ function android_buttons_activity() {
 
 	var _last_android_pressed_action = android_action_pressed
 	var _touch = 0
+
 	
-	if virtual_joystick.touch == _touch {
+	if virtual_joystick.touch == _touch || android_dragging_aim_touch == _touch {
 		_touch = 1
+	}
+	
+	if virtual_joystick.touch == _touch || android_dragging_aim_touch == _touch {
+		_touch = 2
 	}
 
 	if touchscreen_mode && device_mouse_check_button_pressed(_touch, mb_left) {
