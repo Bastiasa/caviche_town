@@ -9,10 +9,11 @@ with obj_character {
 	}
 }
 
-if _count == 0 && !player.character.died {
+if _count == 1 && !player.character.died {
 	end_timer += delta_time / MILLION
 }
 
 if end_timer >= 3 {
 	room_goto(rm_main_menu)
+	
 }
