@@ -58,10 +58,14 @@ function destroy() {
 
 
 function init() {
+	
+	randomize()
+	
 	port = irandom(6000)
 	socket = network_create_socket_ext(network_socket_udp, port)
 	
 	while socket < 0 {
+		randomize()
 		port = irandom(6000)
 		socket = network_create_socket_ext(network_socket_udp, port)
 	}
@@ -234,10 +238,12 @@ function handle_message(_message, _emisor) {
 			
 		if !is_string(_username) || _content != password {
 			send_reliable_message("connection_denied", _emisor)
+			show_debug_message("Connection denied with "+address_to_string(_emisor))
 			return
 		}
 			
 		stablish_client_connection(_emisor, _username);
+		show_debug_message("Connection stablished with "+address_to_string(_emisor))
 		break
 		
 		case "resend":

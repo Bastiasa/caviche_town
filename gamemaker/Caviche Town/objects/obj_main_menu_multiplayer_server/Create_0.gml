@@ -101,3 +101,9 @@ back_button.events.on_mouse_click.add_listener(function(){
 })
 
 start_game_button = create_canvas_button_with_rel_size("Iniciar", 0.25, 0.8, 0.65, 0.1)
+
+start_game_button.events.on_mouse_click.add_listener(function() {
+	if array_length(server_socket.connected_clients) < 1 {
+		show_message_async("¡Se necesita al menos un jugador!")
+	}
+})

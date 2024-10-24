@@ -33,19 +33,19 @@ function UIManager() constructor {
 		try {
 			if mouse_keeper == noone && argument0 != noone {
 				mouse_keeper = argument0
-				show_debug_message(string_concat("New mouse keeper: ", object_get_name(_canvas_item.object_index)))
+				//show_debug_message(string_concat("New mouse keeper: ", object_get_name(_canvas_item.object_index)))
 				return
 			}
 		
 			if argument0 == noone || argument0 == undefined {
 				mouse_keeper = noone
-				show_debug_message("Mouse keeper is noone. Given value was "+string(argument0))
+				//show_debug_message("Mouse keeper is noone. Given value was "+string(argument0))
 				return
 			}
 		
 			if mouse_keeper.depth >= argument0.depth {
 				mouse_keeper = argument0
-				show_debug_message(string_concat("New mouse keeper: ", object_get_name(_canvas_item.object_index)))
+				//show_debug_message(string_concat("New mouse keeper: ", object_get_name(_canvas_item.object_index)))
 				return
 			}
 		} catch(_err) {
@@ -107,7 +107,7 @@ function UIManager() constructor {
 			}
 			
 			
-			show_debug_message(string_concat("Focus grabbed by ", object_get_name(_focus_grabber.object_index)))
+			//show_debug_message(string_concat("Focus grabbed by ", object_get_name(_focus_grabber.object_index)))
 			
 			active_element = _focus_grabber
 			active_element.focus()
@@ -116,7 +116,7 @@ function UIManager() constructor {
 			
 		} else if mouse_check_button_released(mb_left) {
 			if active_element != noone {
-				show_debug_message(string_concat("Focus removed from ", object_get_name(active_element.object_index)))
+				//show_debug_message(string_concat("Focus removed from ", object_get_name(active_element.object_index)))
 				active_element.blur()
 				active_element = noone
 			}
