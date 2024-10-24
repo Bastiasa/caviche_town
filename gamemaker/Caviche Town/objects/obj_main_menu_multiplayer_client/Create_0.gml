@@ -1,71 +1,34 @@
-/// @description Inserte aquí la descripción
-// Puede escribir su código en este editor
+event_inherited()
 
-// Inherit the parent event
-event_inherited();
+ip_input = create_text_input("Dirección IP", 0.5, 0.35, 0, 0, .4, 0.1, layer)
+port_input = create_text_input("Puerto", 0.5, 0.5, 0, 0, .4, 0.1, layer)
+password_input = create_text_input("Contraseña", 0.5, 0.25, 0, 0, .4, 0.1, layer)
 
-client_socket = instance_find(obj_udp_client, 0)
-client_socket.search_servers_start()
+port_input.max_number = 6000
+port_input.min_number = 0
+port_input.max_length = 5
+port_input.allowed_characters = DIGITS
+port_input.virtual_keyboard.type = kbv_type_numbers
 
-discovered_servers = []
+ip_input.allowed_characters = ASCII_CHARS
+ip_input.virtual_keyboard.type = kbv_type_url
 
-found_servers_list = instance_create_layer(0,0, layer, obj_multiplayer_found_servers_list)
+join_button = create_canvas_button_with_rel_size("Unirse", .5, .65, .4, .1, layer)
+back_button = create_canvas_button_with_rel_size("Volver", .5, .8, .4, .1, layer)
 
-found_servers_list.relative_width = .8
-found_servers_list.relative_height = .65
-
-found_servers_list.padding_x = 30
-found_servers_list.padding_y = 30
-found_servers_list.set_socket(client_socket)
-
-var _count = 0
-var _test = false
-
-repeat _test ? 10 : 0 {
-	
-	_count++
-	
-	array_push(found_servers_list.elements, {
-		server_name: "Hello world "+string(_count),
-		server_address: ["localhost", 1233],
-		max_clients: 5,
-		clients: 3,
-		password_length: 8,
-		btn_hover: false,
-		btn_height: 0,
-		btn_x: 0,
-		btn_y: 0,
-		height: 0,
-		y: 0
-	})
-}
-
-found_servers_list.events.on_join_button_pressed.add_listener(function(_args) {
-	
-	client_socket.stop_servers_searching()
-	
+join_button.events.on_mouse_click.add_listener(function() {
 	var _spawner = change_to_spawner(obj_main_menu_client_connecting, "multiplayer_client_connecting", false)
 	
-	var _address = _args[0]
-	var _password_length = _args[1]
+	var _port = number_from_string(port_input.typed_text)
+	var _ip = ip_input.typed_text
+	var _password = password_input.typed_text
 	
-	_spawner.address = _address
-	_spawner.password_length = _password_length
 	
-	_spawner.init()
-	layer_destroy_instances(layer)
+	_spawner.
 })
 
+back_button.events.on_mouse_click.add_listener(function() {
+	change_to_spawner(obj_main_menu_multiplayer_menu, "multiplayer")
+})
 
-found_servers_list.relative_position_x = .1
-found_servers_list.relative_position_y = .1
-
-found_servers_list.bg_color = c_black
-found_servers_list.bg_alpha = .4
-
-back_button = create_canvas_button_with_rel_size("Volver", .1, .8, .3, .1)
-
-back_button.offset_x = 0
-back_button.offset_y = 0
-
-back_button.events.on_mouse_click.add_listener(function(){change_to_spawner(obj_main_menu_multiplayer_menu, "multiplayer")})
+set_items_offset([ip_input, port_input, join_button, back_button], .5, .5)

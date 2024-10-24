@@ -21,6 +21,7 @@ clients_ping_timeout = 24
 next_client_id = 0
 
 max_clients = 4
+port = -1
 
 server_events = {
 	on_message_received: new Event(),
@@ -40,6 +41,7 @@ function destroy() {
 	last_clients_ping = -1
 	network_destroy(socket)
 	socket = noone
+	port = -1
 }
 
 /*function init(_port = 6060, _max_clients = 32) {
@@ -54,13 +56,17 @@ function destroy() {
 	}
 }*/
 
-show_debug_message(
-	"Multicast enabling: "+string(network_set_config(network_config_enable_multicast, true))
-)
 
 function init() {
-	socket = network_create_socket(network_socket_udp)
-	return socket >= 0
+	port = irandom(6000)
+	socket = network_create_socket_ext(network_socket_udp, port)
+	
+	while socket < 0 {
+		port = irandom(6000)
+		socket = network_create_socket_ext(network_socket_udp, port)
+	}
+	
+	return port
 }
 
 function get_client_index_by_address(_address) {
