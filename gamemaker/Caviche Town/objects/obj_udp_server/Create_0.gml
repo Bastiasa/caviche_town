@@ -11,6 +11,7 @@ broadcasting = true
 broadcast_duration = 2
 last_broadcast = 0
 
+client_id = 0
 
 client_timeout = 20
 connected_clients = []

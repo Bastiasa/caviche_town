@@ -13,7 +13,8 @@ sprite_info = sprite_get_info(sprite_index)
 
 events = {
 	on_damage:new Event(),
-	on_died:new Event()
+	on_died:new Event(),
+	on_grenade_throwed: new Event()
 }
 
 timer = 0
@@ -111,6 +112,9 @@ function throw_grenade() {
 	_grenade.phy_angular_velocity = 100
 	
 	backpack.set_ammo(BULLET_TYPE.GRENADES, _current_grenade_ammo - 1)
+	
+	events.on_grenade_throwed.fire([_grenade])
+	
 	return _grenade
 }
 

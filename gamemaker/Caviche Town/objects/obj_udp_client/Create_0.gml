@@ -25,11 +25,15 @@ state = UDP_CLIENT_STATE.DISCONNECTED
 
 client_events = {
 	on_disconnected: new Event(),
+	
 	on_connected: new Event(),
 	on_connection_denied: new Event(),
 	on_connection_failed: new Event(),
 	
-	on_server_discovered: new Event()
+	on_server_discovered: new Event(),
+	
+	on_peer_disconnected: new Event(),
+	on_peer_connected: new Event()
 }
 
 broadcasting_socket = noone
@@ -127,6 +131,40 @@ function send_ping() {
 	send_message("ping,"+string(current_time), server_address)
 }
 
+function send_reliable_to_all_clients(_message) {
+	
+	if server_address == noone || state == UDP_CLIENT_STATE.DISCONNECTED {
+		return
+	}
+	
+	send_message(
+		string_join(",",
+			"resend",
+			"all",
+			"1"
+		) + ":" + _message,
+		
+		server_address
+	)
+}
+
+function send_to_all_clients(_message) {
+	
+	if server_address == noone || state == UDP_CLIENT_STATE.DISCONNECTED {
+		return
+	}
+	
+	send_message(
+		string_join(",",
+			"resend",
+			"all",
+			"0"
+		) + ":" + _message,
+		
+		server_address
+	)
+}
+
 function check_possible_server_broadcast(_message, _emisor) {
 	
 	var _message_data = unpack_message(_message)
@@ -210,6 +248,7 @@ function handle_message(_message, _emisor) {
 		
 		if is_real(_client_id) {
 			array_push(connected_clients, {id:_client_id, username: _content})
+			client_events.on_peer_connected.fire([_client_id])
 		}
 		
 		break
@@ -224,6 +263,8 @@ function handle_message(_message, _emisor) {
 		
 		if is_real(_client_id) {
 			var  _index = array_get_index(connected_clients, _client_id)
+			
+			client_events.on_peer_disconnected.fire([_client_id])
 			
 			if _index != -1 {
 				array_delete(connected_clients, _index, 1)
